@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 3608
+version: 3789
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -2459,6 +2459,301 @@ In short, a fast-forward merge is a way of integrating changes that keeps the hi
 
 \
 
+---
+
+# <mark style="background-color:#F8914D;">**Terraform**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
+
+### **1Q. What is Terraform? Why is it used?**
+
+1. **Answer**: Terraform is an open-source Infrastructure as Code (IaC) tool developed by HashiCorp. It allows users to define, provision, and manage infrastructure using declarative configuration files. Terraform can be used to manage infrastructure across various cloud providers (e.g., AWS, Azure, GCP) and on-premise data centers.<!-- {"indent":1} -->
+
+\
+
+### **2Q. How does Terraform differ from other Infrastructure as Code (IaC) tools like AWS CloudFormation or Ansible?**
+
+1. **Answer**:<!-- {"indent":1} -->
+
+    1. Terraform is multi-cloud and supports a wide range of providers, while CloudFormation is specific to AWS.<!-- {"indent":2} -->
+
+        1. Terraform uses a declarative approach to define infrastructure, while Ansible can be both imperative and declarative.
+
+        1. Terraform stores state and keeps track of changes, while Ansible doesn’t maintain state.
+
+\
+
+### **3Q. What is a provider in Terraform? Can you name a few common ones?**
+
+1. **Answer**: A provider in Terraform is a plugin that enables Terraform to manage and interact with APIs from cloud platforms or services. Common providers include AWS, Azure, Google Cloud, Kubernetes, and GitHub.<!-- {"indent":1} -->
+
+\
+
+### **4Q. What are the different stages of a Terraform workflow?**
+
+1. **Answer**:<!-- {"indent":1} -->
+
+    1. `terraform init`: Initializes the working directory and downloads necessary provider plugins.<!-- {"indent":2} -->
+
+        1. `terraform plan`: Creates an execution plan showing what actions Terraform will take.
+
+        1. `terraform apply`: Executes the actions defined in the plan to modify the infrastructure.
+
+        1. `terraform destroy`: Removes all resources defined by the Terraform configuration.
+
+\
+
+### **5Q. How does Terraform handle state, and why is it important?**
+
+1. **Answer**: Terraform uses a state file (`terraform.tfstate`) to keep track of the infrastructure it manages. This state file ensures that Terraform knows the current status of resources, allowing it to make informed changes without disrupting existing infrastructure.<!-- {"indent":1} -->
+
+\
+
+### **6Q. Explain the purpose of the `terraform.tfstate` file.**
+
+1. **Answer**: The `terraform.tfstate` file stores the mapping between Terraform resources and the real-world infrastructure. It is used to determine changes during `terraform plan` and `terraform apply` commands.<!-- {"indent":1} -->
+
+\
+
+### **7Q. What is the `main.tf` file in Terraform?**
+
+1. **Answer**: The `main.tf` file typically contains the primary configuration code for Terraform. It defines the resources, modules, and providers that will be deployed.<!-- {"indent":1} -->
+
+\
+
+### **8Q. What is the purpose of `variables.tf` and `outputs.tf`?**
+
+1. **Answer**:<!-- {"indent":1} -->
+
+    1. `variables.tf` is used to define input variables, allowing dynamic configuration.<!-- {"indent":2} -->
+
+        1. `outputs.tf` is used to define output values that display information about resources after the configuration has been applied.
+
+\
+
+### **9Q. What are the advantages of using Terraform over manually provisioning infrastructure?**
+
+1. **Answer**: Terraform automates infrastructure provisioning, ensuring consistency, scalability, and reproducibility. It reduces human errors, supports version control, and enables infrastructure to be managed like code.<!-- {"indent":1} -->
+
+\
+
+\
+
+### **10Q. What are the pros and cons of local vs. remote state storage?**
+
+**Answer**:
+
+**Local state** is simple and fast but can cause issues with team collaboration.
+
+**Remote state** (e.g., S3, Azure Blob Storage) allows collaboration and provides state locking but adds complexity and requires network connectivity.
+
+\
+
+\
+
+### **11Q. How does Terraform ensure that your state is up-to-date with your actual infrastructure?**
+
+**Answer**: Terraform refreshes the state by comparing the actual infrastructure to the state file during the `terraform plan` and `terraform apply` phases. Any detected changes are highlighted in the plan.
+
+\
+
+\
+
+### **12Q. What is state locking in Terraform, and why is it important?**
+
+**Answer**: State locking prevents concurrent operations on the same state file, which helps avoid conflicts and data corruption. Remote backends like S3 with DynamoDB can enable state locking.
+
+\
+
+\
+
+### **13Q. What are some best practices for managing Terraform state?**
+
+**Answer**:
+
+Use remote backends for state storage.
+
+Enable state locking.
+
+Version control the state file.
+
+Avoid manual modifications of the state file.
+
+\
+
+\
+
+### **14Q. Explain the concept of a “module” in Terraform.**
+
+**Answer**: A module is a reusable set of Terraform configurations. It allows you to group resources and use them across different projects. This helps maintain consistency and reduces code duplication.
+
+\
+
+\
+
+### **15Q. How do you define and use variables in Terraform?**
+
+**Answer**: Variables are defined using the `variable` keyword in a `.tf` file. They can be assigned values through environment variables, `.tfvars` files, or command-line arguments. 
+
+Example:
+
+![4e26c5e4-57da-4ba3-9b17-af04970e258f.png|762.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4e26c5e4-57da-4ba3-9b17-af04970e258f.png) [^99]
+
+\
+
+### **16Q. What is the difference between input variables and output values?**
+
+**Answer**: Input variables are used to pass dynamic values into Terraform configurations, whereas output values provide information about resources after the infrastructure is provisioned.
+
+\
+
+\
+
+### **17Q. How do you share variables between different modules?**
+
+**Answer**: Variables can be passed from one module to another by defining them as outputs in one module and referencing them as input variables in another module.
+
+\
+
+\
+
+### 18Q. **What are Terraform providers, and how do they work?**
+
+**Answer:**\
+Providers are plugins that allow Terraform to interact with cloud platforms, SaaS, or other APIs. Terraform uses providers to manage resources (e.g., AWS, Azure). Providers are declared in configuration files and automatically downloaded during initialization.
+
+\
+
+### 19Q. **What are the different components of Terraform?**
+
+**Answer:**
+
+- **Providers:** Plugins that allow interaction with platforms.
+
+- **Resources:** Infrastructure components like VMs, databases.
+
+- **Modules:** Reusable containers for resources.
+
+- **State:** A file to track infrastructure.
+
+- **Data Sources:** To retrieve or compute information.
+
+\
+
+### 20Q. **How does Terraform manage state?**
+
+**Answer:**\
+Terraform uses a state file (`terraform.tfstate`) to map real infrastructure to configurations. The state is crucial for determining changes to resources and improving performance. State can be stored locally or remotely (e.g., S3), enabling collaboration.
+
+\
+
+### 21Q.**What is a Terraform module and why is it important?**
+
+**Answer:**\
+A Terraform module is a reusable collection of resources. It helps with code reuse and standardization. Modules can be local or pulled from remote repositories like the Terraform Registry.
+
+\
+
+### 22Q. **Explain the difference between `terraform apply` and `terraform plan`.**
+
+**Answer:**
+
+- **`terraform plan`:** Shows a preview of what changes Terraform will make, without applying them.
+
+- **`terraform apply`:** Executes the changes and provisions the infrastructure as per the plan.
+
+\
+
+### 23Q.**What is the purpose of `terraform init`?**
+
+**Answer:**\
+`terraform init` initializes the working directory, downloads required providers, and prepares the backend configuration. This is the first step before any other command like `plan` or `apply`.
+
+\
+
+\
+
+### 24Q. **What are backends in Terraform? Why are they used?**
+
+**Answer:**\
+Backends determine where and how state is stored (locally or remotely). Remote backends, such as S3 or Consul, help in collaboration and state locking, avoiding conflicts in teams.
+
+\
+
+\
+
+### 25Q. **What is a Terraform workspace?**
+
+**Answer:**\
+Workspaces allow management of multiple environments using the same configuration, with each workspace having its own state file. This helps in separating environments like dev, staging, and production.
+
+\
+
+\
+
+### 26Q. **How does Terraform handle resource dependencies?**
+
+**Answer:**\
+Terraform automatically creates a dependency graph based on resource configurations. You can explicitly define dependencies using `depends_on`, ensuring resources are created in the correct order.
+
+\
+
+\
+
+### 27Q. **What is `terraform import` and when would you use it?**
+
+**Answer:**\
+`terraform import` brings existing infrastructure under Terraform management without destroying it. This is useful for managing resources created outside of Terraform.
+
+\
+
+\
+
+### 28Q. **What are the best practices when using Terraform?**
+
+**Answer:**
+
+- Use modules for reusable infrastructure.
+
+- Store state remotely and securely.
+
+- Follow least privilege principles for roles managing Terraform.
+
+- Use variables and outputs for flexibility.
+
+- Use `terraform fmt` for formatting.
+
+- Version control Terraform configurations.
+
+\
+
+### 29Q. **What is the `terraform taint` command used for?**
+
+**Answer:**\
+The `terraform taint` command marks a resource as needing recreation during the next apply. It forces Terraform to destroy and recreate the specified resource.
+
+\
+
+\
+
+### 30Q. **How do you handle sensitive data in Terraform?**
+
+**Answer:**\
+Sensitive data should be managed with care:
+
+- Use environment variables to store sensitive information.
+
+- Mark outputs as sensitive (`sensitive = true`).
+
+- Use tools like HashiCorp Vault or cloud secrets managers.
+
+\
+
+### 31Q. **How do you manage multiple environments in Terraform?**
+
+**Answer:**\
+You can manage multiple environments using workspaces or variable files (`\*.tfvars`). Modules can also help by providing reusable infrastructure with environment-specific configurations.
+
+\
+
 # <mark style="background-color:#F8914D;">**Jenkins's**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ### **1Q. <mark style="background-color:#FFFFFF;">Jenkins Free Style - Its nothing but everything you do it in UI<!-- {"backgroundCycleColor":"11"} --></mark> <mark style="background-color:#F8D616;">(No one using freestyle now)<!-- {"backgroundCycleColor":"25"} --></mark>**
@@ -2691,7 +2986,7 @@ Build triggers in Jenkins are mechanisms that automatically start a job or pipel
 
 - Yes, you can define conditional logic in the `Jenkinsfile` to run different stages or steps depending on the branch name. For example:
 
-![dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png|687](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png) [^99]
+![dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png|687](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png) [^100]
 
 \
 
@@ -2806,6 +3101,8 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
 \
 
 \
+
+---
 
 # <mark style="background-color:#F8914D;">**ECR (Elastic Container Registry) - other option for Docker HUB to store docker images.**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
@@ -4371,7 +4668,12 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Branch-
     -Merge
 
-[^99]: groovy
+[^99]: hcl
+    Copy code
+    variable "instance_type" {
+    default = "t2.micro"
+
+[^100]: groovy
     Copy code
     pipeline {
     agent any
