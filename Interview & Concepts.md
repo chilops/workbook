@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 5023
+version: 5064
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -21,25 +21,25 @@ I completed my Post Graduation (MCA) from Andhra University.
 
 \
 
-I have total experience of 9+ years in IT having exceptional in different Domains.
+I bring over 9+ years of IT experience, with outstanding and diverse expertise across multiple domains, consistently delivering high-quality solutions and driving innovation.
 
 I actually wanted to start my carrier as a Linux administrator but landed as storage administrator.
 
 As a storage administrator I worked on different enterprise SAN storage arrays like EMC, Hitachi, PURE and NetApp for first the 5 years in my IT carrier.
 
-Also, along with SAN Storage array i started learning and managing backup tools like NetBackup, Clumio and TSM.
+Also, along with SAN Storage array I started learning and managing backup tools like NetBackup, Clumio and TSM.
 
 \
 
-Later I got opportunity to work in a bigger MNC i.e TCS. So, from past 5 years i am working in TCS only, but different technologies and different teams.
+Later I got opportunity to work in a bigger MNC i.e. TCS. So, from past 5 years I am working in TCS only, but with different technologies and different teams.
 
 Prior to TCS I worked in other emerging companies like SIFY, Verizon and Root shell but TCS gave me opportunity that I wanted to be.
 
 \
 
-When I am doing my post-graduation in 2014 then itself the final year project was Cloud related project. That the love and passion i have towards cloud technology. 
+When I am doing my post-graduation in 2014 then itself, I took Cloud related project on the last semester. That the love and passion I have towards cloud technology. 
 
-Why I am telling this is TCS helped me explore cloud technologies AWS, Kubernetes and terraform and many more.
+Why I am telling this is bcz, TCS helped me in exploring cloud & DevOps technologies like AWS, Kubernetes and terraform and many more.
 
 \
 
