@@ -1,11 +1,113 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 3789
+version: 4396
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
 ---
+
+\
+
+\
+
+# <mark style="background-color:#F3DE6C;">**Tell Me about yourself**<!-- {"backgroundCycleColor":"14"} --></mark>
+
+My name is Satya Chilukuri, 
+
+I am basically from Andhra Pradesh and staying in Bangalore from past 5Years.
+
+I completed my Post Graduation (MCA) from Andhra University.
+
+I have total experience of 9+ years in IT having exceptional in different Domains.
+
+I actually wanted to start my carrier as a Linux administrator but landed as storage administrator.
+
+As a storage administrator I worked on different enterprise SAN storage arrays like EMC, Hitachi, PURE and NetApp for first 5 years.
+
+Also, along with SAN Storage array i started learning and managing backup tools like NetBackup, Clumio and TSM.
+
+Later I got opportunity to work in a bigger MNC i.e TCS. So, from past 5 years i am working in TCS only but different technologies and different teams.
+
+Prior to TCS I worked in other emerging companies like SIFY, Verizon and Root shell but TCS gave me opportunity that I wanted to be.
+
+When I am doing my post-graduation in 2014 then itself the final year project was Cloud related project. That the love and passion i have towards cloud technology. 
+
+Why I am telling this is TCS helped me explore cloud technologies AWS, Kubernetes and terraform and many more.
+
+Now In TCS I am working as solution architect and as well technical lead. Handling multiple projects which includes 1 internal project and 2 external media projects.
+
+Along with this I work with COE (Center of Excellence) team, so I will be interacting with larger clients and understanding their workloads and on-prem infrastructure.
+
+So based on their workloads and infrastructure we do POC for their environments. We used to setup AWS cloud infrastructure using Infrastructure as Code (IaaC) tools like terraform.
+
+We have created our own terraform modules and maintaining them. 
+
+From past two years I am working as full-fledged Kubernetes administrator for one the internal project.
+
+We are using AWS EKS as our deployment platform. We have few legacy applications in VM as well. 
+
+We configured autoscaling for VM as well EKS.
+
+We have applications in NodeJS, Java, Python. 
+
+Also, we have different kinds of DB like MySQL, MongoDB. We have a separate DB admins to manage them.
+
+We use Jenkins CICD pipeline to deploy the applications into VM as well as EKS. 
+
+\
+
+Our tools stack is
+
+Docker -- for imaging (**Amazon Elastic Container Service (ECS)** and **Amazon Elastic Kubernetes Service (EKS)**. Both services allow you to run and manage containerized applications similar to Docker, but in a more scalable and integrated way with the AWS ecosystem)
+
+GitHub/Bitbucket --> GitHub enterprise into our own infrastructure
+
+SonarQube -- for Scanning (**AWS CodeGuru** is a partial replacement with limited language support. **SonarQube** can still be deployed on AWS using EC2 or as a pre-configured instance from AWS Marketplace).
+
+Nexus and AWS Code Artifact   -- for artifact upload
+
+Jenkins --> CICD (AWS **CodePipeline** (CI/CD Automation): is a fully managed service for automating the build, test, and deployment phases of your release process.
+
+                              (**AWS CodeBuild** (Build Automation): is a fully managed build service that compiles your source code, runs tests, and produces deployable artifacts.
+
+Unit testing
+
+Maven, NPM, pip   -- as build tools
+
+Helm charts for Kubernetes deployment.
+
+We follow industry best practices like shift-left
+
+build once run anywhere --> Jenkins shared libraries
+
+\
+
+\*\*\*
+
+We have centralized pipelines; our developers can just call those pipelines to deploy applications, these are completely automated DEV to PROD. We let our developers to completely concentrate on development instead of deployment.
+
+We use JIRA for project management, we get tickets from our team lead or developers.
+
+\
+
+\*\*\*
+
+As I am key member in COE and playing major role in bringing the projects to TCS. We also concentrate and explore more way to migrate monolithic applications to microservices and also focusing in reducing the cost to the projects by automating the infrastructure at maximum level using automation tools like Ansible and shell scripts once application goes live into production. 
+
+\
+
+\*\*\*
+
+I gained valuable infrastructure knowledge during my one-year experience working in a datacenter, where I learned a lot and developed essential skills.
+
+\
+
+This highlights my experience that isn't reflected on my resume due to space limitations, while the rest of my qualifications are detailed in the resume.
+
+\
+
+The primary reason I'm exploring new opportunities is for salary growth. Over the past 5 years at TCS, I've gained valuable experience and learned a lot, but my only regret is that my salary hasn't kept pace with industry standards. As for my career growth, I'm very happy with the diverse skills I've developed and excited to continue learning new things in the future.
 
 \
 
