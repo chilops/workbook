@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 5064
+version: 5237
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -13,127 +13,123 @@ tags:
 
 # <mark style="background-color:#F3DE6C;">**Tell Me about yourself**<!-- {"backgroundCycleColor":"14"} --></mark>
 
+1\*\*\*
+
 My name is Satya Chilukuri, 
 
-I am basically from Andhra Pradesh and staying in Bangalore from past 5Years.
-
-I completed my Post Graduation (MCA) from Andhra University.
+I'm originally from Andhra Pradesh and have been living in Bangalore for the past five years. 
 
 \
 
-I bring over 9+ years of IT experience, with outstanding and diverse expertise across multiple domains, consistently delivering high-quality solutions and driving innovation.
-
-I actually wanted to start my carrier as a Linux administrator but landed as storage administrator.
-
-As a storage administrator I worked on different enterprise SAN storage arrays like EMC, Hitachi, PURE and NetApp for first the 5 years in my IT carrier.
-
-Also, along with SAN Storage array I started learning and managing backup tools like NetBackup, Clumio and TSM.
+I completed my MCA at Andhra University and have more than 9 years of experience in IT, working in different roles and technologies. 
 
 \
 
-Later I got opportunity to work in a bigger MNC i.e. TCS. So, from past 5 years I am working in TCS only, but with different technologies and different teams.
+2\*\*\*
 
-Prior to TCS I worked in other emerging companies like SIFY, Verizon and Root shell but TCS gave me opportunity that I wanted to be.
-
-\
-
-When I am doing my post-graduation in 2014 then itself, I took Cloud related project on the last semester. That the love and passion I have towards cloud technology. 
-
-Why I am telling this is bcz, TCS helped me in exploring cloud & DevOps technologies like AWS, Kubernetes and terraform and many more.
+I joined TCS in 2019, I’ve spent the last five years exploring various technologies and working with different teams. Before TCS, I worked at companies like SIFY, Verizon, and Rootshell.
 
 \
 
-Now In TCS I am working as solution architect and as well technical lead. Handling multiple projects which includes 1 internal project and 2 external media projects.
-
-Along with this I work with COE (Center of Excellence) team, so I will be interacting with larger clients and understanding their workloads and on-prem infrastructure.
-
-So based on their workloads and infrastructure we do POC for their environments. We used to setup AWS cloud infrastructure using Infrastructure as Code (IaaC) tools like terraform.
+TCS has allowed me to work with cloud and DevOps tools like AWS, Kubernetes, and Terraform. 
 
 \
 
-We have created our own terraform modules and we are maintaining them. 
+3\*\*\*
 
-From past two years I am working as full-fledged Kubernetes administrator for one the internal project.
-
-\
-
-We are using AWS EKS as our deployment platform. We have few legacy applications in VM as well. 
-
-We configured autoscaling for VM as well as for EKS.
-
-We have applications in NodeJS, Java, Python. 
-
-Also, we have different kinds of Databases like MySQL, MongoDB. We have a separate Database team to manage them.
-
-We use Jenkins CICD pipeline to deploy the applications into VM as well as EKS. 
+Currently, I’m a solution architect and technical lead, handling multiple projects, including an internal one and two for external clients (e-commerce). 
 
 \
 
-\*\*\*
+4\*\*\*
 
-Our tools stack is
+And I also work with the Center of Excellence team (CoE), engaging with clients to understand their on-premise systems and running POCs based on their requirements.
 
-Docker -- for creating and managing docker images (**Amazon Elastic Container Service (ECS)** and **Amazon Elastic Kubernetes Service (EKS)**. Both services allow you to run and manage containerized applications similar to Docker, but in a more scalable and integrated way with the AWS ecosystem)
-
-GitHub/Bitbucket --> version control tools - GitHub enterprise into our own infrastructure
-
-SonarQube -- for Scanning (**AWS CodeGuru** is a partial replacement with limited language support. **SonarQube** can still be deployed on AWS using EC2 or as a pre-configured instance from AWS Marketplace).
-
-Nexus and AWS Code Artifact   -- for artifact upload
-
-Jenkins --> CICD (AWS **CodePipeline** (CI/CD Automation): is a fully managed service for automating the build, test, and deployment phases of your release process.
-
-                              (**AWS CodeBuild** (Build Automation): is a fully managed build service that compiles your source code, runs tests, and produces deployable artifacts.
-
-Unit testing
-
-Maven, NPM, pip   -- as build tools
-
-Helm charts for Kubernetes deployment.
-
-We follow industry best practices like shift-left
-
-build once run anywhere --> Jenkins shared libraries
+I help set up AWS cloud infrastructure using Infrastructure as Code tools like Terraform, and we maintain custom Terraform modules. 
 
 \
 
-\*\*\*
+5\*\*\*
 
-We have centralized pipelines; our developers can just call those pipelines to deploy applications, these are completely automated DEV to PROD. We let our developers to completely concentrate on development instead of deployment.
+For the past two years, I’ve been working as a Kubernetes administrator, using AWS EKS for deployments. 
 
-We use JIRA for project management, we get tickets from the team leads and project leaders or from developers.
-
-\
-
-\*\*\*
-
-As I am key member in COE and playing major role in bringing the projects to TCS. We also concentrate and explore more way to migrate monolithic applications to microservices and also focusing in reducing the cost to the projects by automating the infrastructure at maximum level using automation tools like Ansible and shell scripts once application goes live into production. 
+We manage legacy applications (apps) on VMs and also have autoscaling in place for both VMs and EKS. 
 
 \
 
-\*\*\*
-
-I gained valuable infrastructure knowledge during my one-year experience working in a datacenter, where I learned a lot and developed essential skills.
+We deploy applications written in NodeJS, Java, and Python using Jenkins CICD, while a separate team manages our databases like MySQL and MongoDB.
 
 \
 
-\*\*\*
+6\*\*\*
 
-I have done 3 certifications. 
+For deploying applications on Kubernetes, we use Helm charts. Our practices follow industry standards, such as the **shift-left** approach and the "**build once, run anywhere**" principle,
 
-\-One is Storage related certifiation - EMC ISM V3
-
-\-Other 2 are on Azure certifications - Azure fundamentals (AZ-900, AZ-104)
+And we use **Jenkins shared libraries** to make the process more efficient.
 
 \
 
-\*\*\*
+7\*\*\*
 
-This highlights my experience that isn't reflected on my resume due to space limitations, while the rest of my qualifications are detailed in the resume.
+Our tech stack consists of:
+
+- **Docker:** We use it to create and manage container images, and deploy them with Amazon ECS and EKS for scalable container management within AWS.
+
+- **GitHub/Bitbucket:** These are our version control tools, with GitHub Enterprise integrated into our own infrastructure.
+
+- **SonarQube:** We use it for code scanning. Though AWS CodeGuru can be a partial alternative, SonarQube is still used for its broader language support and can be set up on AWS using EC2 or a pre-configured instance.
+
+- **Nexus and AWS CodeArtifact:** These tools are used for uploading and managing artifacts.
+
+- **Jenkins:** Our CI/CD tool for automating builds, testing, and deployment. AWS alternatives include CodePipeline for automating the CI/CD process and CodeBuild for building and testing code.
+
+- **Terraform -- Infra as a code.**
+
+- **Ansible playbooks for Infra.**
+
+- **Shell scripts** - automate repetitive tasks, such as file management, backups, and system monitoring.
+
+8\*\*\*
+
+We have centralized pipelines that developers use to deploy applications, the entire process fully automated from development **(DEV)** to production **(PROD)**. 
+
+This way, developers can focus entirely on coding, without worrying about deployment.
 
 \
 
-\*\*\*
+We use JIRA for project management, we get tickets from project leaders or from developers.
+
+\
+
+9\*\*\*
+
+As a key member of the COE, I help in bringing projects to TCS. We focus on finding ways to migrate monolithic applications to microservices and aim to lower project costs by automating the infrastructure as much as we can using tools like Ansible and shell scripts after the applications go live.
+
+\
+
+10\*\*\*
+
+Although I initially wanted to start my career as a Linux administrator, I began as a storage administrator.
+
+For the first five years, I managed SAN storage arrays like EMC, Hitachi, PURE, and NetApp, along with backup tools such as NetBackup, Clumio, and TSM. 
+
+\
+
+I gained valuable infrastructure knowledge during my one-year experience working in a **datacenter**, where I learned a lot and developed essential skills.
+
+\
+
+11\*\*\*
+
+I have done **3 certifications.** 
+
+\-One is Storage related certification - **EMC ISM V3**
+
+\-Other 2 are on Azure certifications - **Azure fundamentals (AZ-900, AZ-104)**
+
+\
+
+12\*\*\*
 
 The primary reason I'm exploring new opportunities is for salary growth. Over the past 5 years at TCS, I've gained valuable experience and learned a lot, but my only regret is that my salary hasn't kept pace with industry standards. As for my career growth, I'm very happy with the diverse skills I've developed and excited to continue learning new things in the future.
 
