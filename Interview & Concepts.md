@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 5237
+version: 5260
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -27,7 +27,11 @@ I completed my MCA at Andhra University and have more than 9 years of experience
 
 2\*\*\*
 
-I joined TCS in 2019, I’ve spent the last five years exploring various technologies and working with different teams. Before TCS, I worked at companies like SIFY, Verizon, and Rootshell.
+I joined TCS in 2019, I work at TCS as a solution architect and technical lead, managing several projects, including an internal one and two for external clients (e-commerce). 
+
+\
+
+I’ve spent the last five years exploring various technologies and working with different teams. Before TCS, I worked at companies like SIFY, Verizon, and Rootshell.
 
 \
 
@@ -37,19 +41,13 @@ TCS has allowed me to work with cloud and DevOps tools like AWS, Kubernetes, and
 
 3\*\*\*
 
-Currently, I’m a solution architect and technical lead, handling multiple projects, including an internal one and two for external clients (e-commerce). 
-
-\
-
-4\*\*\*
-
 And I also work with the Center of Excellence team (CoE), engaging with clients to understand their on-premise systems and running POCs based on their requirements.
 
 I help set up AWS cloud infrastructure using Infrastructure as Code tools like Terraform, and we maintain custom Terraform modules. 
 
 \
 
-5\*\*\*
+4\*\*\*
 
 For the past two years, I’ve been working as a Kubernetes administrator, using AWS EKS for deployments. 
 
@@ -61,7 +59,7 @@ We deploy applications written in NodeJS, Java, and Python using Jenkins CICD, w
 
 \
 
-6\*\*\*
+5\*\*\*
 
 For deploying applications on Kubernetes, we use Helm charts. Our practices follow industry standards, such as the **shift-left** approach and the "**build once, run anywhere**" principle,
 
@@ -69,7 +67,7 @@ And we use **Jenkins shared libraries** to make the process more efficient.
 
 \
 
-7\*\*\*
+6\*\*\*
 
 Our tech stack consists of:
 
@@ -89,7 +87,9 @@ Our tech stack consists of:
 
 - **Shell scripts** - automate repetitive tasks, such as file management, backups, and system monitoring.
 
-8\*\*\*
+\
+
+7\*\*\*
 
 We have centralized pipelines that developers use to deploy applications, the entire process fully automated from development **(DEV)** to production **(PROD)**. 
 
@@ -101,13 +101,13 @@ We use JIRA for project management, we get tickets from project leaders or from 
 
 \
 
-9\*\*\*
+8\*\*\*
 
 As a key member of the COE, I help in bringing projects to TCS. We focus on finding ways to migrate monolithic applications to microservices and aim to lower project costs by automating the infrastructure as much as we can using tools like Ansible and shell scripts after the applications go live.
 
 \
 
-10\*\*\*
+9\*\*\*
 
 Although I initially wanted to start my career as a Linux administrator, I began as a storage administrator.
 
@@ -119,7 +119,7 @@ I gained valuable infrastructure knowledge during my one-year experience working
 
 \
 
-11\*\*\*
+10\*\*\*
 
 I have done **3 certifications.** 
 
@@ -129,7 +129,7 @@ I have done **3 certifications.**
 
 \
 
-12\*\*\*
+11\*\*\*
 
 The primary reason I'm exploring new opportunities is for salary growth. Over the past 5 years at TCS, I've gained valuable experience and learned a lot, but my only regret is that my salary hasn't kept pace with industry standards. As for my career growth, I'm very happy with the diverse skills I've developed and excited to continue learning new things in the future.
 
