@@ -1,13 +1,13 @@
 ﻿---
 title: All Commands
 uuid: 21c4e692-5479-11ef-9d9d-f2c7410336d6
-version: 997
+version: 1006
 created: '2024-08-07T10:24:29+05:30'
 tags:
   - commands
 ---
 
-# <mark style="background-color:#F8914D;">**Kubernetes:**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
+# <mark style="background-color:#F8914D;">**Kubernetes:**<!-- {"backgroundCycleColor":"24"} --></mark>
 
 \
 
@@ -269,6 +269,7 @@ to check which pod is using more memory
 
 ```
 kubectl top pods
+kubectl top nodes
 ```
 
 # <mark style="background-color:#F8914D;">**Docker:**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
@@ -616,9 +617,10 @@ docker run -d -p 80:80 -v nginx:/usr/share/nginx/html nginx
 docker system prune
 ```
 
+
 ---
 
-# <mark style="background-color:#F8914D;">**GIT:**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#F8914D;">**GIT:**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 \
 
