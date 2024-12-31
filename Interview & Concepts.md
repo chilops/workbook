@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 6863
+version: 6930
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -2867,7 +2867,7 @@ Step-by-step guide on securely fetching secrets from Vault in your CI/CD pipelin
 
 \
 
-### **19Q. How to Structure Your Kubernetes Project?**
+### **19Q. How to Structure Your Kubernetes Project?**<!-- {"collapsed":true} -->
 
 Application designs, infra-architectures, and project structures are subjective decisions, and everyone has their own way, and even systems demand certain specifics – agreed!
 
@@ -3064,7 +3064,7 @@ OfCourse, this could have been completely avoided.
 
 \
 
-### **21Q.** **Why Should You Design Pods for Stateless Applications?**<!-- {"collapsed":true} -->
+### **21Q.** **Why Should You Design Pods for Stateless Applications?**
 
 | |
 |-|
@@ -3148,6 +3148,81 @@ When stateful designs are unavoidable, carefully evaluate the trade-offs and pro
 |[Configure a Pod to Use PersistentVolumes](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzoEMTHGsgc5RDOw3Yicjdb4sqbS4heXKapxSw6rcQmh9FbGAvtrnwcn95Bd8R63raCCX35f4Ukx9TYXCldMYigPAICGM6IJ9lGz4-2BwmIt6Xp2iNvoxBzYcXe4p-2F4IRZBMgvRsusd2p8UriZx4nVgndeN52mwUnm2Hm94oG89fmjAu9ypWnTdAj9cKcU-2Bl2rMsEGo2tOdRCU29lJVa-2Bei7xprMJjwEXJCsnbuhyRSMPamKRrBereT8v1Ek7REWdqF6tpKSb8g6cXwR8uP4F-2Bi-2BueqgL-2Bcj9uTdxe7LpZS9xZ4EoTofzDreYAeNHS5tM7zMoqwtrYEnf-2FdWhavswIOtlQ5h9fFDkSC1Fg5BHaCXm3_irh_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BLsuK6uKRxcZUpXDm1yN7drSWBzbcRq5b6at72wQ5aaR0fgguLjZ28hY7pZTh8BMfdTNevh8z3kr-2BwzuG4FzYcokiFl-2B9TLoQStDclusyZpou0kbgamp9vnXJ2DyoVqnWv640yqdSwjDo5w-2BzepA-2B-2BaS6tuwyKQg8TJQ-2B4fj0pond40gi96-2B3p5qiZ6ln-2FwrrhYG3ZahzTHTe8doAsr6in248LU1U7gyFxTMQFVSnSkWhj8ZcgLaJg3iq-2F3-2BkhLLKQSqaHjlzCKJ7DyNfHiKKjwlq-2FVHorljbbVd8x8e6m1Q3BD-2Fuq14wwS-2BaoZISlbH-2Bt8gqgIOMTlDwl4N4OkeUcGLs38F29UDHv9f1y9yzYAVpfZ9-2FdYX0hqonCaJ1lZdJlVsbWM-2FcuhbScMxSGUeEYDWCFXfw9FY1ypgpKq0ovW1Oi24zdk1mRvDtHItD4RY6HuXOGvmB-2BblYxIwEfW4APc-2FzY-2FZIY9t1i2Mb-2Bv9onEldI9WRzK-2FoOF8X64nicLg4) and Storage Classes to provide durable storage that survives pod restarts and node failures.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |[Implement Health Checks](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzoEMTHGsgc5RDOw3Yicjdb4sqbS4heXKapxSw6rcQmh9FbGAvtrnwcn95Bd8R63rWHKSFwQmLQz2FzRFvHHCQ28ZupFJHT6rksIfbff9krtC1zms86V3Dpw00FELltvn32cDkWVSkoG7HSObAzlgLCFRYcZm8F91G8RZ0VE-2B2YYhyUJ6CKTQMLTi1N6eV6-2BDkXPpuJw6rFB-2FLAvqiKahRd69-2Bx16i29CGnBfPuod7cvVAhPVT8gFLUKNg1jkegQ9vqeF3gPxorhwPeHCPebwvbamDodLUwydlE-2Bds8WRR3CPyn-2BhtfMNJLBaDl85rzk0XJpzwOgRmI6M1h185ex3ecP3cz-2FaBnAAYSeWWdEX6Toz--s_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BLsuK6uKRxcZUpXDm1yN7drSWBzbcRq5b6at72wQ5aaR0fgguLjZ28hY7pZTh8BMfdTNevh8z3kr-2BwzuG4FzYcokiFl-2B9TLoQStDclusyZpou0kbgamp9vnXJ2DyoVqnWv640yqdSwjDo5w-2BzepA-2B-2BaS6tuwyKQg8TJQ-2B4fj0pond40gi96-2B3p5qiZ6ln-2FwrrhYG3ZahzTHTe8doAsr6in248LU1U7gyFxTMQFVSnSkWhj8ZcgLaJg3iq-2F3-2BkhLLKQSqaHjlzCKJ7DyNfHiKKjwlq-2FVHorljbbVd8x8e6m1Q3BD-2Fuq14wwS-2BaoZISlbH-2Bt8gqgIOMTlDwl4N4OkeUcGLs38F29UDHv9f1y9yzYAVpfZ9-2FdYX0hqonCaJ1lZdJwJuOckXYBPWj9isDoq7I-2FV8ptdWAufFYM2x6MutsmInfozAdehMuyMjaY-2FlBIBWYJZK7IvQjTrCCDNxJ-2FwDpNJQvb72y5Lpz6LHGRLkcOCvh-2FKK8ZyLAtOrQZn-2Bh4Lom), add `readiness` and `liveness` probes to detect unresponsive pods early and maintain application stability.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 Try to design your kubernetes app to run **stateless** for better isolation, scalability, and resource efficiency.
+
+\
+
+\
+
+### **22Q. Should You Use Ephemeral Containers In Production Environments or Not?**<!-- {"collapsed":true} -->
+
+| |
+|-|
+|For someone new, ephemeral containers are a Kubernetes feature introduced in v1.16 (graduated in v1.25), primarily designed to assist with debugging live Pods.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|Unlike normal containers, they’re not defined in the Pod spec upfront but are dynamically injected at runtime into an already running Pod.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|This ability makes them incredibly powerful for operational tasks like debugging.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+\
+
+**Key Features of Ephemeral Containers**
+
+- Short-lived, transient containers.
+
+- Easily injected into running Pods with `kubectl debug`.
+
+- Share the same namespace and network as the main containers.
+
+- Do not interfere with the Pod's lifecycle.
+
+![efbba94f-ae85-4501-8f61-81f8b516f2c5.png|710](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/efbba94f-ae85-4501-8f61-81f8b516f2c5.png) [^169]
+
+But it also raises questions about their suitability in production environments.
+
+\
+
+While it is true:
+
+- **They** don’t require Pod restarts; they avoid downtime and application interruptions.
+
+-  **Debugging** occurs in a dedicated container, protecting the application from accidental side effects.
+
+- **You** can tailor ephemeral containers with preloaded tools to suit the troubleshooting needs (e.g., network sniffers, performance profilers).
+
+- **They’re** only injected when needed and disappear after the issue is resolved.
+
+\
+
+Here - The Risks and Caveats of Using Ephemeral Containers
+
+- **No Restart Guarantee** - meaning they are not ideal for persistent workflows.
+
+- **Security Concerns** - can introduce vulnerabilities by exposing namespaces or sensitive data.
+
+\
+
+![72.png|40](https://fonts.gstatic.com/s/e/notoemoji/15.1/2705/72.png) **Use Them When:**
+
+- Debugging critical live systems where you need isolation.
+
+- Running diagnostics without modifying existing application containers.
+
+- Temporarily inspecting environments or workloads.
+
+\
+
+![72.png|40](https://fonts.gstatic.com/s/e/notoemoji/15.1/1f6ab/72.png) **Avoid Them When:**
+
+- Long-term fixes or monitoring tasks are needed.
+
+- The debugging process risks sensitive production workloads.
+
+- Your team lacks proper access controls for ephemeral containers.
+
+**Hands-On Guide to Ephemeral Containers:**
+
+![d49a97fc-bf97-4b16-b826-1e1883d82b35.png|564.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d49a97fc-bf97-4b16-b826-1e1883d82b35.png) [^170]
+
+\
+
+Refer to this guide, [debugging with an Ephemeral Debug Container](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzoEMTHGsgc5RDOw3Yicjdb1YWOmFGloYDUvxpXgkr-2BQymKW9CHNnGvRk1yI4AVvHlNnG9qHA-2FrArQpny5-2BkE5alcgCVa5ksPSchRP391mtkS2LBpO-2FxU0qSIJalYET0DRmAMuJ3hJ4S2TwW-2BuGOR5tulsL-2BiZwkbfVumdqnkrB1E21lSApmYQljpr43H1sZD-2BhVNih3VTJqNr8qBvfyxjy25Um-2BDDp1P7AwoMBvjkChrtnXdwekavSqfFWGE6gD-2FbhE4eCBWMmyf3prOTZ6vn6xeDde6CXfC0tiEUPSqfAlkSFNVShynJFOdojxwZbmmhaIBiUo4ERjAKZP0HMF6GiTrI6Qh8uAp0fl40TEb4WzJ6eeoxIn2INkp-2F8ghc5GVg-3D-3DZzcM_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BX0gpWRKe-2BDgz-2BUnM2HmnqcDlJnWmkQNy-2F9bmfGA8r-2BrAFIF5xcvZHvpkLU4K1U6yhsB6ShaoE2sRUKW4QmNvj37xh3HFyQ-2B7GAwntvwIVk8PxZexkQMrhVgS2XVn2f-2Bxfr5jBtI23xmWck6Rsw4iBpXMRfd3jGVqMZPnyqkFrU1B-2BZMl6fAI0YG4c2hr3tUts4IXIM0B47WOM4uAtEU7u7uAJXGlqqGynGuERQQo9bKqtAs4E3UnLuXZ6vEbOmYIaoDDpzWbwrUZM6WEYK10EcuGmdMYDK-2BJZoM6wdbb09E-2FrTuL-2BlgOgzLzj-2B0-2Fjvz1VkJdEcFLgRWfHofJ06y3xp-2FrDreOX1KcrdDxv-2F-2BCxOtaBMgbd0aO4-2BL6ooc-2FbxhX), to enhance your expertise on this topic.
 
 \
 
@@ -3241,9 +3316,9 @@ In summary, Docker packages your application into containers that can run consis
 
 **Docker Architecture:**
 
-![ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg|649](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg) [^169]
+![ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg|649](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg) [^171]
 
-![f0df8362-a561-4f7f-b23a-1ef74337cb30.png|937](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/f0df8362-a561-4f7f-b23a-1ef74337cb30.png) [^170]
+![f0df8362-a561-4f7f-b23a-1ef74337cb30.png|937](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/f0df8362-a561-4f7f-b23a-1ef74337cb30.png) [^172]
 
 \
 
@@ -3423,7 +3498,7 @@ A **Dockerfile** is a text file that contains a series of instructions to build 
 
 - **`WORKDIR`**: Sets the working directory for any `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, and `ADD` instructions that follow (e.g., `WORKDIR /app`).
 
-![c2450288-cd5c-4578-b50e-f88311cdc101.png|548](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/c2450288-cd5c-4578-b50e-f88311cdc101.png) [^171]
+![c2450288-cd5c-4578-b50e-f88311cdc101.png|548](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/c2450288-cd5c-4578-b50e-f88311cdc101.png) [^173]
 
 \
 
@@ -3501,7 +3576,7 @@ systemctl commands will not work in containers
 
 Ex:
 
-![55d24192-8c42-46ab-8482-7ef33191568d.png|459](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/55d24192-8c42-46ab-8482-7ef33191568d.png) [^172]
+![55d24192-8c42-46ab-8482-7ef33191568d.png|459](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/55d24192-8c42-46ab-8482-7ef33191568d.png) [^174]
 
 \
 
@@ -3547,7 +3622,7 @@ Ex:
 
 - **Default Arguments**: When `ENTRYPOINT` is defined, `CMD` is often used to provide default arguments to the `ENTRYPOINT` command.
 
-![9d618288-e8f1-4aea-966b-5b5ddd178b7f.png|817](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9d618288-e8f1-4aea-966b-5b5ddd178b7f.png) [^173]
+![9d618288-e8f1-4aea-966b-5b5ddd178b7f.png|817](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9d618288-e8f1-4aea-966b-5b5ddd178b7f.png) [^175]
 
 \
 
@@ -3575,7 +3650,7 @@ The `ENV` instruction in a Dockerfile is used to set environment variables insid
 
 \
 
-![ec0a5176-60e3-47e5-8268-e54e70a110bd.png|740](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ec0a5176-60e3-47e5-8268-e54e70a110bd.png) [^174]
+![ec0a5176-60e3-47e5-8268-e54e70a110bd.png|740](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ec0a5176-60e3-47e5-8268-e54e70a110bd.png) [^176]
 
 \
 
@@ -3585,11 +3660,11 @@ The `ENV` instruction in a Dockerfile is used to set environment variables insid
 
 The `ARG` instruction in a Dockerfile defines a build-time variable that users can pass to the Docker build process to customize the image creation. Unlike environment variables set with `ENV`, `ARG` variables are not persisted in the final image, meaning they are only available during the image build process.
 
-![5785c489-6979-4915-aa3d-6f86755636df.png|501](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5785c489-6979-4915-aa3d-6f86755636df.png) [^175]
+![5785c489-6979-4915-aa3d-6f86755636df.png|501](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5785c489-6979-4915-aa3d-6f86755636df.png) [^177]
 
 \
 
-![1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png|1058.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png) [^176]
+![1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png|1058.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png) [^178]
 
 **Key Points**
 
@@ -3653,7 +3728,7 @@ The `WORKDIR` instruction in a Dockerfile sets the working directory for any sub
 
 - **Inheritance**: Once set, the `WORKDIR` applies to all subsequent instructions in the Dockerfile unless it's changed again with another `WORKDIR` instruction.
 
-![e42233b1-5bf4-419b-b6bb-6c003346a390.png|867](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e42233b1-5bf4-419b-b6bb-6c003346a390.png) [^177]
+![e42233b1-5bf4-419b-b6bb-6c003346a390.png|867](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e42233b1-5bf4-419b-b6bb-6c003346a390.png) [^179]
 
 In this example:
 
@@ -3671,7 +3746,7 @@ In this example:
 
 You can use multiple `WORKDIR` instructions in a Dockerfile to change the working directory at different stages.
 
-![e3fbe365-916f-434b-9716-aa02a444aab2.png|914](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e3fbe365-916f-434b-9716-aa02a444aab2.png) [^178]
+![e3fbe365-916f-434b-9716-aa02a444aab2.png|914](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e3fbe365-916f-434b-9716-aa02a444aab2.png) [^180]
 
 \
 
@@ -3699,27 +3774,27 @@ The `ONBUILD` instruction in a Dockerfile is used to specify a command that will
 
 - **Child Image**: When a child image is built from the parent image, any `ONBUILD` instructions specified in the parent image are executed during the build process of the child image.
 
-![4cf8595d-8026-460d-b31d-5a74ccd15dce.png|659](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4cf8595d-8026-460d-b31d-5a74ccd15dce.png) [^179]
+![4cf8595d-8026-460d-b31d-5a74ccd15dce.png|659](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4cf8595d-8026-460d-b31d-5a74ccd15dce.png) [^181]
 
 \
 
-![148c59f4-b295-4462-8351-72a017d88e36.png|721](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/148c59f4-b295-4462-8351-72a017d88e36.png) [^180]
+![148c59f4-b295-4462-8351-72a017d88e36.png|721](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/148c59f4-b295-4462-8351-72a017d88e36.png) [^182]
 
 \
 
 **Parent image creation**
 
-![d8ff6b60-1a8a-4437-9a96-d9da70737a08.png|905.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d8ff6b60-1a8a-4437-9a96-d9da70737a08.png) [^181]
+![d8ff6b60-1a8a-4437-9a96-d9da70737a08.png|905.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d8ff6b60-1a8a-4437-9a96-d9da70737a08.png) [^183]
 
 \
 
 **Child image creation (uses parent image)**
 
-![dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png|924.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png) [^182]
+![dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png|924.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png) [^184]
 
 \
 
-![89ce30a6-6752-423e-aa95-571c7953700e.png|1024.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/89ce30a6-6752-423e-aa95-571c7953700e.png) [^183]
+![89ce30a6-6752-423e-aa95-571c7953700e.png|1024.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/89ce30a6-6752-423e-aa95-571c7953700e.png) [^185]
 
 ### **30Q. What is Docker Networking?**<!-- {"collapsed":true} -->
 
@@ -3784,14 +3859,14 @@ Compose works in all environments, production, staging, development, testing, as
   docker compose down
   ```
 
-![9439ccf9-04f0-42eb-9904-1e069f89aa22.png|817.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9439ccf9-04f0-42eb-9904-1e069f89aa22.png) [^184]
+![9439ccf9-04f0-42eb-9904-1e069f89aa22.png|817.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9439ccf9-04f0-42eb-9904-1e069f89aa22.png) [^186]
 
 \
 
 | |
 |-|
 |**Key Features:**<!-- {"cell":{"align":"left","color":"#2A2A2A"}} -->|
-|[^185]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^187]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 ### **32Q. Docker best practices?**<!-- {"collapsed":true} -->
 
 1\. use official images
@@ -3812,9 +3887,9 @@ It mainly used in java application, For usually java applications we will get th
 
 \
 
-![887e52ec-a93f-4954-9922-7166a678fc53.png|768](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/887e52ec-a93f-4954-9922-7166a678fc53.png) [^186]
+![887e52ec-a93f-4954-9922-7166a678fc53.png|768](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/887e52ec-a93f-4954-9922-7166a678fc53.png) [^188]
 
-![6d3c3f51-7c71-4e4d-b455-1cf214832864.png|740](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/6d3c3f51-7c71-4e4d-b455-1cf214832864.png) [^187]
+![6d3c3f51-7c71-4e4d-b455-1cf214832864.png|740](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/6d3c3f51-7c71-4e4d-b455-1cf214832864.png) [^189]
 
 ### **34Q. Docker Volumes?**<!-- {"collapsed":true} -->
 
@@ -3855,7 +3930,7 @@ How Layers Work
 
     1. Each subsequent command in the `Dockerfile` (like `RUN apt-get update`, `COPY . /app`, or `ENV VAR=value`) creates a new layer.
 
-    1. ![11370cc3-a33f-46d5-8d26-820bad5c5736.png|810.9954223632812](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/11370cc3-a33f-46d5-8d26-820bad5c5736.png) [^188]
+    1. ![11370cc3-a33f-46d5-8d26-820bad5c5736.png|810.9954223632812](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/11370cc3-a33f-46d5-8d26-820bad5c5736.png) [^190]
 
     1. These layers stack on top of each other, forming the final image.
 
@@ -3877,13 +3952,13 @@ Multiple images can share layers. For example, if two images use the same base i
 
 - **Storage Savings**: Since layers are shared across images, storage is used more efficiently.
 
-![004e11a5-a365-4fae-aa33-5831c74207f4.png|891.9907836914062](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/004e11a5-a365-4fae-aa33-5831c74207f4.png) [^189]
+![004e11a5-a365-4fae-aa33-5831c74207f4.png|891.9907836914062](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/004e11a5-a365-4fae-aa33-5831c74207f4.png) [^191]
 
 \
 
 ### **36Q. Docker disadvantages?**<!-- {"collapsed":true} -->
 
-![272239aa-6f8b-49d3-af12-5a28650234a8.png|995](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/272239aa-6f8b-49d3-af12-5a28650234a8.png) [^190]
+![272239aa-6f8b-49d3-af12-5a28650234a8.png|995](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/272239aa-6f8b-49d3-af12-5a28650234a8.png) [^192]
 
 
 ---
@@ -3904,7 +3979,7 @@ It helps you:
 
 It's a tool that keeps your code organized and helps you manage changes efficiently.
 
-![003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg|526.9791870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg) [^191]
+![003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg|526.9791870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg) [^193]
 
 \
 
@@ -3980,7 +4055,7 @@ It's a tool that keeps your code organized and helps you manage changes efficien
 
 **Answer:** To merge a branch into your current branch, you use the command `git merge branch_name`. This will integrate the changes from `branch_name` into your current branch.
 
-![230c4b3b-730f-4e9c-8c80-b2fd7508322c.png|345.9953918457031](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/230c4b3b-730f-4e9c-8c80-b2fd7508322c.png) [^192]
+![230c4b3b-730f-4e9c-8c80-b2fd7508322c.png|345.9953918457031](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/230c4b3b-730f-4e9c-8c80-b2fd7508322c.png) [^194]
 
 \
 
@@ -3988,7 +4063,7 @@ It's a tool that keeps your code organized and helps you manage changes efficien
 
 **Answer:**   Merge preservers history, rebase Restructure history.   when in doubt just merge, Never use rebase on public branches.
 
-![7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg|483.9930725097656](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg) [^193]
+![7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg|483.9930725097656](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg) [^195]
 
 \
 
@@ -4054,7 +4129,7 @@ A **fast-forward merge** in Git is like moving a bookmark forward in a book.
 
 In short, a fast-forward merge is a way of integrating changes that keeps the history simple and straightforward, without adding extra commits.
 
-![18602b10-a3f0-4b23-8959-6fda153ed2fe.png|339.9884338378906](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/18602b10-a3f0-4b23-8959-6fda153ed2fe.png) [^194]
+![18602b10-a3f0-4b23-8959-6fda153ed2fe.png|339.9884338378906](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/18602b10-a3f0-4b23-8959-6fda153ed2fe.png) [^196]
 
 \
 
@@ -4066,7 +4141,7 @@ In short, a fast-forward merge is a way of integrating changes that keeps the hi
 
 \
 
-![3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg|752.9977416992188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg) [^195]
+![3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg|752.9977416992188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg) [^197]
 
 ### **15Q. Explain the difference between `git pull` and `git fetch`.**
 
@@ -4337,7 +4412,7 @@ Avoid manual modifications of the state file.
 
 Example:
 
-![4e26c5e4-57da-4ba3-9b17-af04970e258f.png|762.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4e26c5e4-57da-4ba3-9b17-af04970e258f.png) [^196]
+![4e26c5e4-57da-4ba3-9b17-af04970e258f.png|762.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4e26c5e4-57da-4ba3-9b17-af04970e258f.png) [^198]
 
 \
 
@@ -5497,7 +5572,7 @@ Build triggers in Jenkins are mechanisms that automatically start a job or pipel
 
 - Yes, you can define conditional logic in the `Jenkinsfile` to run different stages or steps depending on the branch name. For example:
 
-![dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png|687](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png) [^197]
+![dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png|687](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png) [^199]
 
 \
 
@@ -8344,7 +8419,32 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Service Discovery
     Credit: Redhat
 
-[^169]: Docker Images and Layers
+[^169]: Normal Containers
+    Ephemeral Containers
+    Start Agent
+    Start Agent
+    Agent queries kubelet for ContainerID
+    techopsexamples. com
+    Agent fetches Pod PID or Namespace from
+    Agent launches an ephemeral container with
+    runtime API
+    preloaded utilities
+    Agent mounts required utilities or scripts
+    manually
+    Agent executes tasks inside the production
+    Tasks are executed in the ephemeral container
+    container (risk of side effects)
+    (isolated from app container)
+
+[^170]: Launch an Ephemeral Container
+    kubectl debug <pod-name> -c debug-container --image=busybox --
+    target=<main-container>
+    # Inspect Logs in the Ephemeral Container:
+    kubectl logs <pod-name> -c debug-container
+    # Run Commands in the Ephemeral Container:
+    kubectl exec -it <pod-name> -c debug-container - - sh
+
+[^171]: Docker Images and Layers
     How the "IMAGE"
     Image
     -- appears.. when viewing
@@ -8401,7 +8501,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Dockerfile
     this
 
-[^170]: docker architecture
+[^172]: docker architecture
     docker run nginx
     1. docker shell/ docker command send a request to docker deamon
     2. docker engine receives the request
@@ -8410,7 +8510,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     5. if not available, it will pul from docker central hub, keep it in local.
     6. create container and response to client
 
-[^171]: Example of a Simple Dockerfile:
+[^173]: Example of a Simple Dockerfile:
     dockerfile
     Copy code
     # Use an official Node.js runtime as a parent image
@@ -8423,7 +8523,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     RUN npm install
     # Make port 3000 available to the
 
-[^172]: dockerfiles > CMD >
+[^174]: dockerfiles > CMD >
     Dockerfile
     1
     FROM almalinux : 8
@@ -8433,7 +8533,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     CMD
     \["nginx", "-g", "daemon off;"\]
 
-[^173]: Example
+[^175]: Example
     Dockerfile
     Copy code
     FROM ubuntu : 20 . 04
@@ -8444,7 +8544,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     You can override the \* CMD part by passing arguments to \* docker run, like docker run my-
     image Goodbye!' , which will execute \* echo Goodbye!" .
 
-[^174]: Example
+[^176]: Example
     Dockerfile
     Copy code
     FROM ubuntu : 20. 04
@@ -8460,7 +8560,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     The \*WORKDIR command uses the \* APP_HOME variable to set the working directory to
     /usr/src/app .
 
-[^175]: FROM almalinux : 8
+[^177]: FROM almalinux : 8
     2
     ARG username
     3
@@ -8470,7 +8570,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     5
     CMD \["sleep", "100"\]
 
-[^176]: docker build -t arg: v1 --build-arg username=satya
+[^178]: docker build -t arg: v1 --build-arg username=satya
     34 . 229. 144.33 \| 172. 31.22.2 \| t2.micro \| https: / /github. com/daws-76s/dockerfiles . git
     \[ centos@ip-172-31-22-2 \~/dockerfiles/ARG \]$ docker build -t arg:v1 --build-arg username=sivakumar
     \[+\] Building 0.1s (5/5) FINISHED
@@ -8498,7 +8598,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     0.
     Os
 
-[^177]: Syntax
+[^179]: Syntax
     Dockerfile
     Copy code
     WORKDIR /path/to/directory
@@ -8512,7 +8612,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     RUN make /usr/src/app
     CMD \[" . /app"\]
 
-[^178]: Dockerfile
+[^180]: Dockerfile
     Copy code
     WORKDIR /usr/src/app
     COPY
@@ -8523,7 +8623,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     "WORKDIR" changes the context to \* /usr/src/app/config" for the subsequent \* copy and RUN
     commands.
 
-[^179]: V
+[^181]: V
     REPOS
     dockerfiles > onbulid > <dockerfile > ..
     > Ansible
@@ -8553,7 +8653,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     > test
     dockerfile
 
-[^180]: REPOS
+[^182]: REPOS
     dockerfiles > onbulid > test > < dockerfile > ...
     > Ansible
     - 1
@@ -8575,15 +8675,15 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     dockerfile
     <> index.html
 
-[^181]: 3. 90. 236.230 \| 172. 31 . 44.186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
+[^183]: 3. 90. 236.230 \| 172. 31 . 44.186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
     \[ centosdip-172-31-44-186 \~/dockerfiles/onbulid \]$ docker build -t on:v1 .
     \[+\] Building 0.2s (8/8) FINISHED
 
-[^182]: 3. 90. 236.230 \| 172. 31. 44.186 \| t2.micro \| https: //github.com/chilops/dockerfiles.git
+[^184]: 3. 90. 236.230 \| 172. 31. 44.186 \| t2.micro \| https: //github.com/chilops/dockerfiles.git
     \[ centosdip-172-31-44-186 \~/dockerfiles/onbulid/test \]$ docker build -t on-test:v1
     \[+\] Building 0.2s (7/7) FINISHED
 
-[^183]: 3. 90. 236.230 \| 172. 31 . 44. 186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
+[^185]: 3. 90. 236.230 \| 172. 31 . 44. 186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
     centosdip-172-31-44-186 \~/dockerfiles/onbulid/test_\]$ docker run -d -p 8083:80 on-test:v1
     13232fb1 7da02cae8e6cdb27ccba2e276d1462bc140275ae3af448f7ff641943
     3. 90. 236.230 \| 172. 31. 44.186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
@@ -8620,7 +8720,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     0. 0. 0. 0:8083->80/tcp, : : :8083->80/tcp
     adoring_noether
 
-[^184]: . Dockerfile: Used to create and build Docker images.
+[^186]: . Dockerfile: Used to create and build Docker images.
     . Docker Compose: Used to run Docker containers as part of a multi-
     container setup or with specific runtime configs.
     Dockerfile
@@ -8644,7 +8744,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Docker Image
     Docker Container
 
-[^185]: 
+[^187]: 
     - **Orchestration:** Manages container communication, data sharing, and networking.
 
     - **Multi-Container Support:** Simplifies managing multiple services.
@@ -8657,14 +8757,14 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
 
     - **Volume Management:** Manages shared or persistent data.
 
-[^186]: Source code --> compile --> byte code (jar) --> run byte code
+[^188]: Source code --> compile --> byte code (jar) --> run byte code
     JDK --> Java development kit
     JRE --> Java runtime environment
     JDK > JRE and JRE is subset of JDK
     JDK memory > JRE memory
     I
 
-[^187]: REPOS
+[^189]: REPOS
     roboshop-docker > shipping > Dockerfile > FROM
     #
     > learn-jenkins
@@ -8728,7 +8828,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     rohnchon-infra-dow
     24
 
-[^188]: For example:
+[^190]: For example:
     Dockerfile
     Copy code
     FROM ubuntu : 20.04
@@ -8739,7 +8839,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     COPY . /app
     # Another new layer
 
-[^189]: 1. base image
+[^191]: 1. base image
     creates container out of first instruction, intermediate container
     2. runs second instruction in the container, creates image out of this
     3. creates container out of 2 instructions.
@@ -8752,7 +8852,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     creates container-3 out of this image-2
     RUNS
 
-[^190]: 1. we have a docker host where all containers are running
+[^192]: 1. we have a docker host where all containers are running
     what if docker host crash? we lose all containers
     even we use docker volumes, data is still in the host, so we lost data as well
     2. what if traffic increases/decreases? are our containers scalable
@@ -8762,7 +8862,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     6. what if we have multiple hosts running with containers
     I
 
-[^191]: Git Workflow
+[^193]: Git Workflow
     DEEP
     LEARNING
     NERDS
@@ -8783,11 +8883,11 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     git checkout
     git pull
 
-[^192]: Typical Merge
+[^194]: Typical Merge
     Before Merge
     After Merge
 
-[^193]: Git Merge & Rebase
+[^195]: Git Merge & Rebase
     @logicmojo
     GIT
     main
@@ -8819,11 +8919,11 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     git rebase
     G
 
-[^194]: Fast Forward Merge
+[^196]: Fast Forward Merge
     Before Merge
     After Merge
 
-[^195]: 243
+[^197]: 243
     CO
     change
     Code Base
@@ -8840,12 +8940,12 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Branch-
     -Merge
 
-[^196]: hcl
+[^198]: hcl
     Copy code
     variable "instance_type" {
     default = "t2.micro"
 
-[^197]: groovy
+[^199]: groovy
     Copy code
     pipeline {
     agent any
