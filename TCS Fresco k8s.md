@@ -1,7 +1,7 @@
 ﻿---
 title: 'TCS Fresco k8s '
 uuid: 220df7a8-c99d-11ef-b41f-0dd507f23cb3
-version: 61
+version: 81
 created: '2025-01-03T12:06:58+05:30'
 ---
 
@@ -54,6 +54,12 @@ To expose your application to the local VM by creating a Service object of type 
 kubectl expose pod firstapp --type=NodePort --port=8080
 ```
 
+```
+kubectl get svc firstapp
+```
+
+\
+
 \
 
 Create another deployment using a 'YAML' file, create a deployment.yaml file that contains information of the number of replicas and the images to be used. Use an nginx image to deploy. Name the deployment as 'nginx'
@@ -77,7 +83,7 @@ spec:
       - name: nginx
         image: nginx:latest
         ports:
-        -containerPort: 80
+        - containerPort: 80
 ```
 
 \
@@ -134,4 +140,5 @@ kubectl get pods -l app=nginx
 
 ```
 kubectl exec <nginx-pod-name> -- sh -c 'echo "Welcome to fresco nginx pod" > /usr/share/nginx/html/index.html'
+kubectl exec -it nginx-pod-name -- /bin/sh -c "echo 'Welcome to fresco nginx pod' > /usr/share/nginx/html/index.html"
 ```
