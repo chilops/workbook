@@ -1,7 +1,7 @@
 ﻿---
 title: All Commands
 uuid: 21c4e692-5479-11ef-9d9d-f2c7410336d6
-version: 1006
+version: 1008
 created: '2024-08-07T10:24:29+05:30'
 tags:
   - commands
@@ -272,6 +272,12 @@ kubectl top pods
 kubectl top nodes
 ```
 
+\
+
+| |
+|-|
+|Top Kubernetes Troubleshooting Commands Every DevOps Engineer Must Know<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^3]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 # <mark style="background-color:#F8914D;">**Docker:**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ### **Docker Engine Installation:**
@@ -370,7 +376,7 @@ docker ps -a
 docker run -d --name catalogue --network=roboshop catalogue:1
 ```
 
-![f245c229-36c3-435e-91c4-80c206427480.png|1084.666748046875](https://images.amplenote.com/21c4e692-5479-11ef-9d9d-f2c7410336d6/f245c229-36c3-435e-91c4-80c206427480.png) [^3]
+![f245c229-36c3-435e-91c4-80c206427480.png|1084.666748046875](https://images.amplenote.com/21c4e692-5479-11ef-9d9d-f2c7410336d6/f245c229-36c3-435e-91c4-80c206427480.png) [^4]
 
 \
 
@@ -381,7 +387,7 @@ docker start <container ID>
 docker ps
 ```
 
-![cc6aa7eb-d1f7-48a8-a797-171abf1fa97d.png|1086.666748046875](https://images.amplenote.com/21c4e692-5479-11ef-9d9d-f2c7410336d6/cc6aa7eb-d1f7-48a8-a797-171abf1fa97d.png) [^4]
+![cc6aa7eb-d1f7-48a8-a797-171abf1fa97d.png|1086.666748046875](https://images.amplenote.com/21c4e692-5479-11ef-9d9d-f2c7410336d6/cc6aa7eb-d1f7-48a8-a797-171abf1fa97d.png) [^5]
 
 \
 
@@ -463,9 +469,9 @@ docker rm -f <container ID>
 
 **Docker port forwarding**
 
-![4f84dd9c-93f3-4cd5-ab17-caf642303b37.png|434](https://images.amplenote.com/f7349cfe-3828-11ef-8d44-26e37c279344/4f84dd9c-93f3-4cd5-ab17-caf642303b37.png) [^5]
+![4f84dd9c-93f3-4cd5-ab17-caf642303b37.png|434](https://images.amplenote.com/f7349cfe-3828-11ef-8d44-26e37c279344/4f84dd9c-93f3-4cd5-ab17-caf642303b37.png) [^6]
 
-![dcbc4a5a-d327-45bd-b26d-d471e4af1ade.png|588](https://images.amplenote.com/f7349cfe-3828-11ef-8d44-26e37c279344/dcbc4a5a-d327-45bd-b26d-d471e4af1ade.png) [^6]
+![dcbc4a5a-d327-45bd-b26d-d471e4af1ade.png|588](https://images.amplenote.com/f7349cfe-3828-11ef-8d44-26e37c279344/dcbc4a5a-d327-45bd-b26d-d471e4af1ade.png) [^7]
 
 docker run -d -p <VM port no>:<docker container port no> nginx <mark>**(VM port you can take any port, but container port should be same which nginx is using)**</mark>
 
@@ -473,7 +479,7 @@ docker run -d -p <VM port no>:<docker container port no> nginx <mark>**(VM port 
 docker run -d -p 8080:80 nginx
 ```
 
-![83fb4fcb-5616-4f12-a2d0-bec2ac634b5d.png|930.6666870117188](https://images.amplenote.com/21c4e692-5479-11ef-9d9d-f2c7410336d6/83fb4fcb-5616-4f12-a2d0-bec2ac634b5d.png) [^7]
+![83fb4fcb-5616-4f12-a2d0-bec2ac634b5d.png|930.6666870117188](https://images.amplenote.com/21c4e692-5479-11ef-9d9d-f2c7410336d6/83fb4fcb-5616-4f12-a2d0-bec2ac634b5d.png) [^8]
 
 \
 
@@ -481,9 +487,9 @@ docker run -d -p 8080:80 nginx
 
 <mark>**Below ex is 3 Nginx docker containers are running with different ports (3 different static websites can be run and at least we can 10 to 15 websites on single VM)**</mark>
 
-![76e4ba42-30f9-45a6-8fb9-719a27d6dc6d.png|934](https://images.amplenote.com/f7349cfe-3828-11ef-8d44-26e37c279344/76e4ba42-30f9-45a6-8fb9-719a27d6dc6d.png) [^8]
+![76e4ba42-30f9-45a6-8fb9-719a27d6dc6d.png|934](https://images.amplenote.com/f7349cfe-3828-11ef-8d44-26e37c279344/76e4ba42-30f9-45a6-8fb9-719a27d6dc6d.png) [^9]
 
-![7799b3a2-0867-4dd0-a1e7-a6191a29973e.png|626](https://images.amplenote.com/f7349cfe-3828-11ef-8d44-26e37c279344/7799b3a2-0867-4dd0-a1e7-a6191a29973e.png) [^9]
+![7799b3a2-0867-4dd0-a1e7-a6191a29973e.png|626](https://images.amplenote.com/f7349cfe-3828-11ef-8d44-26e37c279344/7799b3a2-0867-4dd0-a1e7-a6191a29973e.png) [^10]
 
 \
 
@@ -793,7 +799,56 @@ git rebase <branch name>         --Rebase your current head onto the specified b
     Active
     45s
 
-[^3]: 34. 226. 215.227 \| 172. 31. 44.186 \| t2.micro \| null
+[^3]: 
+    - **kubectl get pods --all-namespaces:** Check pod statuses across all namespaces.
+
+    - **kubectl describe pod <pod_name>:** Gather detailed information about a specific pod.
+
+    - **kubectl logs <pod_name> -c <container_name>:** View logs of a specific container.
+
+    - **kubectl get events --sort-by='.metadata.creationTimestamp':** Review recent events for errors.
+
+    - **kubectl get nodes:** Verify the health and status of cluster nodes.
+
+    - **kubectl drain <node_name> --ignore-daemonsets:** Safely evacuate pods from a node.
+
+    - **kubectl cordon <node_name>:** Mark a node as unschedulable.
+
+    - **kubectl uncordon <node_name>:** Mark a node as schedulable again.
+
+    - **kubectl delete pod <pod_name> --grace-period=0 --force:** Forcefully delete a crashed pod.
+
+    - **kubectl rollout undo deployment <deployment_name>:** Roll back a problematic deployment.
+
+    - **kubectl exec -it <pod_name> -- /bin/sh:** Access a container for debugging.
+
+    - **kubectl get componentstatuses:** Check the health of core cluster components.
+
+    - **kubectl top nodes:** Monitor node resource usage for bottlenecks.
+
+    - **kubectl top pods --all-namespaces:** Identify resource-hungry pods.
+
+    - **kubectl delete node <node_name>:** Remove a failed node from the cluster.
+
+    - **kubectl get ingress:** Verify ingress resources and their statuses.
+
+    - **kubectl describe <resource_type> <resource_name>:** Detailed information for a resource.
+
+    - **kubectl port-forward <pod_name> <local_port>:<remote_port>:** Forward a local port to a pod.
+
+    - **kubectl get endpoints <service_name>:** Verify service endpoints.
+
+    - **kubectl apply -f <backup.yaml>:** Restore configurations from a backup manifest.
+
+    - **kubectl taint nodes <node_name> key=value:NoSchedule**: Prevent scheduling on a problematic node.
+
+    - **kubectl debug <pod_name>:** Launch an ephemeral container for troubleshooting.
+
+    - **kubectl edit <resource_type> <resource_name>:** Manually modify resource configurations.
+
+    - **kubectl proxy:** Start a proxy to the Kubernetes API for debugging.
+
+[^4]: 34. 226. 215.227 \| 172. 31. 44.186 \| t2.micro \| null
     \[ centosdip-172-31-44-186 \~ \]$ docker ps
     Fa
     CONTAINER ID
@@ -816,7 +871,7 @@ git rebase <branch name>         --Rebase your current head onto the specified b
     Created
     funny_leavitt
 
-[^4]: 34 . 226.215.227 \| 172. 31. 44.186 \| t2.micro \| null
+[^5]: 34 . 226.215.227 \| 172. 31. 44.186 \| t2.micro \| null
     centosdip-172-31-44-186 \~ \]$ docker ps
     CONTAINER ID
     IMAGE
@@ -840,15 +895,15 @@ git rebase <branch name>         --Rebase your current head onto the specified b
     80/tcp
     funny_leavitt
 
-[^5]: 0-65, 535 ports
+[^6]: 0-65, 535 ports
     0-65, 535 a container will have
 
-[^6]: VM
+[^7]: VM
     8080
     docker
     80
 
-[^7]: C
+[^8]: C
     Not secure 34.226.215.227:8080
     Welcome to nginx!
     If you see this page, the nginx web server is successfully installed and
@@ -857,7 +912,7 @@ git rebase <branch name>         --Rebase your current head onto the specified b
     Commercial support is available at nginx.com.
     Thank you for using nginx.
 
-[^8]: \[ centos@ip-172-31-88-21 \~ \]$ docker run -d -p 8080:80 nginx
+[^9]: \[ centos@ip-172-31-88-21 \~ \]$ docker run -d -p 8080:80 nginx
     5f502d465b6c98914bba5a34bea 798b266f58b8fea5e3f69643ac46c089651c5
     docker: Error response from daemon: driver failed programming external connectivity on endpoint sharp banach (f44d0fb351e04fd49106d2125
     a03fe184eca4e61lea334457ff2fe2adadea4fa) : Bind for 0.0.0.0:8080 failed: port is already allocated.
@@ -915,7 +970,7 @@ git rebase <branch name>         --Rebase your current head onto the specified b
     nge_pike
     54. 173. 241 . 201 \| 172. 31. 88.21 \| t2. micro \| null
 
-[^9]: C
+[^10]: C
     - . . .
     docker
     8080
