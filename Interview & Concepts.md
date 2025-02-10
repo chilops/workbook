@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 7349
+version: 7456
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -141,7 +141,7 @@ The primary reason I'm exploring new opportunities is for salary growth. Over th
 
 ![88d372c0-b6a9-4552-b6c6-3fb5bb051292.png|667](https://images.amplenote.com/602cceb4-48a2-11ef-bf57-26e37c279344/88d372c0-b6a9-4552-b6c6-3fb5bb051292.png) [^1]
 
-### **1Q. What is Kubernetes and Architecture?**
+### **1Q. What is Kubernetes and Architecture?**<!-- {"collapsed":true} -->
 
 **Good site for Kubernetes architecture** --> [Kubernetes - Architecture - GeeksforGeeks][^2] 
 
@@ -249,9 +249,11 @@ Kubernetes helps to manage & automate the deployment, scaling and management of 
 
 1. **kube-scheduler:** The scheduler is responsible for scheduling and assigning pods (a group of one or more containers) to specific nodes in the cluster based on resource requirements and constraints.
 
-1. **kube-controller-manager:** This component runs various controllers that regulate the state of the cluster and perform tasks such as replicating PODS, managing node lifecycle and managing endpoint objects.
+1. **kube-controller-manager:**  Controllers manage pods. They take the desired state in the form of controller objects and maintain it.  **Replication Controller** and ReplicaSets select pods based on labels and maintain the desired number of copies of pods.  **Deployment** internally uses ReplicaSet to maintain replicas and maintain the desired state at any point in time. **DaemonSets** are used to run one pod per node. **StatefulSets** are used to run stateful applications.
 
 1. **Cloud-controller-manager:** It is responsible for interacting with underlying cloud provider and managing resources specific to that cloud platform.
+
+\
 
 **Node Components:**
 
@@ -299,7 +301,7 @@ Kubernetes helps to manage & automate the deployment, scaling and management of 
 
 \
 
-### **2Q. What are Kubernetes Pods?**
+### **2Q. What are Kubernetes Pods?**<!-- {"collapsed":true} -->
 
 - It a smallest deployable unit in Kubernetes (POD same as container). It contains one or more applications in a container. 
 
@@ -341,7 +343,7 @@ Kubernetes helps to manage & automate the deployment, scaling and management of 
 
  
 
-### **3Q. What is the difference between eksctl and kubectl?**
+### **3Q. What is the difference between eksctl and kubectl?**<!-- {"collapsed":true} -->
 
 `eksctl` and `kubectl` are both command-line tools related to Kubernetes, but they serve different purposes and operate at different levels of abstraction:
 
@@ -389,7 +391,7 @@ You would typically use `eksctl` to set up an EKS cluster and then use `kubectl`
 
 \
 
-### **4Q. Namespace (Kubernetes resource)**
+### **4Q. Namespace (Kubernetes resource)**<!-- {"collapsed":true} -->
 
 Namespace --> it is like a project in your Kubernetes cluster to provision your project resources. it is isolated
 
@@ -427,13 +429,12 @@ In Kubernetes, a **namespace** is like a separate workspace or environment withi
 
     - You can have a "frontend" app in a `dev` namespace and another "frontend" app in a `prod` namespace. They won’t interfere with each other because they’re in different spaces.
 
-
-      ```
-      apiVersion :
-      kind: # what kind of resource you are creating
-      metadata:
-      name :
-      ```
+```
+apiVersion :
+kind: # what kind of resource you are creating
+metadata:
+name :
+```
 
 ![8f19e3a9-1d8c-49f8-8501-51ae36bfbe37.png|864](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/8f19e3a9-1d8c-49f8-8501-51ae36bfbe37.png) [^11]
 
@@ -477,7 +478,7 @@ kubectl describe pod <POD Name>
 
 ![ad124751-b492-450e-a05f-080c98c18d69.png|550.9838256835938](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/ad124751-b492-450e-a05f-080c98c18d69.png) [^15]
 
-### **7Q. How resources used in Kubernetes?**
+### **7Q. How resources used in Kubernetes?**<!-- {"collapsed":true} -->
 
 ![a05fdef4-be06-486f-8b4f-2afe0a0b6062.png|1034](https://images.amplenote.com/ab83b9de-3f3f-11ef-b6cc-26e37c279344/a05fdef4-be06-486f-8b4f-2afe0a0b6062.png) [^16]
 
@@ -489,7 +490,7 @@ Restrict POD resources:
 
 \
 
-### **8Q. What are ConfigMap in Kubernetes?** It's nothing but a key value pair (to store environment parameters)
+### **8Q. What are ConfigMap in Kubernetes?** It's nothing but a key value pair (to store environment parameters)<!-- {"collapsed":true} -->
 
 A **ConfigMap** in Kubernetes is an API object used to store non-confidential data in key-value pairs. It allows you to decouple configuration artifacts from image content to keep containerized applications portable. You can use a ConfigMap to store configuration files, command-line arguments, environment variables, or any other configuration data your application needs.
 
@@ -507,7 +508,7 @@ ConfigMaps are especially useful when you need to configure applications in diff
 
 \
 
-### **9Q. What are Secrets in Kubernetes?**
+### **9Q. What are Secrets in Kubernetes?**<!-- {"collapsed":true} -->
 
 A **Secret** in Kubernetes is an API object that stores sensitive data, such as passwords, OAuth tokens, SSH keys, and other credentials. Unlike ConfigMaps, Secrets are specifically designed to handle sensitive information and provide a secure way to manage such data in your cluster.
 
@@ -525,7 +526,7 @@ Secrets help keep your application’s sensitive data secure, reducing the risk 
 
 \
 
-### **10Q. Kubernetes services?**
+### **10Q. Kubernetes services?**<!-- {"collapsed":true} -->
 
 ![6655c8a3-7cbb-433e-95f8-0d4609aaed34.png|1028.9814453125](https://images.amplenote.com/ab83b9de-3f3f-11ef-b6cc-26e37c279344/6655c8a3-7cbb-433e-95f8-0d4609aaed34.png) [^18]
 
@@ -553,7 +554,7 @@ kubectl get service
 
 \
 
-### **11Q. What is ClusterIP service in Kubernetes?**
+### **11Q. What is ClusterIP service in Kubernetes?**<!-- {"collapsed":true} -->
 
 A **ClusterIP** service in Kubernetes is the default type of service that provides internal access to your application within the Kubernetes cluster. It exposes the service on a stable internal IP address, which can only be accessed from within the cluster.
 
@@ -569,7 +570,7 @@ ClusterIP services are essential for managing internal traffic within your Kuber
 
 \
 
-### **12Q. What is NodePort service in Kubernetes?**
+### **12Q. What is NodePort service in Kubernetes?**<!-- {"collapsed":true} -->
 
 A **NodePort** service in Kubernetes exposes your service on each Node's IP address at a static port. This allows external access to your service from outside the Kubernetes cluster, making it possible to communicate with the service directly through the node's IP and the specified port.
 
@@ -591,7 +592,7 @@ NodePort services are useful when you need to expose a service to external users
 
 \
 
-### **13Q. What is Load Balancer service in Kubernetes?**
+### **13Q. What is Load Balancer service in Kubernetes?**<!-- {"collapsed":true} -->
 
 A **LoadBalancer** service in Kubernetes automatically provisions an external load balancer to expose your service to the internet or an external network. This service type is primarily used in cloud environments where the cloud provider can allocate a load balancer to route traffic to the Kubernetes service.
 
@@ -617,7 +618,7 @@ LoadBalancer services are ideal for applications that need to be exposed to the 
 
 \
 
-### **14Q. Explain ReplicaSet in Kubernetes?**
+### **14Q. Explain ReplicaSet in Kubernetes?**<!-- {"collapsed":true} -->
 
 **ReplicaSet** in Kubernetes is a controller that ensures a specified number of identical Pods are running at any given time. It’s responsible for maintaining the desired number of replicas (copies) of a Pod, automatically scaling up or down to match the defined state.
 
@@ -645,7 +646,7 @@ we can't control random ID
 
 \
 
-### **15Q. Explain Deployment in Kubernetes?**
+### **15Q. Explain Deployment in Kubernetes?**<!-- {"collapsed":true} -->
 
 A **Deployment** in Kubernetes is a higher-level abstraction that manages a group of Pods and their ReplicaSets. It provides a declarative way to manage application updates, scaling, and rollbacks, making it easier to maintain the desired state of an application.
 
@@ -681,7 +682,7 @@ DeploymentSet deletes old ReplicaSet & pods once new ReplicaSet & pods created <
 
 ![bfcca94f-4339-4c9b-9979-dfcf5686ac5b.png|899](https://images.amplenote.com/ab83b9de-3f3f-11ef-b6cc-26e37c279344/bfcca94f-4339-4c9b-9979-dfcf5686ac5b.png) [^27]
 
-### **16Q. What is stateless & what is stateful in k8?**
+### **16Q. What is stateless & what is stateful in k8?**<!-- {"collapsed":true} -->
 
 In Kubernetes (K8s), the terms **stateless** and **stateful** refer to how applications or services manage their data and how they handle scaling, failure recovery, and deployment.
 
@@ -747,7 +748,7 @@ This differentiation is crucial in designing and deploying applications in a Kub
 
 \
 
-### <mark style="background-color:#FFFFFF;">**17Q. Storage - k8 Volumes?**<!-- {"backgroundCycleColor":"11"} --></mark>
+### <mark style="background-color:#FFFFFF;">**17Q. Storage - k8 Volumes?**<!-- {"backgroundCycleColor":"11"} --></mark><!-- {"collapsed":true} -->
 
 ![0bc6b573-e304-4511-95c7-d19a09fb6c05.png|381](https://images.amplenote.com/5e6efaaa-4219-11ef-8407-26e37c279344/0bc6b573-e304-4511-95c7-d19a09fb6c05.png) [^30]
 
@@ -767,7 +768,7 @@ Data is getting stored in EC2 worker nodes...
 
 \
 
-### **18Q. What is `emptyDir` in K8?**
+### **18Q. What is `emptyDir` in K8?**<!-- {"collapsed":true} -->
 
 In Kubernetes, `emptyDir` is a type of volume that is created when a pod is assigned to a node and exists as long as that pod is running. It’s often used for temporary storage needs, where data doesn't need to persist after the pod is terminated.
 
@@ -813,7 +814,7 @@ In summary, `emptyDir` is a useful volume type in Kubernetes for scenarios requi
 
 \
 
-### **19Q. What is filebeat in K8?**
+### **19Q. What is filebeat in K8?**<!-- {"collapsed":true} -->
 
 **Filebeat** is a lightweight log shipper from the Elastic Stack (ELK Stack), used for forwarding and centralizing log data. When deployed in a Kubernetes (K8s) environment, Filebeat is commonly used to collect and ship logs from the various containers and pods running in the cluster to a central logging system, such as Elasticsearch or Logstash.
 
@@ -877,7 +878,7 @@ Filebeat, when deployed in Kubernetes, provides a robust solution for log aggreg
 
 \
 
-### **20Q. <mark style="background-color:#FFFFFF;">What is DeamonSet & Fluentd in k8?<!-- {"backgroundCycleColor":"11"} --></mark>**
+### **20Q. <mark style="background-color:#FFFFFF;">What is DeamonSet & Fluentd in k8?<!-- {"backgroundCycleColor":"11"} --></mark>**<!-- {"collapsed":true} -->
 
 DeamonSet will make sure a POD runs in each and every worker node. If you delete one worker node a POD in it will delete and if we add new worker node to a cluster, then DeamonSet will automatically create POD. (when you create POD, it will create 3 pods in 3 cluster nodes).
 
@@ -885,7 +886,15 @@ DeamonSet will make sure a POD runs in each and every worker node. If you delete
 
 \
 
-### **21Q. External volumes in K8?**
+### **21Q. External volumes in K8?**<!-- {"collapsed":true} -->
+
+- Kubernetes Pods are mortals. They get destroyed and recreated over and over again. When a pod goes down, it takes containers running inside it, thereby destroying data that container had. It is okay as long as the pod is running stateless app. However, data stored by the database is critical, and we can't afford to lose that.
+
+- So, volumes come to the rescue. Volumes are external to pods and they remain intact over pod's life cycle.
+
+-  Sometimes it is necessary to share data among pods. Volumes can be used for this purpose.
+
+\
 
 In Kubernetes, external volumes are used to persist data for applications running in Pods beyond the lifecycle of the Pod itself. This is crucial because Pods are ephemeral, meaning that when a Pod is terminated, any data stored inside it is lost. External volumes help ensure that important data is preserved and accessible across Pod restarts, rescheduling, or even across different nodes in the cluster.
 
@@ -953,7 +962,13 @@ External volumes in Kubernetes are critical for stateful applications that requi
 
 \
 
-### **22Q. Static provisioning vs dynamic provisioning in k8?**
+### **21.5Q. Kubernetes Internal Volumes?**<!-- {"collapsed":true} -->
+
+- Kubernetes, by default, provides volumes associated with pods, but they get destroyed as soon as the pods get destroyed.
+
+- To solve this issue, different kind of volumes came into picture which outlives a pod's life cycle.
+
+### **22Q. Static provisioning vs dynamic provisioning in k8?**<!-- {"collapsed":true} -->
 
 In Kubernetes, **static provisioning** and **dynamic provisioning** are two approaches to managing Persistent Volumes (PVs) for persistent storage in a cluster. They differ primarily in how the storage resources are allocated and bound to Persistent Volume Claims (PVCs).
 
@@ -1031,7 +1046,7 @@ Below 2 steps are common for both static & dynamic provisioning
 
 \
 
-### **23Q. What is helm charts and how it's useful in Kubernetes?**
+### **23Q. What are helm charts and how it's useful in Kubernetes?**<!-- {"collapsed":true} -->
 
 What HELM do is keeping all the constant values separate and values which are going to change will maintain separately.
 
@@ -1063,7 +1078,7 @@ Imagine you want to deploy a web app with a database in Kubernetes. Instead of m
 
 \
 
-### **24Q. Explain StatefulSet in Kubernetes?**
+### **24Q. Explain StatefulSet in Kubernetes?**<!-- {"collapsed":true} -->
 
 A **StatefulSet** in Kubernetes is used to manage stateful applications. Unlike Deployments (which are used for stateless apps), StatefulSets ensure that each pod has a unique, stable identity and persistent storage.
 
@@ -1093,7 +1108,7 @@ Each pod gets its own persistent storage (`1Gi` each) using a `volumeClaimTempla
 
 In StatefulSet PV & volumes wont delete( so that we can use the data present in the volumes for new pods)
 
-### **25Q. Headless service in Kubernetes?**
+### **25Q. Headless service in Kubernetes?**<!-- {"collapsed":true} -->
 
 <mark>**Headless service is used for stateful applications,**</mark> **when you pick headless service instead of single IP address you will get all PODS IP address in same cluster. So that it is easy for replica to communicate with other replicas.**
 
@@ -1145,7 +1160,7 @@ This is particularly useful for stateful apps where each pod has its own identit
 
 \
 
-### **26Q. RBAC in Kubernetes?**
+### **26Q. RBAC in Kubernetes?**<!-- {"collapsed":true} -->
 
 **RBAC (Role-Based Access Control)** in Kubernetes is used to control who can perform specific actions on resources (like pods, services, etc.) within a cluster. It allows you to define **roles** and **permissions** for different users or applications.
 
@@ -1215,7 +1230,7 @@ CyberArk
 
 \
 
-### **27Q. Horizontal POD Autoscaling (HPA) in Kubernetes?**
+### **27Q. Horizontal POD Autoscaling (HPA) in Kubernetes?**<!-- {"collapsed":true} -->
 
 ![5c519f72-3c1d-4e9d-b21b-577e20a06022.png|1200](https://images.amplenote.com/e13d2f64-44b8-11ef-9566-26e37c279344/5c519f72-3c1d-4e9d-b21b-577e20a06022.png) [^56]
 
@@ -1259,7 +1274,7 @@ This ensures efficient resource usage, allowing the app to handle varying worklo
 
 ![7ec1e1a8-af81-45af-a965-2fc120f694ea.png|896.99072265625](https://images.amplenote.com/e13d2f64-44b8-11ef-9566-26e37c279344/7ec1e1a8-af81-45af-a965-2fc120f694ea.png) [^60]
 
-### <mark style="background-color:#FFFFFF;">**28Q.Horizontal scaling vs vertical scaling?**<!-- {"backgroundCycleColor":"11"} --></mark>
+### <mark style="background-color:#FFFFFF;">**28Q.Horizontal scaling vs vertical scaling?**<!-- {"backgroundCycleColor":"11"} --></mark><!-- {"collapsed":true} -->
 
 **Vertical scaling** - We can increase CPU, RAM, HD
 
@@ -1609,7 +1624,7 @@ In this example, we want to prevent two pods with the label `app=my-app` from be
 
 These rules provide fine-grained control over pod scheduling, helping optimize performance, reliability, and resource utilization in Kubernetes clusters.
 
-### **34Q. explain Prometheus monitoring tool for k8?**
+### **34Q. explain Prometheus monitoring tool for k8?**<!-- {"collapsed":true} -->
 
 **Prometheus** is a powerful open-source monitoring and alerting toolkit designed for reliability and scalability. When used in Kubernetes, Prometheus can monitor the cluster and its components, as well as the applications running inside it. Prometheus collects and stores metrics, performs queries, and triggers alerts based on specified conditions.
 
@@ -1631,8 +1646,17 @@ Key Concepts of Prometheus in Kubernetes:
 
 \
 
+### **35Q. Kubernetes Networking?**<!-- {"collapsed":true} -->
 
----
+-  Kube DNS makes an entry whenever a new service is created, thus helping name resolution.
+
+-  Ingress in Kubernetes can be used as a wrapper for services.
+
+-  It is recommended to create ingress if you are planning to expose more than one service to the Internet.
+
+-  Use Ingress with Service type=LoadBalancer, so that it'll help you create only one Load Balancer even though you have multiple Services to expose.
+
+\
 
 # <mark style="background-color:#F8914D;">**Kubernetes scenario-based questions**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
@@ -3235,7 +3259,7 @@ Try to design your kubernetes app to run **stateless** for better isolation, sca
 
 \
 
-### **22Q. Should You Use Ephemeral Containers In Production Environments or Not?**<!-- {"collapsed":true} -->
+### **22Q. Should You Use Ephemeral Containers in Production Environments or Not?**<!-- {"collapsed":true} -->
 
 | |
 |-|
@@ -3310,7 +3334,7 @@ Refer to this guide, [debugging with an Ephemeral Debug Container](https://link.
 
 \
 
-### **23Q.** **Kubernetes Autoscaling - HPA vs VPA vs KEDA?**
+### **23Q.** **Kubernetes Autoscaling - HPA vs VPA vs KEDA?**<!-- {"collapsed":true} -->
 
 ![f4da599c-c8ad-43c0-924d-77de5dc736d7.png|906.0879516601562](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/f4da599c-c8ad-43c0-924d-77de5dc736d7.png) [^170]
 
@@ -3350,7 +3374,7 @@ Refer to this guide, [debugging with an Ephemeral Debug Container](https://link.
 |-|
 |For many workloads, a **hybrid approach** works best:<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |[^171]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-### **24Q.** **Optimizing Kubernetes Costs with Pod Disruption Budgets?**
+### **24Q.** **Optimizing Kubernetes Costs with Pod Disruption Budgets?**<!-- {"collapsed":true} -->
 
 ![84cbeb83-b2fb-44c6-8bdb-0d2f2aa22955.png|841.0994873046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/84cbeb83-b2fb-44c6-8bdb-0d2f2aa22955.png) [^172]
 
@@ -3430,7 +3454,7 @@ kubectl drain <node-name> --ignore-daemonsets --delete-emptydir-data
 
 \
 
-### **25Q.** **Kubernetes Deployment Strategies?**
+### **25Q.** **Kubernetes Deployment Strategies?**<!-- {"collapsed":true} -->
 
 ![11d4c853-3727-47c2-995d-e9e3b38b9d10.png|777.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/11d4c853-3727-47c2-995d-e9e3b38b9d10.png) [^173]
 
@@ -3625,6 +3649,125 @@ Compare with defined limits.
 
 Following this structured approach, you save time, avoid frustration, and debug with confidence!
 
+### **27Q. Kubernetes pods are ephemerals?**<!-- {"collapsed":true} -->
+
+Yes, Kubernetes pods are considered ephemeral. This means they are designed to be temporary and can be created and destroyed as needed. Pods can be replaced or rescheduled by Kubernetes, especially in response to changes in the cluster, such as node failures or scaling events.
+
+### **28Q. Kubernetes pod.yaml Practical Usage Guide?**<!-- {"collapsed":true} -->
+
+Kubernetes Pods are the fundamental building blocks of containerized applications, and the pod.yaml file is how we define and control them.
+
+Here I’ve broken down the structure of a pod.yaml for a simplified understanding.
+
+![5d0774a7-fa56-4384-9df7-003a2873a697.png|796.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5d0774a7-fa56-4384-9df7-003a2873a697.png) [^178]
+
+\
+
+Simply writing a pod.yaml isn’t enough - understanding how to apply, modify, and optimize it can save you from unnecessary troubleshooting, resource wastage, and deployment issues.
+
+\
+
+Understand these pointers to get the most out of pod.yaml.
+
+\
+
+**1. Applying and Managing pod.yaml**
+
+\
+
+```
+kubectl apply -f pod.yaml → Deploy a Pod
+```
+
+```
+kubectl delete -f pod.yaml → Remove it
+```
+
+```
+kubectl get pods, kubectl describe pod <pod-name> → Inspect
+```
+
+\
+
+**2. Editing and Updating a Running Pod**
+
+```
+kubectl edit pod <pod-name> → Live editing (some changes require recreation)
+```
+
+```
+kubectl apply -f pod.yaml → Updates only changed fields while preserving state
+```
+
+```
+kubectl replace --force -f pod.yaml → Deletes and recreates the resource (disruptive)
+```
+
+\
+
+\
+
+**3. Dry Run and Validate Before Deployment**
+
+```
+kubectl apply --dry-run=client -f pod.yaml → Test changes without applying
+```
+
+```
+kubectl apply --validate=true -f pod.yaml → Catch schema errors
+```
+
+\
+
+**4. Defining Resource Requests and Limits**
+
+Avoid OOMKills by setting:
+
+```
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+```
+
+\
+
+**5. Prevent unnecessary downtime by PodDisruptionBudget (PDB)**
+
+```
+kind: PodDisruptionBudget
+spec:
+  minAvailable: 1
+```
+
+\
+
+**6. Using Liveness, Readiness, and Startup Probes**
+
+Auto restart failed Pods using:
+
+```
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
+```
+
+\
+
+Your pod.yaml isn’t just a static definition, it's a powerful tool.
+
+Mastering it means less debugging, fewer outages, and smoother deployments.
+
+\
+
+![0c594f54-bcab-4f5c-80b6-81ea7b8e454b.png|756.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/0c594f54-bcab-4f5c-80b6-81ea7b8e454b.png) [^179]
+
 # <mark style="background-color:#F8914D;">**Docker**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ### **1Q. What is docker containerization?**<!-- {"collapsed":true} -->
@@ -3713,9 +3856,9 @@ In summary, Docker packages your application into containers that can run consis
 
 **Docker Architecture:**
 
-![ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg|649](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg) [^178]
+![ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg|649](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg) [^180]
 
-![f0df8362-a561-4f7f-b23a-1ef74337cb30.png|937](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/f0df8362-a561-4f7f-b23a-1ef74337cb30.png) [^179]
+![f0df8362-a561-4f7f-b23a-1ef74337cb30.png|937](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/f0df8362-a561-4f7f-b23a-1ef74337cb30.png) [^181]
 
 \
 
@@ -3895,7 +4038,7 @@ A **Dockerfile** is a text file that contains a series of instructions to build 
 
 - **`WORKDIR`**: Sets the working directory for any `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, and `ADD` instructions that follow (e.g., `WORKDIR /app`).
 
-![c2450288-cd5c-4578-b50e-f88311cdc101.png|548](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/c2450288-cd5c-4578-b50e-f88311cdc101.png) [^180]
+![c2450288-cd5c-4578-b50e-f88311cdc101.png|548](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/c2450288-cd5c-4578-b50e-f88311cdc101.png) [^182]
 
 \
 
@@ -3973,7 +4116,7 @@ systemctl commands will not work in containers
 
 Ex:
 
-![55d24192-8c42-46ab-8482-7ef33191568d.png|459](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/55d24192-8c42-46ab-8482-7ef33191568d.png) [^181]
+![55d24192-8c42-46ab-8482-7ef33191568d.png|459](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/55d24192-8c42-46ab-8482-7ef33191568d.png) [^183]
 
 \
 
@@ -4019,7 +4162,7 @@ Ex:
 
 - **Default Arguments**: When `ENTRYPOINT` is defined, `CMD` is often used to provide default arguments to the `ENTRYPOINT` command.
 
-![9d618288-e8f1-4aea-966b-5b5ddd178b7f.png|817](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9d618288-e8f1-4aea-966b-5b5ddd178b7f.png) [^182]
+![9d618288-e8f1-4aea-966b-5b5ddd178b7f.png|817](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9d618288-e8f1-4aea-966b-5b5ddd178b7f.png) [^184]
 
 \
 
@@ -4047,7 +4190,7 @@ The `ENV` instruction in a Dockerfile is used to set environment variables insid
 
 \
 
-![ec0a5176-60e3-47e5-8268-e54e70a110bd.png|740](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ec0a5176-60e3-47e5-8268-e54e70a110bd.png) [^183]
+![ec0a5176-60e3-47e5-8268-e54e70a110bd.png|740](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ec0a5176-60e3-47e5-8268-e54e70a110bd.png) [^185]
 
 \
 
@@ -4057,11 +4200,11 @@ The `ENV` instruction in a Dockerfile is used to set environment variables insid
 
 The `ARG` instruction in a Dockerfile defines a build-time variable that users can pass to the Docker build process to customize the image creation. Unlike environment variables set with `ENV`, `ARG` variables are not persisted in the final image, meaning they are only available during the image build process.
 
-![5785c489-6979-4915-aa3d-6f86755636df.png|501](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5785c489-6979-4915-aa3d-6f86755636df.png) [^184]
+![5785c489-6979-4915-aa3d-6f86755636df.png|501](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5785c489-6979-4915-aa3d-6f86755636df.png) [^186]
 
 \
 
-![1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png|1058.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png) [^185]
+![1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png|1058.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png) [^187]
 
 **Key Points**
 
@@ -4125,7 +4268,7 @@ The `WORKDIR` instruction in a Dockerfile sets the working directory for any sub
 
 - **Inheritance**: Once set, the `WORKDIR` applies to all subsequent instructions in the Dockerfile unless it's changed again with another `WORKDIR` instruction.
 
-![e42233b1-5bf4-419b-b6bb-6c003346a390.png|867](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e42233b1-5bf4-419b-b6bb-6c003346a390.png) [^186]
+![e42233b1-5bf4-419b-b6bb-6c003346a390.png|867](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e42233b1-5bf4-419b-b6bb-6c003346a390.png) [^188]
 
 In this example:
 
@@ -4143,7 +4286,7 @@ In this example:
 
 You can use multiple `WORKDIR` instructions in a Dockerfile to change the working directory at different stages.
 
-![e3fbe365-916f-434b-9716-aa02a444aab2.png|914](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e3fbe365-916f-434b-9716-aa02a444aab2.png) [^187]
+![e3fbe365-916f-434b-9716-aa02a444aab2.png|914](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e3fbe365-916f-434b-9716-aa02a444aab2.png) [^189]
 
 \
 
@@ -4171,27 +4314,27 @@ The `ONBUILD` instruction in a Dockerfile is used to specify a command that will
 
 - **Child Image**: When a child image is built from the parent image, any `ONBUILD` instructions specified in the parent image are executed during the build process of the child image.
 
-![4cf8595d-8026-460d-b31d-5a74ccd15dce.png|659](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4cf8595d-8026-460d-b31d-5a74ccd15dce.png) [^188]
+![4cf8595d-8026-460d-b31d-5a74ccd15dce.png|659](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4cf8595d-8026-460d-b31d-5a74ccd15dce.png) [^190]
 
 \
 
-![148c59f4-b295-4462-8351-72a017d88e36.png|721](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/148c59f4-b295-4462-8351-72a017d88e36.png) [^189]
+![148c59f4-b295-4462-8351-72a017d88e36.png|721](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/148c59f4-b295-4462-8351-72a017d88e36.png) [^191]
 
 \
 
 **Parent image creation**
 
-![d8ff6b60-1a8a-4437-9a96-d9da70737a08.png|905.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d8ff6b60-1a8a-4437-9a96-d9da70737a08.png) [^190]
+![d8ff6b60-1a8a-4437-9a96-d9da70737a08.png|905.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d8ff6b60-1a8a-4437-9a96-d9da70737a08.png) [^192]
 
 \
 
 **Child image creation (uses parent image)**
 
-![dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png|924.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png) [^191]
+![dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png|924.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png) [^193]
 
 \
 
-![89ce30a6-6752-423e-aa95-571c7953700e.png|1024.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/89ce30a6-6752-423e-aa95-571c7953700e.png) [^192]
+![89ce30a6-6752-423e-aa95-571c7953700e.png|1024.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/89ce30a6-6752-423e-aa95-571c7953700e.png) [^194]
 
 ### **30Q. What is Docker Networking?**<!-- {"collapsed":true} -->
 
@@ -4250,20 +4393,19 @@ Compose works in all environments, production, staging, development, testing, as
 
 - Run a one-off command on a service
 
+```
+docker compose up -d
+docker compose down
+```
 
-  ```
-  docker compose up -d
-  docker compose down
-  ```
-
-![9439ccf9-04f0-42eb-9904-1e069f89aa22.png|817.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9439ccf9-04f0-42eb-9904-1e069f89aa22.png) [^193]
+![9439ccf9-04f0-42eb-9904-1e069f89aa22.png|817.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9439ccf9-04f0-42eb-9904-1e069f89aa22.png) [^195]
 
 \
 
 | |
 |-|
 |**Key Features:**<!-- {"cell":{"align":"left","color":"#2A2A2A"}} -->|
-|[^194]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^196]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 ### **32Q. Docker best practices?**<!-- {"collapsed":true} -->
 
 1\. use official images
@@ -4284,9 +4426,9 @@ It mainly used in java application, For usually java applications we will get th
 
 \
 
-![887e52ec-a93f-4954-9922-7166a678fc53.png|768](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/887e52ec-a93f-4954-9922-7166a678fc53.png) [^195]
+![887e52ec-a93f-4954-9922-7166a678fc53.png|768](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/887e52ec-a93f-4954-9922-7166a678fc53.png) [^197]
 
-![6d3c3f51-7c71-4e4d-b455-1cf214832864.png|740](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/6d3c3f51-7c71-4e4d-b455-1cf214832864.png) [^196]
+![6d3c3f51-7c71-4e4d-b455-1cf214832864.png|740](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/6d3c3f51-7c71-4e4d-b455-1cf214832864.png) [^198]
 
 ### **34Q. Docker Volumes?**<!-- {"collapsed":true} -->
 
@@ -4302,14 +4444,13 @@ Docker volumes are two types
 
 1. Names Volumes    --Just as we create networks, we can also create Docker volumes.
 
-
-  ```
-  docker volume
-  docker volume create <volumename>
-  docker volume create nginx
-  docker volume inspect nginx
-  docker run -d -p 80:80 -v nginx:/usr/share/nginx/html nginx
-  ```
+```
+docker volume
+docker volume create <volumename>
+docker volume create nginx
+docker volume inspect nginx
+docker run -d -p 80:80 -v nginx:/usr/share/nginx/html nginx
+```
 
 ### **35Q. Docker Layers - How docker works?**<!-- {"collapsed":true} -->
 
@@ -4327,7 +4468,7 @@ How Layers Work
 
     1. Each subsequent command in the `Dockerfile` (like `RUN apt-get update`, `COPY . /app`, or `ENV VAR=value`) creates a new layer.
 
-    1. ![11370cc3-a33f-46d5-8d26-820bad5c5736.png|810.9954223632812](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/11370cc3-a33f-46d5-8d26-820bad5c5736.png) [^197]
+    1. ![11370cc3-a33f-46d5-8d26-820bad5c5736.png|810.9954223632812](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/11370cc3-a33f-46d5-8d26-820bad5c5736.png) [^199]
 
     1. These layers stack on top of each other, forming the final image.
 
@@ -4349,13 +4490,13 @@ Multiple images can share layers. For example, if two images use the same base i
 
 - **Storage Savings**: Since layers are shared across images, storage is used more efficiently.
 
-![004e11a5-a365-4fae-aa33-5831c74207f4.png|891.9907836914062](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/004e11a5-a365-4fae-aa33-5831c74207f4.png) [^198]
+![004e11a5-a365-4fae-aa33-5831c74207f4.png|891.9907836914062](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/004e11a5-a365-4fae-aa33-5831c74207f4.png) [^200]
 
 \
 
 ### **36Q. Docker disadvantages?**<!-- {"collapsed":true} -->
 
-![272239aa-6f8b-49d3-af12-5a28650234a8.png|995](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/272239aa-6f8b-49d3-af12-5a28650234a8.png) [^199]
+![272239aa-6f8b-49d3-af12-5a28650234a8.png|995](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/272239aa-6f8b-49d3-af12-5a28650234a8.png) [^201]
 
 
 ---
@@ -4376,7 +4517,7 @@ It helps you:
 
 It's a tool that keeps your code organized and helps you manage changes efficiently.
 
-![003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg|526.9791870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg) [^200]
+![003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg|526.9791870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg) [^202]
 
 \
 
@@ -4452,7 +4593,7 @@ It's a tool that keeps your code organized and helps you manage changes efficien
 
 **Answer:** To merge a branch into your current branch, you use the command `git merge branch_name`. This will integrate the changes from `branch_name` into your current branch.
 
-![230c4b3b-730f-4e9c-8c80-b2fd7508322c.png|345.9953918457031](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/230c4b3b-730f-4e9c-8c80-b2fd7508322c.png) [^201]
+![230c4b3b-730f-4e9c-8c80-b2fd7508322c.png|345.9953918457031](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/230c4b3b-730f-4e9c-8c80-b2fd7508322c.png) [^203]
 
 \
 
@@ -4460,7 +4601,7 @@ It's a tool that keeps your code organized and helps you manage changes efficien
 
 **Answer:**   Merge preservers history, rebase Restructure history.   when in doubt just merge, Never use rebase on public branches.
 
-![7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg|483.9930725097656](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg) [^202]
+![7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg|483.9930725097656](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg) [^204]
 
 \
 
@@ -4526,7 +4667,7 @@ A **fast-forward merge** in Git is like moving a bookmark forward in a book.
 
 In short, a fast-forward merge is a way of integrating changes that keeps the history simple and straightforward, without adding extra commits.
 
-![18602b10-a3f0-4b23-8959-6fda153ed2fe.png|339.9884338378906](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/18602b10-a3f0-4b23-8959-6fda153ed2fe.png) [^203]
+![18602b10-a3f0-4b23-8959-6fda153ed2fe.png|339.9884338378906](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/18602b10-a3f0-4b23-8959-6fda153ed2fe.png) [^205]
 
 \
 
@@ -4538,7 +4679,7 @@ In short, a fast-forward merge is a way of integrating changes that keeps the hi
 
 \
 
-![3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg|752.9977416992188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg) [^204]
+![3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg|752.9977416992188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg) [^206]
 
 ### **15Q. Explain the difference between `git pull` and `git fetch`.**
 
@@ -4809,7 +4950,7 @@ Avoid manual modifications of the state file.
 
 Example:
 
-![4e26c5e4-57da-4ba3-9b17-af04970e258f.png|762.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4e26c5e4-57da-4ba3-9b17-af04970e258f.png) [^205]
+![4e26c5e4-57da-4ba3-9b17-af04970e258f.png|762.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4e26c5e4-57da-4ba3-9b17-af04970e258f.png) [^207]
 
 \
 
@@ -5969,7 +6110,7 @@ Build triggers in Jenkins are mechanisms that automatically start a job or pipel
 
 - Yes, you can define conditional logic in the `Jenkinsfile` to run different stages or steps depending on the branch name. For example:
 
-![dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png|687](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png) [^206]
+![dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png|687](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png) [^208]
 
 \
 
@@ -7631,16 +7772,14 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
 [^104]: current-context: techopsexamples-context
 
 [^105]: 
-    
-      ```
-      kubectl config set-cluster techopsexamples-cluster --server=https://techopsexamples.cluster.com 
-      ```
+    ```
+    kubectl config set-cluster techopsexamples-cluster --server=https://techopsexamples.cluster.com 
+    ```
 
 [^106]: 
-    
-      ```
-      kubectl config set-credentials techopsexamples-user --token=abc123tokenxyz
-      ```
+    ```
+    kubectl config set-credentials techopsexamples-user --token=abc123tokenxyz
+    ```
 
 [^107]: Sample cleanup summary:
     UBETIO
@@ -8989,24 +9128,122 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     HOW OFTEN I DO IT
 
 [^175]: 
-    
-      ```
-      kubectl exec -it <pod_name> -- sh
-      ```
+    ```
+    kubectl exec -it <pod_name> -- sh
+    ```
 
 [^176]: 
-    
-      ```
-      ping <target_host>
-      ```
+    ```
+    ping <target_host>
+    ```
 
 [^177]: 
-    
-      ```
-      curl <target_url>
-      ```
+    ```
+    curl <target_url>
+    ```
 
-[^178]: Docker Images and Layers
+[^178]: KUBERNETES pod.yaml STRUCTURE BREAKDOWN
+    TECHOPSEXAMPLES.COM
+    apiVersion: v1
+    kind: Pod
+    Resource type (Pod in this case)
+    metadata:
+    name: techops-pod
+    Unique name for the Pod
+    labels :
+    To organize and select Pods
+    app: techops
+    App label, useful for selectors
+    tier: backend
+    To identify the application layer
+    spec :
+    containers :
+    Container (s) running in this Pod
+    name: techops-container
+    Name of the container
+    image: nginx : 1.23
+    > Docker image for the container
+    ports :
+    - containerPort: 80
+    Port the container exposes internally
+    env :
+    Environment variables for configuration
+    name : ENV
+    value: production
+    volumeMounts :
+    Volumes mounted inside the container
+    name: config-volume
+    > Volume defined in the "volumes" section
+    mountPath: /usr/share/nginx/html
+    > Mount point inside the container
+    volumes :
+    - name: config-volume
+    Name of the volume
+    configMap :
+    Use ConfigMap as the source
+    name: techops-config
+    Reference the ConfigMap named
+    "techops-config"
+    restartPolicy: Always
+    Pod restart policy ( Always, On Failure ,
+    or Never)
+    nodeSelector:
+    Schedule pod on specific nodes
+    disktype: ssd
+    Schedule only on nodes labeled with
+    " disktype = ssd "
+    tolerations :
+    Allows scheduling on tainted nodes
+    - key: "special-taint"-
+    Taint key to tolerate
+    operator: "Equal"
+    > (exact match) or Exists
+    value: "true"
+    Value to match
+    effect: "NoExecute"
+    Effect: NoSchedule (can't schedule),
+    NoExecute (evict)
+    securityContext :
+    Pod-level security settings
+    runAsUser: 1000
+    Run containers as this user ID
+    runAsGroup : 3000
+    >Run containers with this group ID
+    fsGroup : 2000
+    > Group ownership for mounted volumes
+    initContainers :
+    Runs before the main containers
+    name: init-techops
+    > Init container name
+    image: busybox
+    > Image for the init container
+    command: \["sh", "-c", "echo Init; sleep 5"\]
+    -> Setup commands
+
+[^179]: KUBERNETES COMMON ERRORS
+    SIMPLIFIED EXPLANATION
+    techopsexamples.com
+    1. CRASHLOOPBACKOFF
+    Pod restarts repeatedly because the
+    container keeps failing.
+    2. IMAGEPULLBACKOFF
+    Pod cannot start because Kubernetes
+    cannot pull the container image.
+    X X
+    3. OOMKILLED
+    Container is killed because it used
+    more memory than allowed.
+    4. NODENOTREADY
+    Pods cannot run because the node is
+    unhealthy or disconnected.
+    5. CONTAINERCREATING
+    Pod is stuck because storage or
+    network dependencies are not ready.
+    6. EVICTEDPODS
+    Pods are terminated to free resources
+    when the node runs out of memory.
+
+[^180]: Docker Images and Layers
     How the "IMAGE"
     Image
     -- appears.. when viewing
@@ -9063,7 +9300,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Dockerfile
     this
 
-[^179]: docker architecture
+[^181]: docker architecture
     docker run nginx
     1. docker shell/ docker command send a request to docker deamon
     2. docker engine receives the request
@@ -9072,7 +9309,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     5. if not available, it will pul from docker central hub, keep it in local.
     6. create container and response to client
 
-[^180]: Example of a Simple Dockerfile:
+[^182]: Example of a Simple Dockerfile:
     dockerfile
     Copy code
     # Use an official Node.js runtime as a parent image
@@ -9085,7 +9322,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     RUN npm install
     # Make port 3000 available to the
 
-[^181]: dockerfiles > CMD >
+[^183]: dockerfiles > CMD >
     Dockerfile
     1
     FROM almalinux : 8
@@ -9095,7 +9332,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     CMD
     \["nginx", "-g", "daemon off;"\]
 
-[^182]: Example
+[^184]: Example
     Dockerfile
     Copy code
     FROM ubuntu : 20 . 04
@@ -9106,7 +9343,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     You can override the \* CMD part by passing arguments to \* docker run, like docker run my-
     image Goodbye!' , which will execute \* echo Goodbye!" .
 
-[^183]: Example
+[^185]: Example
     Dockerfile
     Copy code
     FROM ubuntu : 20. 04
@@ -9122,7 +9359,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     The \*WORKDIR command uses the \* APP_HOME variable to set the working directory to
     /usr/src/app .
 
-[^184]: FROM almalinux : 8
+[^186]: FROM almalinux : 8
     2
     ARG username
     3
@@ -9132,7 +9369,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     5
     CMD \["sleep", "100"\]
 
-[^185]: docker build -t arg: v1 --build-arg username=satya
+[^187]: docker build -t arg: v1 --build-arg username=satya
     34 . 229. 144.33 \| 172. 31.22.2 \| t2.micro \| https: / /github. com/daws-76s/dockerfiles . git
     \[ centos@ip-172-31-22-2 \~/dockerfiles/ARG \]$ docker build -t arg:v1 --build-arg username=sivakumar
     \[+\] Building 0.1s (5/5) FINISHED
@@ -9160,7 +9397,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     0.
     Os
 
-[^186]: Syntax
+[^188]: Syntax
     Dockerfile
     Copy code
     WORKDIR /path/to/directory
@@ -9174,7 +9411,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     RUN make /usr/src/app
     CMD \[" . /app"\]
 
-[^187]: Dockerfile
+[^189]: Dockerfile
     Copy code
     WORKDIR /usr/src/app
     COPY
@@ -9185,7 +9422,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     "WORKDIR" changes the context to \* /usr/src/app/config" for the subsequent \* copy and RUN
     commands.
 
-[^188]: V
+[^190]: V
     REPOS
     dockerfiles > onbulid > <dockerfile > ..
     > Ansible
@@ -9215,7 +9452,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     > test
     dockerfile
 
-[^189]: REPOS
+[^191]: REPOS
     dockerfiles > onbulid > test > < dockerfile > ...
     > Ansible
     - 1
@@ -9237,15 +9474,15 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     dockerfile
     <> index.html
 
-[^190]: 3. 90. 236.230 \| 172. 31 . 44.186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
+[^192]: 3. 90. 236.230 \| 172. 31 . 44.186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
     \[ centosdip-172-31-44-186 \~/dockerfiles/onbulid \]$ docker build -t on:v1 .
     \[+\] Building 0.2s (8/8) FINISHED
 
-[^191]: 3. 90. 236.230 \| 172. 31. 44.186 \| t2.micro \| https: //github.com/chilops/dockerfiles.git
+[^193]: 3. 90. 236.230 \| 172. 31. 44.186 \| t2.micro \| https: //github.com/chilops/dockerfiles.git
     \[ centosdip-172-31-44-186 \~/dockerfiles/onbulid/test \]$ docker build -t on-test:v1
     \[+\] Building 0.2s (7/7) FINISHED
 
-[^192]: 3. 90. 236.230 \| 172. 31 . 44. 186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
+[^194]: 3. 90. 236.230 \| 172. 31 . 44. 186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
     centosdip-172-31-44-186 \~/dockerfiles/onbulid/test_\]$ docker run -d -p 8083:80 on-test:v1
     13232fb1 7da02cae8e6cdb27ccba2e276d1462bc140275ae3af448f7ff641943
     3. 90. 236.230 \| 172. 31. 44.186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
@@ -9282,7 +9519,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     0. 0. 0. 0:8083->80/tcp, : : :8083->80/tcp
     adoring_noether
 
-[^193]: . Dockerfile: Used to create and build Docker images.
+[^195]: . Dockerfile: Used to create and build Docker images.
     . Docker Compose: Used to run Docker containers as part of a multi-
     container setup or with specific runtime configs.
     Dockerfile
@@ -9306,7 +9543,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Docker Image
     Docker Container
 
-[^194]: 
+[^196]: 
     - **Orchestration:** Manages container communication, data sharing, and networking.
 
     - **Multi-Container Support:** Simplifies managing multiple services.
@@ -9319,14 +9556,14 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
 
     - **Volume Management:** Manages shared or persistent data.
 
-[^195]: Source code --> compile --> byte code (jar) --> run byte code
+[^197]: Source code --> compile --> byte code (jar) --> run byte code
     JDK --> Java development kit
     JRE --> Java runtime environment
     JDK > JRE and JRE is subset of JDK
     JDK memory > JRE memory
     I
 
-[^196]: REPOS
+[^198]: REPOS
     roboshop-docker > shipping > Dockerfile > FROM
     #
     > learn-jenkins
@@ -9390,7 +9627,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     rohnchon-infra-dow
     24
 
-[^197]: For example:
+[^199]: For example:
     Dockerfile
     Copy code
     FROM ubuntu : 20.04
@@ -9401,7 +9638,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     COPY . /app
     # Another new layer
 
-[^198]: 1. base image
+[^200]: 1. base image
     creates container out of first instruction, intermediate container
     2. runs second instruction in the container, creates image out of this
     3. creates container out of 2 instructions.
@@ -9414,7 +9651,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     creates container-3 out of this image-2
     RUNS
 
-[^199]: 1. we have a docker host where all containers are running
+[^201]: 1. we have a docker host where all containers are running
     what if docker host crash? we lose all containers
     even we use docker volumes, data is still in the host, so we lost data as well
     2. what if traffic increases/decreases? are our containers scalable
@@ -9424,7 +9661,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     6. what if we have multiple hosts running with containers
     I
 
-[^200]: Git Workflow
+[^202]: Git Workflow
     DEEP
     LEARNING
     NERDS
@@ -9445,11 +9682,11 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     git checkout
     git pull
 
-[^201]: Typical Merge
+[^203]: Typical Merge
     Before Merge
     After Merge
 
-[^202]: Git Merge & Rebase
+[^204]: Git Merge & Rebase
     @logicmojo
     GIT
     main
@@ -9481,11 +9718,11 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     git rebase
     G
 
-[^203]: Fast Forward Merge
+[^205]: Fast Forward Merge
     Before Merge
     After Merge
 
-[^204]: 243
+[^206]: 243
     CO
     change
     Code Base
@@ -9502,12 +9739,12 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Branch-
     -Merge
 
-[^205]: hcl
+[^207]: hcl
     Copy code
     variable "instance_type" {
     default = "t2.micro"
 
-[^206]: groovy
+[^208]: groovy
     Copy code
     pipeline {
     agent any
