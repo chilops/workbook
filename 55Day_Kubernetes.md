@@ -1,13 +1,13 @@
 ﻿---
 title: 55Day_Kubernetes
 uuid: ab83b9de-3f3f-11ef-b6cc-26e37c279344
-version: 605
+version: 652
 created: '2024-07-11T10:10:16+05:30'
 tags:
   - kubernetes
 ---
 
-# <mark style="background-color:#f8914d;">**Resources in POD**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#f8914d;">**Resources in POD**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ![a05fdef4-be06-486f-8b4f-2afe0a0b6062.png|1034.3333740234375](https://images.amplenote.com/ab83b9de-3f3f-11ef-b6cc-26e37c279344/a05fdef4-be06-486f-8b4f-2afe0a0b6062.png) [^1]
 
@@ -69,7 +69,7 @@ kubectl describe pod hello-pod
 
 \
 
-# <mark style="background-color:#f8914d;">**ConfigMap**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#f8914d;">**ConfigMap**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 Its nothing but a key value pair(to store parameters)
 
@@ -181,11 +181,20 @@ kubectl delete -f 08-pod-config.yaml
 
 \
 
+```
+echo -n "admin" | base64
+echo -n "admin123" | base64
+```
+
 ![](https://images.amplenote.com/ab83b9de-3f3f-11ef-b6cc-26e37c279344/10632602-1d44-46bd-8692-4b1556b01352.png) [^24]
 
 \
 
 To decode
+
+```
+echo -n "YWRtaW4=" | base64 --decode
+```
 
 ![](https://images.amplenote.com/ab83b9de-3f3f-11ef-b6cc-26e37c279344/45289484-5201-4140-b15c-1e0ea2cff28a.png) [^25]
 
@@ -209,13 +218,14 @@ git push & pull
 kubectl apply -f 09-secrets.yaml
 kubectl apply -f 10-pod-secrets.yaml
 kubectl exec -it secret-pod -- bash
+env
 ```
 
 ![e686b909-7cf7-43c8-ac59-51a779a828ba.png|1147.3333740234375](https://images.amplenote.com/ab83b9de-3f3f-11ef-b6cc-26e37c279344/e686b909-7cf7-43c8-ac59-51a779a828ba.png) [^29]
 
 \
 
-# <mark style="background-color:#f8914d;">**K8s Services**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#f8914d;">**K8s Services**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ![6655c8a3-7cbb-433e-95f8-0d4609aaed34.png|1172.3333740234375](https://images.amplenote.com/ab83b9de-3f3f-11ef-b6cc-26e37c279344/6655c8a3-7cbb-433e-95f8-0d4609aaed34.png) [^30]
 
@@ -227,7 +237,7 @@ every POD should attach to services
 
 \
 
-# <mark style="background-color:#f8914d;">**Cluster IP service in k8**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#f8914d;">**Cluster IP service in k8**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 <mark>Purely internal to Kubernetes to communicate between PODS</mark>
 
@@ -261,7 +271,7 @@ kubectl get pods
 \
 
 ```
-kubectl exec -it hello-pod -- bash
+kubectl exec -it nginx-pod -- bash
 curl 10.100.247.249
 ```
 
@@ -277,7 +287,7 @@ or
 
 \
 
-# <mark style="background-color:#f8914d;">**NodePort service in K8**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#f8914d;">**NodePort service in K8**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 <mark>**You can expose PODS to outside world**</mark>
 
@@ -324,7 +334,7 @@ Now its communicating to outside world ( Any node will communicate to outside wo
 
 \
 
-# <mark style="background-color:#f8914d;">**LoadBalancer service in K8**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#f8914d;">**LoadBalancer service in K8**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ![7abcbb1e-bc5b-428d-ad38-126a7b7c69e1.png|938](https://images.amplenote.com/ab83b9de-3f3f-11ef-b6cc-26e37c279344/7abcbb1e-bc5b-428d-ad38-126a7b7c69e1.png) [^49]
 
@@ -378,7 +388,7 @@ load balancer targets (auto created)
 
 \
 
-# <mark style="background-color:#f8914d;">**ReplicaSet**<!-- {"backgroundCycleColor":"24"} --></mark> 
+# <mark style="background-color:#f8914d;">**ReplicaSet**<!-- {"backgroundCycleColor":"24"} --></mark> <!-- {"collapsed":true} -->
 
 Set of Pods is ReplicaSet 
 
@@ -436,7 +446,7 @@ we can't control random ID
 
 \
 
-# <mark style="background-color:#f8914d;">**DeploymentSet**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#f8914d;">**DeploymentSet**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ![c45efcdd-98a5-4307-8b6b-ab226a4c27c6.png|708](https://images.amplenote.com/ab83b9de-3f3f-11ef-b6cc-26e37c279344/c45efcdd-98a5-4307-8b6b-ab226a4c27c6.png) [^65]
 

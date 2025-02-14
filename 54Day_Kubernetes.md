@@ -1,7 +1,7 @@
 ﻿---
 title: 54Day_Kubernetes
 uuid: e1fadbfa-3e81-11ef-8de4-6ef34fa959ce
-version: 246
+version: 254
 created: '2024-07-10T11:31:43+05:30'
 tags:
   - kubernetes
@@ -9,13 +9,13 @@ tags:
 
 \
 
-# <mark style="background-color:#f8914d;">**AWS EKS Workflow**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#f8914d;">**AWS EKS Workflow**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ![e0d0c567-3624-4f86-ae55-d498c9d29102.png|748](https://images.amplenote.com/e1fadbfa-3e81-11ef-8de4-6ef34fa959ce/e0d0c567-3624-4f86-ae55-d498c9d29102.png) [^1]
 
 \
 
-# <mark style="background-color:#f8914d;">**Installing Minikube**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#f8914d;">**Installing Minikube**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 installing minikube
 
@@ -35,7 +35,9 @@ terraform apply -auto-approve
 
 \
 
-# <mark style="background-color:#f8914d;">**Installing EKSCTL**<!-- {"backgroundCycleColor":"24"} --></mark>
+\
+
+# <mark style="background-color:#f8914d;">**Installing EKSCTL**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ![f8b80a57-9ad3-4bec-a7b3-f11b2fc1da9e.png|969.3333740234375](https://images.amplenote.com/e1fadbfa-3e81-11ef-8de4-6ef34fa959ce/f8b80a57-9ad3-4bec-a7b3-f11b2fc1da9e.png) [^4]
 
@@ -82,7 +84,7 @@ eksctl
 
 \
 
-# <mark style="background-color:#f8914d;">**Creating Cluster Nodes**<!-- {"backgroundCycleColor":"24"} --></mark> 
+# <mark style="background-color:#f8914d;">**Creating Cluster Nodes**<!-- {"backgroundCycleColor":"24"} --></mark> <!-- {"collapsed":true} -->
 
 spot instance use only for testing purposes, not to use in production
 

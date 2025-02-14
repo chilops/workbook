@@ -1,25 +1,26 @@
 ﻿---
 title: 53Day_Kubernetes
 uuid: 3bc33404-3aa7-11ef-8e08-6ef34fa959ce
-version: 837
+version: 883
 created: '2024-07-05T13:48:58+05:30'
+tags:
+  - kubernetes
 ---
 
-# <mark style="background-color:#f8914d;">**Docker Disadvantages**<!-- {"backgroundCycleColor":"24"} --></mark> 
+# <mark style="background-color:#f8914d;">**Docker Disadvantages**<!-- {"backgroundCycleColor":"24"} --></mark> <!-- {"collapsed":true} -->
 
 ![272239aa-6f8b-49d3-af12-5a28650234a8.png|995](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/272239aa-6f8b-49d3-af12-5a28650234a8.png) [^1]
 
 \
 
-# <mark>**Container Orchestrator**</mark><!-- {"collapsed":true} -->
-
----
+# <mark style="background-color:#F8914D;">**Container Orchestrator**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ![2d045dc5-72a0-4641-9fa8-01df6d8d62ed.png|672](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/2d045dc5-72a0-4641-9fa8-01df6d8d62ed.png) [^2]
 
-\
 
-# <mark>**Kubernetes Introduction**</mark>
+---
+
+# <mark style="background-color:#F8914D;">**Kubernetes Introduction**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 Kubernetes is a popular orchestration tool. Kubernetes is responsible to run and manage the containers.
 
@@ -35,7 +36,7 @@ Kubernetes is a popular orchestration tool. Kubernetes is responsible to run and
 
 \
 
-# <mark>**Minikube**</mark>
+# <mark>**Minikube**</mark><!-- {"collapsed":true} -->
 
 It's a single node cluster. (Master & Node are same) It is just to practice few K8(Kubernetes) resources.
 
@@ -298,7 +299,7 @@ kubectl get nodes
 
 \
 
-# <mark>**Namespace (Kubernetes resource)**</mark>
+# <mark>**Namespace (Kubernetes resource)**</mark><!-- {"collapsed":true} -->
 
 ![75a9b45c-b5bc-4658-81cc-c7bdff70c8b3.png|1067.3333740234375](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/75a9b45c-b5bc-4658-81cc-c7bdff70c8b3.png) [^38]
 
@@ -392,7 +393,7 @@ kubectl apply-f namespace.yaml
 
 \
 
-# <mark>**PODS -**</mark>In Kubernetes a pod is a space where your containers will run.
+# <mark>**PODS -**</mark>In Kubernetes a pod is a space where your containers will run.<!-- {"collapsed":true} -->
 
 ![00d911e8-1633-4dbd-a782-8f4e643a7982.png|373.3333435058594](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/00d911e8-1633-4dbd-a782-8f4e643a7982.png) [^51]
 
@@ -415,6 +416,10 @@ Its a basic RAW syntax to create pod
 \
 
 git push
+
+```
+git add . ; git commit -m "k8"; git push origin main
+```
 
 ![5695c8e0-8ae3-4962-a95f-ba98b99ed662.png|914](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/5695c8e0-8ae3-4962-a95f-ba98b99ed662.png) [^54]
 
@@ -498,7 +503,7 @@ kubectl get pods -n roboshop
 
 \
 
-# <mark>**Why multiple containers i a POD**</mark>
+# <mark>**Why multiple containers in a POD**</mark><!-- {"collapsed":true} -->
 
 ![8db0ae92-3b52-4882-bdd6-7fa16398847c.png|554](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/8db0ae92-3b52-4882-bdd6-7fa16398847c.png) [^64]![7e183e96-9aea-475d-9c0a-6cfb14804169.png|301](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/7e183e96-9aea-475d-9c0a-6cfb14804169.png) [^65]
 
@@ -543,7 +548,7 @@ so here it communicating with other container(Nginx) where nginx is running as s
 
 \
 
-# <mark>**Labels  - Its for filterations**</mark>
+# <mark>**Labels  - Its for filterations**</mark><!-- {"collapsed":true} -->
 
 By using labels(key value pairs) we can attach to other containers. It has more advantages in K8.
 
@@ -582,7 +587,7 @@ kubectl describe pod label-demo
 
 \
 
-# <mark>**Annotations**</mark>
+# <mark>**Annotations**</mark><!-- {"collapsed":true} -->
 
 ![8197b075-444c-4d0c-a358-29b7cb86f750.png|856.3333740234375](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/8197b075-444c-4d0c-a358-29b7cb86f750.png) [^77]
 
@@ -626,7 +631,7 @@ kubectl describe pod annotations
 
 \
 
-# <mark>**Kubernetes Environment**</mark>
+# <mark>**Kubernetes Environment**</mark><!-- {"collapsed":true} -->
 
 ![1dc61f8d-a2ba-42de-b5e8-28d478ddd716.png|904.3333740234375](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/1dc61f8d-a2ba-42de-b5e8-28d478ddd716.png) [^84]
 
