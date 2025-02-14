@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 7594
+version: 7651
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -11,7 +11,7 @@ tags:
 
 \
 
-# <mark style="background-color:#F3DE6C;">**Tell Me about yourself**<!-- {"backgroundCycleColor":"14"} --></mark><!-- {"collapsed":true} -->
+# <mark style="background-color:#F3DE6C;">**Tell Me about yourself**<!-- {"backgroundCycleColor":"14"} --></mark>
 
 1\*\*\*
 
@@ -27,23 +27,23 @@ I completed my MCA at Andhra University and have more than 9 years of experience
 
 2\*\*\*
 
-I joined TCS in 2019, I work at TCS as a solution architect and technical lead, managing several projects, including an internal one and two for external clients (e-commerce). 
+I joined TCS in 2019, I work at TCS as a AWS solution architect and Kubernetes administrator, I manage several projects independently, which includes one internal and two for external clients (e-commerce). 
 
 \
 
-I’ve spent the last five years exploring various technologies and working with different teams. Before TCS, I worked at companies like SIFY, Verizon, and Rootshell.
+I’ve spent the last five years exploring various technologies and working with different teams. Before TCS, I worked at companies like SIFY, Verizon, and AT&T.
 
 \
 
-TCS has allowed me to work with cloud and DevOps tools like AWS, Kubernetes, and Terraform. 
+TCS allowed me to work with cloud and DevOps tools like AWS, Kubernetes, and Terraform. 
 
 \
 
 3\*\*\*
 
-And I also work with the Center of Excellence team (CoE), engaging with clients to understand their on-premise systems and running POCs based on their requirements.
+And I also work with the Center of Excellence team (CoE), engaging with different clients to understand their on-premises infra and running POCs based on their requirements.
 
-I help set up AWS cloud infrastructure using Infrastructure as Code tools like Terraform, and we maintain custom Terraform modules. 
+I helped to set up AWS cloud infrastructure using Infrastructure as Code tools like Terraform, and we maintain custom Terraform modules. 
 
 \
 
@@ -51,23 +51,11 @@ I help set up AWS cloud infrastructure using Infrastructure as Code tools like T
 
 For the past two years, I’ve been working as a Kubernetes administrator, using AWS EKS for deployments. 
 
-We manage legacy applications (apps) on VMs and also have autoscaling in place for both VMs and EKS. 
-
-\
-
-We deploy applications written in NodeJS, Java, and Python using Jenkins CICD, while a separate team manages our databases like MySQL and MongoDB.
+We manage legacy applications (apps) on VMs and also, we have autoscaling in place for both VMs and EKS clusters. 
 
 \
 
 5\*\*\*
-
-For deploying applications on Kubernetes, we use Helm charts. Our practices follow industry standards, such as the **shift-left** approach and the "**build once, run anywhere**" principle,
-
-And we use **Jenkins shared libraries** to make the process more efficient.
-
-\
-
-6\*\*\*
 
 Our tech stack consists of:
 
@@ -89,27 +77,15 @@ Our tech stack consists of:
 
 \
 
-7\*\*\*
-
-We have centralized pipelines that developers use to deploy applications, the entire process fully automated from development **(DEV)** to production **(PROD)**. 
-
-This way, developers can focus entirely on coding, without worrying about deployment.
-
-\
-
-We use JIRA for project management, we get tickets from project leaders or from developers.
-
-\
-
 8\*\*\*
 
-As a key member of the COE, I help in bringing projects to TCS. We focus on finding ways to migrate monolithic applications to microservices and aim to lower project costs by automating the infrastructure as much as we can using tools like Ansible and shell scripts after the applications go live.
+As a key member of the COE team, I help in bringing projects to TCS. We focus on finding ways to migrate monolithic applications to microservices and aim to lower project costs by automating the infrastructure as much as we can by using tools like Ansible and shell scripts after the applications go live.
 
 \
 
 9\*\*\*
 
-Although I initially wanted to start my career as a Linux administrator, I began as a storage administrator.
+Although I initially wanted to start my career as a Linux administrator, but I began as a storage administrator.
 
 For the first five years, I managed SAN storage arrays like EMC, Hitachi, PURE, and NetApp, along with backup tools such as NetBackup, Clumio, and TSM. 
 
