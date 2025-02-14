@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 7569
+version: 7594
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -137,7 +137,7 @@ The primary reason I'm exploring new opportunities is for salary growth. Over th
 
 # 
 
-# <mark style="background-color:#F8914D;">**Kubernetes**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#F8914D;">**Kubernetes**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ![88d372c0-b6a9-4552-b6c6-3fb5bb051292.png|667](https://images.amplenote.com/602cceb4-48a2-11ef-bf57-26e37c279344/88d372c0-b6a9-4552-b6c6-3fb5bb051292.png) [^1]
 
@@ -391,7 +391,7 @@ You would typically use `eksctl` to set up an EKS cluster and then use `kubectl`
 
 \
 
-### **4Q. Namespace (Kubernetes resource)**
+### **4Q. Namespace (Kubernetes resource)**<!-- {"collapsed":true} -->
 
 Namespace --> it is like a project in your Kubernetes cluster to provision your project resources. it is isolated
 
@@ -614,7 +614,7 @@ LoadBalancer services are ideal for applications that need to be exposed to the 
 
 \
 
-### **14Q. Explain ReplicaSet in Kubernetes? & ReplicaSet Vs Replication Controllers?**
+### **14Q. Explain ReplicaSet in Kubernetes? & ReplicaSet Vs Replication Controllers?**<!-- {"collapsed":true} -->
 
 In Kubernetes, a ReplicaSet ensures that a specified number of identical copies (replicas) of a pod are running at any given time. Imagine you have an important application, and you want to make sure that there are always exactly three instances of it running. A ReplicaSet will keep an eye on these instances and make sure there are always three. If one of them fails or gets deleted, the ReplicaSet will automatically create a new one to replace it.
 
@@ -1586,7 +1586,7 @@ Key Concepts of Prometheus in Kubernetes:
 
 \
 
-### **35Q. Kubernetes Networking?**<!-- {"collapsed":true} -->
+### **35Q. Kubernetes Networking?**
 
 -  Kube DNS makes an entry whenever a new service is created, thus helping name resolution.
 
@@ -1597,6 +1597,30 @@ Key Concepts of Prometheus in Kubernetes:
 -  Use Ingress with Service type=LoadBalancer, so that it'll help you create only one Load Balancer even though you have multiple Services to expose.
 
 \
+
+### **36Q. Labels vs Selectors?**<!-- {"collapsed":true} -->
+
+**Labels**:
+
+- **Definition**: Labels are key-value pairs attached to Kubernetes objects, like pods.
+
+- **Purpose**: They help identify, organize, and categorize resources.
+
+- **Example**: `app: frontend`, `env: production`.
+
+**Selectors**:
+
+- **Definition**: Selectors are queries or filters used to identify and group resources based on their labels.
+
+- **Purpose**: They enable you to manage and select a specific set of resources that match certain criteria.
+
+- **Example**: A label selector could be `app: frontend` to select all pods with this label, or a set-based selector like `env in (production, staging)` to select pods with `env` as either `production` or `staging`.
+
+In short:
+
+- **Labels** are attributes you assign to objects.
+
+- **Selectors** are used to filter and group objects based on those labels.
 
 # <mark style="background-color:#F8914D;">**Kubernetes scenario-based questions**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
