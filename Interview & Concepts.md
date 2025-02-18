@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 7651
+version: 7677
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -11,7 +11,7 @@ tags:
 
 \
 
-# <mark style="background-color:#F3DE6C;">**Tell Me about yourself**<!-- {"backgroundCycleColor":"14"} --></mark>
+# <mark style="background-color:#F3DE6C;">**Tell Me about yourself**<!-- {"backgroundCycleColor":"14"} --></mark><!-- {"collapsed":true} -->
 
 1\*\*\*
 
@@ -113,7 +113,7 @@ The primary reason I'm exploring new opportunities is for salary growth. Over th
 
 # 
 
-# <mark style="background-color:#F8914D;">**Kubernetes**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
+# <mark style="background-color:#F8914D;">**Kubernetes**<!-- {"backgroundCycleColor":"24"} --></mark>
 
 ![88d372c0-b6a9-4552-b6c6-3fb5bb051292.png|667](https://images.amplenote.com/602cceb4-48a2-11ef-bf57-26e37c279344/88d372c0-b6a9-4552-b6c6-3fb5bb051292.png) [^1]
 
@@ -498,7 +498,7 @@ Secrets help keep your application’s sensitive data secure, reducing the risk 
 
 \
 
-### **10Q. Kubernetes services?**<!-- {"collapsed":true} -->
+### **10Q. Kubernetes services? (cluster IP, node port, load balancer)**<!-- {"collapsed":true} -->
 
 ![6655c8a3-7cbb-433e-95f8-0d4609aaed34.png|1028.9814453125](https://images.amplenote.com/ab83b9de-3f3f-11ef-b6cc-26e37c279344/6655c8a3-7cbb-433e-95f8-0d4609aaed34.png) [^18]
 
@@ -626,7 +626,7 @@ So, in short, a ReplicaSet is an improved version of a Replication Controller wi
 
 ### **15Q. Explain Deployment in Kubernetes?**<!-- {"collapsed":true} -->
 
-A **Deployment** in Kubernetes is a higher-level abstraction that manages a group of Pods and their ReplicaSets. It provides a declarative way to manage application updates, scaling, and rollbacks, making it easier to maintain the desired state of an application.
+A **Deployment** in Kubernetes is a higher-level idea that manages a group of Pods and their ReplicaSets. It provides a declarative way to manage application updates, scaling, and rollbacks, making it easier to maintain the desired state of an application.
 
 Here’s a brief overview:
 
@@ -1598,7 +1598,7 @@ In short:
 
 - **Selectors** are used to filter and group objects based on those labels.
 
-# <mark style="background-color:#F8914D;">**Kubernetes scenario-based questions**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
+# <mark style="background-color:#F8914D;">**Kubernetes scenario-based questions**<!-- {"backgroundCycleColor":"24"} --></mark>
 
 ### **1Q. Understanding Kubernetes CreateContainerError?**<!-- {"collapsed":true} -->
 
@@ -3593,7 +3593,7 @@ Following this structured approach, you save time, avoid frustration, and debug 
 
 Yes, Kubernetes pods are considered ephemeral. This means they are designed to be temporary and can be created and destroyed as needed. Pods can be replaced or rescheduled by Kubernetes, especially in response to changes in the cluster, such as node failures or scaling events.
 
-### **28Q. Kubernetes pod.yaml Practical Usage Guide?**
+### **28Q. Kubernetes pod.yaml Practical Usage Guide?**<!-- {"collapsed":true} -->
 
 Kubernetes Pods are the fundamental building blocks of containerized applications, and the pod.yaml file is how we define and control them.
 
