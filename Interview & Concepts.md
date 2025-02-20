@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 7677
+version: 7757
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -678,7 +678,7 @@ In Kubernetes (K8s), the terms **stateless** and **stateful** refer to how appli
 
 **Stateless in Kubernetes**
 
-- **Definition:** In Kubernetes, a stateless application does not retain any data or state between different requests or sessions. Each pod (a pod is the smallest deployable unit in Kubernetes) can be replaced, scaled up, or down without any concern for data persistence.
+- **Definition:** In Kubernetes, a stateless application does not retain any data or state between different requests or sessions. Each pod can be replaced, scaled up, or down without any concern for data persistence.
 
 - **Usage:** Stateless applications are often used for web servers, API servers, or microservices that don't need to keep any session or state information.
 
@@ -696,7 +696,9 @@ In Kubernetes (K8s), the terms **stateless** and **stateful** refer to how appli
 
 **Stateful in Kubernetes**
 
-- **Definition:** Stateful applications, on the other hand, retain data or state between different requests or sessions. Each pod in a stateful application may have a unique identity, persistent storage, and possibly a specific order of deployment.
+- **Definition:** **A StatefulSet** in Kubernetes is used to manage and maintain the deployment and scaling of a set of pods, ensuring each one has a unique, stable network identity and persistent storage. This is useful for applications that require stable and predictable pod names or persistent storage, like databases or other stateful applications.
+
+For example, if you're running a database that needs to keep data even if the pod is restarted or rescheduled, a StatefulSet makes sure that data is not lost and that each pod is uniquely identifiable.
 
 - **Usage:** Stateful applications are often used for databases, message queues, or any service that needs to keep track of state information, such as user sessions, transactions, or data persistence.
 
@@ -814,13 +816,19 @@ Filebeat, when deployed in Kubernetes, provides a robust solution for log aggreg
 
 \
 
-### **20Q. <mark style="background-color:#FFFFFF;">What is DeamonSet & Fluentd in k8?<!-- {"backgroundCycleColor":"11"} --></mark>**<!-- {"collapsed":true} -->
+### **20Q. <mark style="background-color:#FFFFFF;">What is DeamonSet & Fluentd in k8?<!-- {"backgroundCycleColor":"11"} --></mark>   DaemonSet Vs Deployment?**
 
 DeamonSet will make sure a POD runs in each and every worker node. If you delete one worker node a POD in it will delete and if we add new worker node to a cluster, then DeamonSet will automatically create POD. (when you create POD, it will create 3 pods in 3 cluster nodes).
 
 <mark style="background-color:#F8914D;">**DeamonSet**<!-- {"backgroundCycleColor":"24"} --></mark> <mark>**- It will make sure a pod runs in each and every node.**</mark> <mark style="background-color:#F8914D;">**Fluentd**<!-- {"backgroundCycleColor":"24"} --></mark> <mark>**will be deployed as DeamonSet that can access the underlying host logs and send them to ELK.**</mark>
 
 \
+
+- Both Deployments and DaemonSets are similar to each other. Both take responsibility of managing Pods and try to maintain the desired state.
+
+- Use Deployments for Stateless Services (front ends), where scaling up and down won't affect Application's functionality.
+
+- Use DaemonSets when it is essential to run pods on each node (or some nodes), and they have to start before any other pods.
 
 ### **21Q. External volumes in K8? (PV, PVC)**<!-- {"collapsed":true} -->
 
@@ -994,7 +1002,7 @@ Imagine you want to deploy a web app with a database in Kubernetes. Instead of m
 
 \
 
-### **24Q. Explain StatefulSet in Kubernetes?**<!-- {"collapsed":true} -->
+### **24Q. Explain StatefulSet in Kubernetes?**
 
 A **StatefulSet** in Kubernetes is used to manage stateful applications. Unlike Deployments (which are used for stateless apps), StatefulSets ensure that each pod has a unique, stable identity and persistent storage.
 
@@ -1022,7 +1030,7 @@ Each pod gets its own persistent storage (`1Gi` each) using a `volumeClaimTempla
 
 **Now each POD will have each volume in  StatefulSet**
 
-In StatefulSet PV & volumes wont delete( so that we can use the data present in the volumes for new pods)
+In StatefulSet PV & volumes won't delete (so that we can use the data present in the volumes for new pods)
 
 ### **25Q. Headless service in Kubernetes?**<!-- {"collapsed":true} -->
 
@@ -1200,37 +1208,57 @@ This ensures efficient resource usage, allowing the app to handle varying worklo
 
 ### **29Q. Ingress controller in K8?**<!-- {"collapsed":true} -->
 
-An **Ingress Controller** in Kubernetes is a special type of controller that manages access to services in a cluster, typically HTTP and HTTPS traffic. It listens for changes to **Ingress** resources and configures a load balancer (or reverse proxy) to route traffic based on the rules defined in those Ingress resources.
+**You might wonder while we already have `LoadBalancer` as service type, why do we even need Ingress?**
 
-Here’s a breakdown:
+1. Well, if you want to expose more than one `service` to the internet, If you use service type `LoadBalancer`, Your cloud provider will create one load balancer for each service, and that's too expensive.
 
-- **Service**: In Kubernetes, a service exposes your app running inside pods.
+1. So we use ingress as a wrapper to those services and use only one cloud load balancer.
 
-- **Ingress**: This defines the routing rules to your services from the outside world (like how to reach your app via a specific URL).
+1. Ingress sits between service and Internet and redirects every request to service based on ingress rules.
 
-- **Ingress Controller**: It’s a piece of software (usually a load balancer or reverse proxy) that actually implements those rules and makes them work. Without it, the Ingress rules have no effect.
-
-**Example Setup (Step-by-Step)**
-
-1. **Create a Kubernetes Service** Let's say you have a service running in your Kubernetes cluster that serves a simple web app.
-
-![bb3810c8-1b1e-414d-a526-9855980f7ba9.png|767.0023193359375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/bb3810c8-1b1e-414d-a526-9855980f7ba9.png) [^60]
+![91b54575-7b03-4d32-b1f6-81f810d1cc64.png|585.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/91b54575-7b03-4d32-b1f6-81f810d1cc64.png) [^60]
 
 \
 
-1. **Create an Ingress Resource** This defines how the traffic from outside the cluster should reach your service. For example, we want to route traffic from `my-app.example.com` to the `my-service` inside Kubernetes.<!-- {"offset":1} -->
-
-![0daadd4d-f9b7-4293-bac5-419ea58b0b9e.png|776.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/0daadd4d-f9b7-4293-bac5-419ea58b0b9e.png) [^61]
+An **Ingress Controller** in Kubernetes is like a traffic director that manages external access to your services within a Kubernetes cluster. It routes incoming requests from outside the cluster to the appropriate services inside the cluster based on rules you define.
 
 \
 
-3\.**Deploy an Ingress Controller (Nginx example)** You need an ingress controller like **NGINX Ingress Controller** or **Traefik** to manage the Ingress resource. If you're using NGINX, you would deploy it using:
+**Example:**
 
-```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-```
+Imagine you have two services in your Kubernetes cluster:
 
-1. **Access your app via Ingress** Now, once the ingress controller is running, and assuming DNS is set up for `my-app.example.com`, any HTTP request to `my-app.example.com` will be routed to the `my-service` in your Kubernetes cluster.<!-- {"offset":3} -->
+1. A web application (`web-app-service`)
+
+1. An API service (`api-service`)
+
+You want users to access these services using the same domain, but with different paths:
+
+- `http://yourdomain.com/app` should go to `web-app-service`
+
+- `http://yourdomain.com/api` should go to `api-service`
+
+Here's how you can set this up with an Ingress Controller:
+
+1. **Deploy an Ingress Controller** (e.g., NGINX Ingress Controller) in your Kubernetes cluster.
+
+1. **Create an Ingress Resource** with rules to route traffic to the appropriate services.
+
+Here's a simple Ingress Resource YAML configuration:
+
+![717f4861-ba40-42e1-bc5d-044fb56cc4fc.png|709.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/717f4861-ba40-42e1-bc5d-044fb56cc4fc.png) [^61]
+
+\
+
+In this example, the Ingress Controller will route requests to
+
+`http://yourdomain.com/app` to the `web-app-service`, and requests to 
+
+`http://yourdomain.com/api` to the `api-service`.
+
+It's like having a smart receptionist who directs callers to the right department based on the number they dial.
+
+\
 
 **Key Points:**
 
@@ -1240,11 +1268,9 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 
 - Without an Ingress Controller, an Ingress resource alone won’t do anything.
 
-![9ff19e7c-8373-49db-a890-c1cf4dba94b6.png|815](https://images.amplenote.com/e043608c-4586-11ef-a034-26e37c279344/9ff19e7c-8373-49db-a890-c1cf4dba94b6.png) [^62]
-
 \
 
-![ffd1731d-4432-46c7-a3ea-aafe071363c0.png|1180](https://images.amplenote.com/e043608c-4586-11ef-a034-26e37c279344/ffd1731d-4432-46c7-a3ea-aafe071363c0.png) [^63]
+![ffd1731d-4432-46c7-a3ea-aafe071363c0.png|1180](https://images.amplenote.com/e043608c-4586-11ef-a034-26e37c279344/ffd1731d-4432-46c7-a3ea-aafe071363c0.png) [^62]
 
 \
 
@@ -1368,7 +1394,7 @@ It's similar to canary, Version B is released to a subset of users under specifi
 
 ### **31Q. <mark style="background-color:#FFFFFF;">EKS Upgrade using Blue/green?<!-- {"backgroundCycleColor":"11"} --></mark>**<!-- {"collapsed":true} -->
 
-![b516011f-340f-45ee-a4b2-17d99ee76fb6.png|1090](https://images.amplenote.com/ddc6c490-47dc-11ef-8674-6ef34fa959ce/b516011f-340f-45ee-a4b2-17d99ee76fb6.png) [^64]
+![b516011f-340f-45ee-a4b2-17d99ee76fb6.png|1090](https://images.amplenote.com/ddc6c490-47dc-11ef-8674-6ef34fa959ce/b516011f-340f-45ee-a4b2-17d99ee76fb6.png) [^63]
 
 \
 
@@ -1418,7 +1444,7 @@ A **Toleration** is applied to a pod, allowing it to be scheduled on nodes that 
 
 Example of a toleration in a pod spec:
 
-![588b55ad-33d5-49bf-8097-1a8b408dd865.png|803.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/588b55ad-33d5-49bf-8097-1a8b408dd865.png) [^65]
+![588b55ad-33d5-49bf-8097-1a8b408dd865.png|803.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/588b55ad-33d5-49bf-8097-1a8b408dd865.png) [^64]
 
 \
 
@@ -1434,7 +1460,7 @@ This allows the pod to tolerate the `key=value:NoSchedule` taint and be schedule
 
     - **Tolerate** it in the pod spec:
 
-![92902108-ecfc-4949-a8c1-ae2be66625ad.png|747.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/92902108-ecfc-4949-a8c1-ae2be66625ad.png) [^66]
+![92902108-ecfc-4949-a8c1-ae2be66625ad.png|747.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/92902108-ecfc-4949-a8c1-ae2be66625ad.png) [^65]
 
 \
 
@@ -1478,7 +1504,7 @@ Example: Node Affinity
 
 In this example, we want to ensure that a pod runs only on nodes labeled as `disktype=ssd`.
 
-![2f3d91be-d3be-4ff8-904d-98a32130fb73.png|801.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/2f3d91be-d3be-4ff8-904d-98a32130fb73.png) [^67]
+![2f3d91be-d3be-4ff8-904d-98a32130fb73.png|801.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/2f3d91be-d3be-4ff8-904d-98a32130fb73.png) [^66]
 
 - **`requiredDuringSchedulingIgnoredDuringExecution`**: This means the scheduler must place the pod on a node that meets the affinity rules, but once the pod is running, any changes to the node (like removing the label) won’t affect the pod.
 
@@ -1496,7 +1522,7 @@ Example: Pod Affinity
 
 In this example, the pod will be scheduled near other pods with the label `app=my-app`.
 
-![ef8f275b-4b45-4be9-9c87-f1d657209189.png|685](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ef8f275b-4b45-4be9-9c87-f1d657209189.png) [^68]
+![ef8f275b-4b45-4be9-9c87-f1d657209189.png|685](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ef8f275b-4b45-4be9-9c87-f1d657209189.png) [^67]
 
 \
 
@@ -1522,7 +1548,7 @@ Example: Pod Anti-Affinity
 
 In this example, we want to prevent two pods with the label `app=my-app` from being scheduled on the same node:
 
-![02f0c7dc-c70b-44ce-b0bc-f86b915a6bec.png|720](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/02f0c7dc-c70b-44ce-b0bc-f86b915a6bec.png) [^69]
+![02f0c7dc-c70b-44ce-b0bc-f86b915a6bec.png|720](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/02f0c7dc-c70b-44ce-b0bc-f86b915a6bec.png) [^68]
 
 **Key Concepts**:
 
@@ -1562,7 +1588,7 @@ Key Concepts of Prometheus in Kubernetes:
 
 \
 
-### **35Q. Kubernetes Networking?**
+### **35Q. Kubernetes Networking?**<!-- {"collapsed":true} -->
 
 -  Kube DNS makes an entry whenever a new service is created, thus helping name resolution.
 
@@ -1618,19 +1644,19 @@ While these two errors may sound alike, they happen at different stages in the c
 
 You can detect the error by running the kubectl get pods command:
 
-![b4c6540a-c62f-4fba-b90d-216292076007.png|726.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/b4c6540a-c62f-4fba-b90d-216292076007.png) [^70]
+![b4c6540a-c62f-4fba-b90d-216292076007.png|726.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/b4c6540a-c62f-4fba-b90d-216292076007.png) [^69]
 
 \
 
 When starting a container, Kubernetes goes through the initialization process, where it pulls the image, allocates resources, and mounts volumes. If any of these steps fail, Kubernetes triggers a`CreateContainerError`.
 
-![809093d9-93d8-4bbc-9dd2-de6985b7b455.png|694.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/809093d9-93d8-4bbc-9dd2-de6985b7b455.png) [^71]
+![809093d9-93d8-4bbc-9dd2-de6985b7b455.png|694.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/809093d9-93d8-4bbc-9dd2-de6985b7b455.png) [^70]
 
 \
 
 **Common Causes for CreateContainerError:**
 
-![2e8241b7-cc6a-4a8d-b60b-a4edfaa2f60c.png|701.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/2e8241b7-cc6a-4a8d-b60b-a4edfaa2f60c.png) [^72]
+![2e8241b7-cc6a-4a8d-b60b-a4edfaa2f60c.png|701.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/2e8241b7-cc6a-4a8d-b60b-a4edfaa2f60c.png) [^71]
 
 \
 
@@ -1650,7 +1676,7 @@ kubectl describe pod techops-examples
 
 We can see that the container is in the “**Waiting**” state with the reason listed as`CreateContainerError`
 
-![acfd78f7-d238-4b82-8241-7c487dc11571.png|668.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/acfd78f7-d238-4b82-8241-7c487dc11571.png) [^73]
+![acfd78f7-d238-4b82-8241-7c487dc11571.png|668.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/acfd78f7-d238-4b82-8241-7c487dc11571.png) [^72]
 
 \
 
@@ -1678,7 +1704,7 @@ kubectl get events --field-selector involvedObject.name=techops-examples
 
 **Example Output:**
 
-![bd525f04-69f3-44a3-a940-d74591459815.png|819.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/bd525f04-69f3-44a3-a940-d74591459815.png) [^74]
+![bd525f04-69f3-44a3-a940-d74591459815.png|819.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/bd525f04-69f3-44a3-a940-d74591459815.png) [^73]
 
 **4. Validate Resource Availability**
 
@@ -1698,7 +1724,7 @@ kubectl top nodes
 
 If the image specified is incorrect, ensure the correct image is pulled by providing a valid image name and tag:
 
-![24dd3cef-d551-4a1d-b3eb-30fbdd1f9a60.png|813.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/24dd3cef-d551-4a1d-b3eb-30fbdd1f9a60.png) [^75]
+![24dd3cef-d551-4a1d-b3eb-30fbdd1f9a60.png|813.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/24dd3cef-d551-4a1d-b3eb-30fbdd1f9a60.png) [^74]
 
 If the error is caused by a missing command, add a valid entrypoint to the image.
 
@@ -1708,7 +1734,7 @@ If the error is caused by a missing command, add a valid entrypoint to the image
 
 If the container is failing due to insufficient resources, adjust the resource requests and limits in the Pod configuration to fit the available resources on the node:
 
-![f4050c46-c4b0-4382-b821-927d878298c4.png|730](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/f4050c46-c4b0-4382-b821-927d878298c4.png) [^76]
+![f4050c46-c4b0-4382-b821-927d878298c4.png|730](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/f4050c46-c4b0-4382-b821-927d878298c4.png) [^75]
 
 \
 
@@ -1716,7 +1742,7 @@ If the container is failing due to insufficient resources, adjust the resource r
 
 If the issue is with missing or misconfigured volumes, verify that the correct PersistentVolumeClaim (PVC) is available and referenced properly:
 
-![6a7f8e34-0409-4c3f-8a79-0ab94b96be14.png|718.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/6a7f8e34-0409-4c3f-8a79-0ab94b96be14.png) [^77]
+![6a7f8e34-0409-4c3f-8a79-0ab94b96be14.png|718.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/6a7f8e34-0409-4c3f-8a79-0ab94b96be14.png) [^76]
 
 in this example, ensure that the`data-pvc`exists in the namespace and that it is correctly configured.
 
@@ -1742,14 +1768,14 @@ Look for errors related to the container runtime and restart the kubelet or runt
 
 The `RunContainerError` indicates that the container couldn’t initiate. When you see this error, it means the application inside hasn’t started because the container itself encountered a failure before it could begin loading the application.
 
-![5118e85b-6c3c-4421-9f7a-41cbd2b049b7.png|650.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5118e85b-6c3c-4421-9f7a-41cbd2b049b7.png) [^78]
+![5118e85b-6c3c-4421-9f7a-41cbd2b049b7.png|650.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5118e85b-6c3c-4421-9f7a-41cbd2b049b7.png) [^77]
 
 \
 
 | |
 |-|
 |If your pod status shows `RunContainerError`, it’s often due to:<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^79]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^78]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
 **How to Fix RunContainerError:**
@@ -1760,7 +1786,7 @@ The `RunContainerError` indicates that the container couldn’t initiate. When y
 |Start by describing the Pod to check for specific error events.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |Look for any error messages in the "Message" field, such as `permission denied`, `file not found`, or `invalid command`.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |In the below example, the error `permission denied` indicates a file permission issue with `/app/start.sh`.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![a98cfcf5-8cfe-43f7-9ae2-f954a4d931b4.png|633.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/a98cfcf5-8cfe-43f7-9ae2-f954a4d931b4.png) [^80]
+![a98cfcf5-8cfe-43f7-9ae2-f954a4d931b4.png|633.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/a98cfcf5-8cfe-43f7-9ae2-f954a4d931b4.png) [^79]
 
 \
 
@@ -1770,7 +1796,7 @@ The `RunContainerError` indicates that the container couldn’t initiate. When y
 |-|
 |If the container started briefly before failing, check logs for any application-specific error messages.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |If you see errors like `Permission denied` or `Command not found`, it points to issues with permissions or command configurations in the container.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![7608df8f-9c50-41e2-9f27-a9b7a3571279.png|692.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/7608df8f-9c50-41e2-9f27-a9b7a3571279.png) [^81]
+![7608df8f-9c50-41e2-9f27-a9b7a3571279.png|692.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/7608df8f-9c50-41e2-9f27-a9b7a3571279.png) [^80]
 
 \
 
@@ -1780,7 +1806,7 @@ The `RunContainerError` indicates that the container couldn’t initiate. When y
 |-|
 |Check that any referenced [ConfigMaps](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzoEMTHGsgc5RDOw3YicjdbRfElTkEucsYD3-2FZPpJ40M8P3zPoA4P7N0U2-2Fgj-2BQi3Dfk5sqTdlXGZpkgqnNu9I1dZKPlTDjn8PuOm-2FznXXh-2FfgO5H0tMfzGx-2F0KgRiTqw4CrCVmYo957m2nsr7PB2D0SmYaPi38yfawXTjxCI5Lthj22BIBVXHxG7Xy5g9PJFwtmDrdVgTSWjtTEVUiGiCXEiN8OQRdqBX65DiqmEbctx8atqo5Wmn2CSmE4huKO1gUyGGIXBmMC77m0cGaMV6s9ioV6ghEVT8ujfSM3ew-2Fy116y_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BjaHND7Q7q19Gr09UT2PH623IlOraGpalaZyo7O9i1vNUpSj2Q1S2Gm4tqK0yRj1iTBQxsF038mbPzbdRjmBY9gAO9C2lLLeVopA0WnFtTIlZ-2F7AGTIfhpS4Ja5kpRLyU2v74gtHzPlVJLUjJypRhbHT3i8kc7jftzT9LzmzxEwBlNJ-2FFFIaVOwUuttMpjdp525qknjte2-2BvHsynaN5IEXMP1Yh0tEgceLsdkCODUbFmgb6Wyk-2FQmzbUbVIktlJK3LTtkEvWc3IrP8C-2BkaDDeAelpjLnE8J9rvVa05OPvo2gCDByzFe0PKyndMqAu8AtHHBZrTlZeLAFtFuUQWOnAmMCKkaTECA5ksqsVZbsClcyiXkwjuoAk4YtD47ItfoQO), [Secrets](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzoEMTHGsgc5RDOw3YicjdbRfElTkEucsYD3-2FZPpJ40MPz982QMXOC7JR-2FXrbemaZP-2FDcUzYLS1-2F3Yz8eYp0In-2BG3GUKflPUshloMldYhsJz6NJkAtzLiKdSYzsY3WcXhLBrmVDrWGU3wTC8CzkEDcFJUY-2FNwsaDBt18yFKrCdBqxNmVZu6Y-2BauVOeUQdxIo4NcXpZYEUvE-2FHdoGxSlHawX4imR8UvQdHKqTqR0oxF2IGbNNNJrF7gcrFJnE8sacDl7E-2BmrJ6i9gYrHTMCR5qYI-3DAbzg_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BjaHND7Q7q19Gr09UT2PH623IlOraGpalaZyo7O9i1vNUpSj2Q1S2Gm4tqK0yRj1iTBQxsF038mbPzbdRjmBY9gAO9C2lLLeVopA0WnFtTIlZ-2F7AGTIfhpS4Ja5kpRLyU2v74gtHzPlVJLUjJypRhbHT3i8kc7jftzT9LzmzxEwBlNJ-2FFFIaVOwUuttMpjdp525qknjte2-2BvHsynaN5IEXMP1Yh0tEgceLsdkCODUbFn0Uy1MdOvYnWtqSJa3T7vSLuf3j5wO4mPSmOvu7FzvZ5MFI327d4YHAzluaGjkZyUl1bMSgtGzIkNwTW8EiXbZ6ys8yGhwvzgIPujlRMTMO-2BuyaJMQx2NndF8Z7C8dyH96obigxVORIOGdkiyAwQpn), or [PersistentVolumes](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzoEMTHGsgc5RDOw3YicjdYDEG2O23DlumNLJfc0FLzXH9beJrChUX4OMD-2B21aD-2Byw8PaBOExu32p4Wzhpp2hxM1-2FlK-2Fp8DNjoWg9xb2QN9BOS67B-2BhQlI-2BBVGP53WDk3Y2U1F6gdU6-2FFk5i-2FWxAlZrl1RObgyysNXWw-2B-2BWEqm2oBghrG3X8Txbr-2FXZJWblU7PLZRzW5p2v-2FAq1NikNpWXbIWzl-2F26byL-2BglKOre-2BnlUZHQu55FKlhjjZQMdfBHvzNQzqHNo-2BYGbufcpcg8q2YfBzblYJZQmdl1V5ABbtUJOL8ik_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BjaHND7Q7q19Gr09UT2PH623IlOraGpalaZyo7O9i1vNUpSj2Q1S2Gm4tqK0yRj1iTBQxsF038mbPzbdRjmBY9gAO9C2lLLeVopA0WnFtTIlZ-2F7AGTIfhpS4Ja5kpRLyU2v74gtHzPlVJLUjJypRhbHT3i8kc7jftzT9LzmzxEwBlNJ-2FFFIaVOwUuttMpjdp525qknjte2-2BvHsynaN5IEXMP1Yh0tEgceLsdkCODUbFnUU1pS7OIfB-2BEe-2BCc98-2BtxUbdFFF01aGY8k4MAQPIoSOpcMPm7pQaaTHHNLpwojJzSTfKlnFJ8rVh6VJgg1tP80Zxl8ysWNDDhA7Keb0RULaAFqqCBj7rSc9i0TL16bXoqLoXUm5KhLBwrCJ6zGvze) are correctly defined and available.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |If you receive `Error from server (NotFound)`, the ConfigMap or Secret is missing, causing `RunContainerError`.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![b01b1c1d-5355-4d1f-84f7-b6c11ebb973e.png|680](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/b01b1c1d-5355-4d1f-84f7-b6c11ebb973e.png) [^82]
+![b01b1c1d-5355-4d1f-84f7-b6c11ebb973e.png|680](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/b01b1c1d-5355-4d1f-84f7-b6c11ebb973e.png) [^81]
 
 \
 
@@ -1790,7 +1816,7 @@ The `RunContainerError` indicates that the container couldn’t initiate. When y
 |-|
 |Verify the [command and args](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzoEMTHGsgc5RDOw3Yicjdb4DpoM7ZkYT1-2FkIgchkXU9dleIRSN6Sh1rqT1-2FthM7FhDoHe50NjkVX-2BjMdje2TPy5DCjETfTTbzwaOPy3VmiJuAfTJK975qdpFu80-2FlT9OO1DELEZpGgdwcnBcCMezJ62HvvokopVF7Tm5W2kBgNrHu5CJSJzRprsu8BHygSPMUsvY9juE0cW8jojYM9EuoFhs95FusVzDo7inb2fLEPem25A8clvFgaEpdsrX36yIEybUr34n97ZrSSjG-2FXxLoy22v-2F7Y9-2F6HjoBldRP1Ed-2FLu4VJQsD9RxxpTO6V2LBzRjaeKIVhYfGNqb0ntM457U-3DezwJ_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BjaHND7Q7q19Gr09UT2PH623IlOraGpalaZyo7O9i1vNUpSj2Q1S2Gm4tqK0yRj1iTBQxsF038mbPzbdRjmBY9gAO9C2lLLeVopA0WnFtTIlZ-2F7AGTIfhpS4Ja5kpRLyU2v74gtHzPlVJLUjJypRhbHT3i8kc7jftzT9LzmzxEwBlNJ-2FFFIaVOwUuttMpjdp525qknjte2-2BvHsynaN5IEXMP1Yh0tEgceLsdkCODUbFkRqqVe8-2BrkEjsEWK3SGdzT5aQNktZ4RcueAaY6Ufvi-2F0TlDoF2R-2FOzUO4YjWQFlfhiEJ9PaUBgqPsgaRUJQvGZFFgV13HM58I0r36nhq8TKd-2FvDuT0m1ggayBUZnf0BeMUXY-2BiFMvMqV1ajplJRVhe) fields in your Pod’s specification. If these commands or paths are incorrect, the container won’t start.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |Ensure the command path (`/app/start.sh` in this example) exists within the container and has the correct permissions.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![b34df2d7-c557-4299-b687-50a5c25c643e.png|695.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/b34df2d7-c557-4299-b687-50a5c25c643e.png) [^83]
+![b34df2d7-c557-4299-b687-50a5c25c643e.png|695.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/b34df2d7-c557-4299-b687-50a5c25c643e.png) [^82]
 
 \
 
@@ -1800,7 +1826,7 @@ The `RunContainerError` indicates that the container couldn’t initiate. When y
 |-|
 |Check if the [security context](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzoEMTHGsgc5RDOw3Yicjdb4sqbS4heXKapxSw6rcQmh9FbGAvtrnwcn95Bd8R63rTKG3QJN8b-2B7xFhRFZC76aYU6bbUwszKaxdjqZyDH9L-2FG-2BUaELvstbS5VvN2dhvmsIhREJfwUCAvk5pomz9sKmesK4BTIMt3sKkc0YwKD1tPLmZN71Z3mHBbCK9j6cxSL961agGHxGFKJBJLygbmUhgIUCI6UXc0mIleONKWMYPa2qPJQaRVNRDNc3OF7t1S-2B0PTi22YevE2r1WcfkeytrpHPtKMMRTabqg-2FP5tFnV7s8k6X593deMedwTCGE9LAEg-3D-3D-YgL_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BjaHND7Q7q19Gr09UT2PH623IlOraGpalaZyo7O9i1vNUpSj2Q1S2Gm4tqK0yRj1iTBQxsF038mbPzbdRjmBY9gAO9C2lLLeVopA0WnFtTIlZ-2F7AGTIfhpS4Ja5kpRLyU2v74gtHzPlVJLUjJypRhbHT3i8kc7jftzT9LzmzxEwBlNJ-2FFFIaVOwUuttMpjdp525qknjte2-2BvHsynaN5IEXMP1Yh0tEgceLsdkCODUbFl8mE3IgqFjAkjZAtwUmX8GHbsPv9JYRDlw2peRxAPvcxzWwoHYtbA9cEyyBgpkri3jFHCGEQqxaMCVR7nc4IftKiQdsCg3pC6jbBS-2F-2Fi5awezkpK0ceUnrQxZVWTwaYlQTU3H-2BbQwJ19Dd-2B3dXSm2u) is properly configured in pod.yaml, as incorrect user/group settings can lead to permissions errors.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |Verify that runAsUser and runAsGroup match the requirements of your container image.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![d83ecb17-fc70-46a1-9f1c-1f1ca5246110.png|714.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d83ecb17-fc70-46a1-9f1c-1f1ca5246110.png) [^84]
+![d83ecb17-fc70-46a1-9f1c-1f1ca5246110.png|714.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d83ecb17-fc70-46a1-9f1c-1f1ca5246110.png) [^83]
 
 \
 
@@ -1816,7 +1842,7 @@ Some images require specific permissions to start. If needed, adjust the Pod’s
 |-|
 |If the error message includes “permission denied,” ensure that the relevant files and directories have the correct permissions.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |The file should have executable permissions (e.g., -rwxr-xr-x).<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![86babf8f-fb75-44d5-8fde-f94225c204f4.png|752.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/86babf8f-fb75-44d5-8fde-f94225c204f4.png) [^85]
+![86babf8f-fb75-44d5-8fde-f94225c204f4.png|752.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/86babf8f-fb75-44d5-8fde-f94225c204f4.png) [^84]
 
 ### **3Q. Kubernetes Security Contexts Simplified?**<!-- {"collapsed":true} -->
 
@@ -1828,17 +1854,17 @@ Some images require specific permissions to start. If needed, adjust the Pod’s
 
 - To keep things simple, let's break this down into three scenarios: pod-level, container-level, and a mix of both.
 
-![9bada6e7-381d-413e-a8ae-7ea106c6c01c.png|707.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9bada6e7-381d-413e-a8ae-7ea106c6c01c.png) [^86]
+![9bada6e7-381d-413e-a8ae-7ea106c6c01c.png|707.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9bada6e7-381d-413e-a8ae-7ea106c6c01c.png) [^85]
 
 | |
 |-|
 |**Key Best Practices Settings To Know:**<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^87]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^86]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
 **Pod-Level Example:** In this case, all containers inherit security settings from the pod's security context. Everything here is applied uniformly, meaning both the app and log containers share the same security settings. Quick, easy, and straightforward.
 
-![b9524fa4-a540-42d2-8843-f3d8c7f6b3a3.png|280.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/b9524fa4-a540-42d2-8843-f3d8c7f6b3a3.png) [^88]
+![b9524fa4-a540-42d2-8843-f3d8c7f6b3a3.png|280.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/b9524fa4-a540-42d2-8843-f3d8c7f6b3a3.png) [^87]
 
 \
 
@@ -1848,7 +1874,7 @@ Some images require specific permissions to start. If needed, adjust the Pod’s
 
 Notice how the log-container has a different runAsUser and a custom Seccomp profile. This approach gives you fine-grained control, allowing different containers to operate under distinct security rules within the same pod.
 
-![923462f1-3422-42ef-a016-814103a42c28.png|493.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/923462f1-3422-42ef-a016-814103a42c28.png) [^89]
+![923462f1-3422-42ef-a016-814103a42c28.png|493.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/923462f1-3422-42ef-a016-814103a42c28.png) [^88]
 
 \
 
@@ -1856,13 +1882,13 @@ Notice how the log-container has a different runAsUser and a custom Seccomp prof
 
 Here, the app-container overrides the runAsUser field from the pod, but all other settings, like allowPrivilegeEscalation and readOnlyRootFilesystem, stick to the pod-level defaults. This provides flexibility without complicating the configuration.
 
-![ace9f179-fa71-4169-8138-eac23a23f1d6.png|602.0023193359375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ace9f179-fa71-4169-8138-eac23a23f1d6.png) [^90]
+![ace9f179-fa71-4169-8138-eac23a23f1d6.png|602.0023193359375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ace9f179-fa71-4169-8138-eac23a23f1d6.png) [^89]
 
 \
 
 **Overview of all Security Context settings and default values discussed so far.**
 
-![f4a4dc38-b3ab-4ad8-97bf-525267a7c47e.png|762.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/f4a4dc38-b3ab-4ad8-97bf-525267a7c47e.png) [^91]
+![f4a4dc38-b3ab-4ad8-97bf-525267a7c47e.png|762.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/f4a4dc38-b3ab-4ad8-97bf-525267a7c47e.png) [^90]
 
 \
 
@@ -1882,7 +1908,7 @@ Kubernetes provides basic IP-based security for each pod, but securing your clus
 
 However, many open-source tools and plugins can help manage these issues.
 
-![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5d72e34d-e30e-42e4-8470-128ad7b8d0f8.png) [^92]
+![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5d72e34d-e30e-42e4-8470-128ad7b8d0f8.png) [^91]
 
 \
 
@@ -1891,7 +1917,7 @@ However, many open-source tools and plugins can help manage these issues.
 | |
 |-|
 |[Kube-bench](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CwTg6WbK-2FgHXZZ2BsztZCENRn0hssy9y-2F-2F7hs08pD3-2BFxGTE4QWgFqu-2FOisOexTCYnbSFaPgjidgR6fUnuU8NeJIahbej-2FIGutSETVnXgy1HASCRPqGlQ0tkbQNUShSwpXeuPtQOxuxEh-2B3kETVe5b0k-2FXFHiFxo7cCmZ-2FIABh8IVuX-2Fct4vnwZJ82rKTyfK-2FPwAsySsKgPVOa7MV0VLP65xhORbxmY-2BrGM6eVcp6nAyqk03rVGLpmzLYR3psFEepTsEShxgRMc64y-2BbAhddDrw-3DFpzM_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B7YB7gnhmXey-2FPVRuvGrvMVMRM6kb-2FSAO-2BTF2n-2BZmMTd2mvJ6vXNfQK3HKF8rDXHj6ZFcr-2Fa2a3yZgyeTi31JYgq7bIjG8QGMARkNk1-2BorCJgf4I3MDlHF-2F4DIu5jyA6kWqzzRQ9YZSz69UDcgAzNk3g2JlgxTEEtDSXePt6FERC2WZR49p3NdsfeEoh7sjlPk6-2FUOs0IpEEUQSRkpns-2BfJwJjkhPEzUcpg6kbsd3VVhCrn4i7VPbFmn5bScvDNDXtViyr5WoWzlnSGich-2BwU0Mn2ZcTZbkayXmipvwWHG88RrZw-2FjATrGPJU08OJlzGDbBKto930lvQhLLC9U-2F4syC8cXNxGyyGMB5tRVRVBySsIT2nrnBEWSktjQZdMesBQ) is a tool that checks Kubernetes clusters for compliance with security best practices, based on the [CIS Kubernetes Benchmark](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7Cy8xgPB1oBLVbka1cCA8FslnZK520O8vjZBKEzLVZMK4e91LknEUGCZliVIIUXjvpJ8dFPWaDIBT7e9M2icynvDx-2BdrYYGPhckmr-2F8tqkTNlLxB-2BeNxG2vm8GCn-2FgSir5gwCbNy-2FMn4RQiAJggbwvWfgBMCQnMzobmLvi-2BmELD36DCj3JFlnI-2B6KXKHUmm1Qk6Kva14KYeQRTt4q4D92STBBUnQ199fCNrqvI2oHPkRqDt9MguXiFRzRzxeVu0dgmX6jP8bUaGrT63V-2FaNDdCvI-3Dbxed_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B7YB7gnhmXey-2FPVRuvGrvMVMRM6kb-2FSAO-2BTF2n-2BZmMTd2mvJ6vXNfQK3HKF8rDXHj6ZFcr-2Fa2a3yZgyeTi31JYgq7bIjG8QGMARkNk1-2BorCJgf4I3MDlHF-2F4DIu5jyA6kWqzzRQ9YZSz69UDcgAzNk3g2JlgxTEEtDSXePt6FERC2WZR49p3NdsfeEoh7sjlPk6-2FUOs0IpEEUQSRkpns-2BfJwJjkhPEzUcpg6kbsd3VVj4rjEWEVRTNr52yokOLrP4oTFXQwA-2BLwGJy-2BYDD-2BiuBONbjWudhQi92UW9jaZglykt3-2FGZjJweZqGOJl8W01FQbtFEXbH18Npfu-2BIiYOxZMJJlmLmCFkodqfpAQErAnavlqHckeA6eI0Ux5Wgyt5Ok). It helps identify vulnerabilities and misconfigs, providing detailed reports for remediation.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^93]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^92]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
 **2.** [**Stern**](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7C-2F-2Fm9oD-2FrmORlH5RUAG14B1FMrkpIOITbOMOcqBfe4FgiCjh377CVETLlSa-2FHytFK93iYLM00V4MHGgIvcB8xCK7x8TbbLMiP7gv6k1u45He8Ciel-2BmH6wj6tyljNnOgBL6uqgK9sNhOWzO1eqYbvtLB64v8yRQs17zC6iQTNeUhYuiYEU8oLMGD3blEHez9iNQdW8DfOIyKsZrTwLDJwzKcCFPckSKdC28sRxeErYmhItBq8smOU3373t6bmLVW6A-3D-3DzFp5_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B7YB7gnhmXey-2FPVRuvGrvMVMRM6kb-2FSAO-2BTF2n-2BZmMTd2mvJ6vXNfQK3HKF8rDXHj6ZFcr-2Fa2a3yZgyeTi31JYgq7bIjG8QGMARkNk1-2BorCJgf4I3MDlHF-2F4DIu5jyA6kWqzzRQ9YZSz69UDcgAzNk3g2JlgxTEEtDSXePt6FERC2WZR49p3NdsfeEoh7sjlPk6-2FUOs0IpEEUQSRkpns-2BfJwJjkhPEzUcpg6kbsd3VVhiDV43PwBCQIbcXaip75-2FvH1GeKToPfyKU7RHQ7PoPDXFZ8A9K8iJDzvk3-2BAMWxeYmWBiYW1ogBZaXeclXs-2Fr0b0Pl4M1MkNXS3fm4fH8kCsMLnnCLpB3L2t1xmQ6Z-2FLB6ChpHz6-2F1LN6q-2FJ-2FIFIIU) 
@@ -1899,7 +1925,7 @@ However, many open-source tools and plugins can help manage these issues.
 | |
 |-|
 |[Stern](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7C-2F-2Fm9oD-2FrmORlH5RUAG14B1FMrkpIOITbOMOcqBfe4FgiCjh377CVETLlSa-2FHytFK93iYLM00V4MHGgIvcB8xCK7x8TbbLMiP7gv6k1u45He8Ciel-2BmH6wj6tyljNnOgBL6uqgK9sNhOWzO1eqYbvtLB64v8yRQs17zC6iQTNeUhkmGcPRB89ZCDSxxSiQXyfEZFK-2FT-2ByqKKttQKGoVetS7Gffzch7e1KSKGLlGjp74abCJlAClZzSFjcl9rfH9nvw-3D-3D-bPj_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B7YB7gnhmXey-2FPVRuvGrvMVMRM6kb-2FSAO-2BTF2n-2BZmMTd2mvJ6vXNfQK3HKF8rDXHj6ZFcr-2Fa2a3yZgyeTi31JYgq7bIjG8QGMARkNk1-2BorCJgf4I3MDlHF-2F4DIu5jyA6kWqzzRQ9YZSz69UDcgAzNk3g2JlgxTEEtDSXePt6FERC2WZR49p3NdsfeEoh7sjlPk6-2FUOs0IpEEUQSRkpns-2BfJwJjkhPEzUcpg6kbsd3VVjHufM-2BPrxUMpJV1hpI1JI-2FHfrd8-2FW6yITQBtNMRqBnihF-2BDC6EGUx8B81O7bTQTMlDt6EYXHclS55jwTabzC3o2B6NPdRewkQkPNZZrEzKgdPPBswG7ZMqnVhxchYSAGgqbm3UydRhe6kfZTer27xw) allows you to tail multiple pods and containers in Kubernetes, with color-coded log results for faster debugging.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^94]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^93]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
 **3.** [**Kubescore**](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7Cyl7hHvn9qaayFE6A26mG7elv2Xnt12LOEyIIH7BKQiZwGaYBROpz9T2EObYmAzP-2FbOvipLNaGiJQ12ZP49s3jolx1ZjwjTRE-2F3Y2KDJlfWx6WMo3deYqFH-2Bp5IdDiK7k-2B6aM734-2B6Nh-2BT9Q-2BWyfZXUffLE-2FJq4yUDhJoCaVSOY1KJ-2B4QkOcsb53njWVJWQEDQY57gsHNdYe4ltmQqX5kD6HrAr1y96GYSQl8g4Dn3-2Baol-2FppA4OLD9HAPo4LwNwKg-3D-3DOaLH_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B7YB7gnhmXey-2FPVRuvGrvMVMRM6kb-2FSAO-2BTF2n-2BZmMTd2mvJ6vXNfQK3HKF8rDXHj6ZFcr-2Fa2a3yZgyeTi31JYgq7bIjG8QGMARkNk1-2BorCJgf4I3MDlHF-2F4DIu5jyA6kWqzzRQ9YZSz69UDcgAzNk3g2JlgxTEEtDSXePt6FERC2WZR49p3NdsfeEoh7sjlPk6-2FUOs0IpEEUQSRkpns-2BfJwJjkhPEzUcpg6kbsd3VVj7JkBwqNZf2LVLHp8ac4oJqKo-2F2bn9ipKUdOWJJAypHnNgiR1sGqZnplGDFIw1KAhipEfhSW7AoZ-2BCgFI4yv5XuiSKZ2DE5ChpvY1Skm0TjCPC5y3wMjimHZI3eTmoBk9iapzPVQ52sBiiYdZkdpsh) 
@@ -1907,7 +1933,7 @@ However, many open-source tools and plugins can help manage these issues.
 | |
 |-|
 |[Kube-score](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7Cyl7hHvn9qaayFE6A26mG7elv2Xnt12LOEyIIH7BKQiZwGaYBROpz9T2EObYmAzP-2FbOvipLNaGiJQ12ZP49s3jolx1ZjwjTRE-2F3Y2KDJlfWx6WMo3deYqFH-2Bp5IdDiK7k-2B6aM734-2B6Nh-2BT9Q-2BWyfZXUffLE-2FJq4yUDhJoCaVSOY1KJ-2B4QkOcsb53njWVJWQEDbyG4Y7oYpZ3xTWz5KaWR7D22-2FdVOt7GPvAAZpHuscbnNpeV8izxIp1jDvagfW4UXA-3D-3DnwD2_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B7YB7gnhmXey-2FPVRuvGrvMVMRM6kb-2FSAO-2BTF2n-2BZmMTd2mvJ6vXNfQK3HKF8rDXHj6ZFcr-2Fa2a3yZgyeTi31JYgq7bIjG8QGMARkNk1-2BorCJgf4I3MDlHF-2F4DIu5jyA6kWqzzRQ9YZSz69UDcgAzNk3g2JlgxTEEtDSXePt6FERC2WZR49p3NdsfeEoh7sjlPk6-2FUOs0IpEEUQSRkpns-2BfJwJjkhPEzUcpg6kbsd3VVjhGMJrK5SUbDKkBxeVH6jGnp2Gp6rGwVnf0ztmo1TSAiDDtr6Mh2cIGdKMm5YedS8mvMh3WIiyctVPkSohfnUcxonvcByytF6N08P6BGUHZf7G2Jpnor5c412X7xO-2B-2BhwVJVQUfASHdDYi-2FhsqPDO-2B) is a tool that performs static code analysis of your Kubernetes object definitions, checking them against best practices to ensure proper configurations.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^95]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^94]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
 **4.** [**Kubiscan**](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7C9BQDmNYwKjko-2BhTEs7dI3jmPP2YcZf9G8LFRZdUaI9OrMWN0J0kMZ-2BI-2BgWVd-2FgV0eT23Ox2ISND9aSja2paBeoiwu-2BhLaB7BpXF3ZYs8hKaIcfsI05CjlzTfd-2FpM8w8v3-2Bm-2B4zmZgB-2B3VekRtg7nFYwrcXsSH2kTIn-2BjIDnbbaxNUALBRZvAhrnuaQTg3H9nJUnwRmaY6YwSgwMLqI5Lq77LSUadTl27PRoyzyuBsO-2F8CdtQvJzHNTCaW0EA-2BEKog-3D-3DlVcS_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B7YB7gnhmXey-2FPVRuvGrvMVMRM6kb-2FSAO-2BTF2n-2BZmMTd2mvJ6vXNfQK3HKF8rDXHj6ZFcr-2Fa2a3yZgyeTi31JYgq7bIjG8QGMARkNk1-2BorCJgf4I3MDlHF-2F4DIu5jyA6kWqzzRQ9YZSz69UDcgAzNk3g2JlgxTEEtDSXePt6FERC2WZR49p3NdsfeEoh7sjlPk6-2FUOs0IpEEUQSRkpns-2BfJwJjkhPEzUcpg6kbsd3VVhGuJ9EGLUR65XFLdjj40-2BfsuLG1GWibJ8DgvjnrIHiW5N-2F9NGKVqKZXP7lHGB0Rjv-2FWmxbqQkOdgvHuXIAAGvy-2Bil-2BjkRdmPzSBouKsT87BbyU3TKMcHwoBaW-2B9ddOKg3tRtmkzUKLXoVPNc5hXNkD) 
@@ -1915,7 +1941,7 @@ However, many open-source tools and plugins can help manage these issues.
 | |
 |-|
 |[KubiScan](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7C9BQDmNYwKjko-2BhTEs7dI3jmPP2YcZf9G8LFRZdUaI9OrMWN0J0kMZ-2BI-2BgWVd-2FgV0eT23Ox2ISND9aSja2paBeoiwu-2BhLaB7BpXF3ZYs8hKaIcfsI05CjlzTfd-2FpM8w8v3-2Bm-2B4zmZgB-2B3VekRtg7nFYwrcXsSH2kTIn-2BjIDnbbaxNUALBRZvAhrnuaQTg3H9nDxO16PRNezRsRXjBM0ZwCer4moMcWuQSt11oF5-2FZU9w8cSLo6kIlOAXZdmdrSMDIg-3D-3DlKhd_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B7YB7gnhmXey-2FPVRuvGrvMVMRM6kb-2FSAO-2BTF2n-2BZmMTd2mvJ6vXNfQK3HKF8rDXHj6ZFcr-2Fa2a3yZgyeTi31JYgq7bIjG8QGMARkNk1-2BorCJgf4I3MDlHF-2F4DIu5jyA6kWqzzRQ9YZSz69UDcgAzNk3g2JlgxTEEtDSXePt6FERC2WZR49p3NdsfeEoh7sjlPk6-2FUOs0IpEEUQSRkpns-2BfJwJjkhPEzUcpg6kbsd3VVj-2B9pZleMlTPSM7kqbIXFUleWKApXONd52y7fg7f7DJF-2BpvtYVMQu1z7mWKa2mecB9J9RJ26pAISh99ek2OigRonyEzHxiwd1GAjAmYdrUOYzjh9CwIKUsTfLfj6U5L9-2BPg0hvsI7fRe4hDURBsX7bb) is a tool for scanning Kubernetes clusters for risky permissions in the RBAC authorization model.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^96]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^95]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
 **5.** [Rakkess](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7C6-2Fq5ob0uCCfdx0ogv-2FXbyMJPc2FUSAh-2BBmru4NxD5BmI9BWkdzOqRJxGLxNpw8z9JSTfINBq4qCGS9pXD1xQ2SFGMcUlynjyzvvECl9mUEGoWRo-2BGDKmJ3N82bVZdS6YwazqmUlAtC94PwYOV9AFpsdm0aHeG4pohSyyJ91Q1g3mK-2FYGn5E6FeWb0VHMZDznfIDiZnVV47iEjmOb-2FPrzqNq9apnEgZjIBrsYL3moLdmvqON7ak7qv2yduYkpKM8i6kpFkmgqZ9y46vrqX5IosY-3DnDli_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B7YB7gnhmXey-2FPVRuvGrvMVMRM6kb-2FSAO-2BTF2n-2BZmMTd2mvJ6vXNfQK3HKF8rDXHj6ZFcr-2Fa2a3yZgyeTi31JYgq7bIjG8QGMARkNk1-2BorCJgf4I3MDlHF-2F4DIu5jyA6kWqzzRQ9YZSz69UDcgAzNk3g2JlgxTEEtDSXePt6FERC2WZR49p3NdsfeEoh7sjlPk6-2FUOs0IpEEUQSRkpns-2BfJwJjkhPEzUcpg6kbsd3VVhRKQzXLRs7uReLk-2F05EJcyNkrJJmwWgGjSYC0qKeiK39m8Uy26ZFPtYrjfyylAiGP-2BzE-2FKNGh-2FVufOXHDTccwlLPJFpNFS7IGgamylYc4Cz4atUAB5Oe3u97ZpfVsnz6GRRV0yT-2FS-2Fo1iNHuDXRTrM) 
@@ -1923,7 +1949,7 @@ However, many open-source tools and plugins can help manage these issues.
 | |
 |-|
 |[Rakkess](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7C6-2Fq5ob0uCCfdx0ogv-2FXbyMJPc2FUSAh-2BBmru4NxD5BmI9BWkdzOqRJxGLxNpw8z9JSTfINBq4qCGS9pXD1xQ2SFGMcUlynjyzvvECl9mUEGoWRo-2BGDKmJ3N82bVZdS6YwazqmUlAtC94PwYOV9AFpsdm0aHeG4pohSyyJ91Q1g3mK-2FYGn5E6FeWb0VHMZDznYdQ-2BQrF-2F2sO9PsfSxMm61nR92taP055cNaYowfflqMRV5dDbGqK-2BlMc9HrGuj2YArWMWvn8-2BSyxoCrmbqJdnUo-3DSkW__uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B7YB7gnhmXey-2FPVRuvGrvMVMRM6kb-2FSAO-2BTF2n-2BZmMTd2mvJ6vXNfQK3HKF8rDXHj6ZFcr-2Fa2a3yZgyeTi31JYgq7bIjG8QGMARkNk1-2BorCJgf4I3MDlHF-2F4DIu5jyA6kWqzzRQ9YZSz69UDcgAzNk3g2JlgxTEEtDSXePt6FERC2WZR49p3NdsfeEoh7sjlPk6-2FUOs0IpEEUQSRkpns-2BfJwJjkhPEzUcpg6kbsd3VVi0jjhfiLQxyS2UeHliPCf6a2UjXaF8hYh1HLtiJLtsDNws1AnrEURqHhkRpxHNCwcM-2BGwIs9Ck9iyVB89R6wkz11k8XhdY3tyOXYLPMAiIxKDjXlsDixwAH8-2FjPig74XbGoSigRinr-2B27UnnFqLbzy) is a kubectl plugin designed to show an access matrix for Kubernetes server resources, helping visualize and audit permissions.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^97]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^96]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
  
 
 \
@@ -1933,7 +1959,7 @@ However, many open-source tools and plugins can help manage these issues.
 | |
 |-|
 |As someone who works with multiple Kubernetes clusters, managing the KubeConfig file quickly becomes difficult. Common issues include:<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^98]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^97]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |Over time, this leads to a bloated KubeConfig file, making it harder to manage clusters.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
@@ -1947,25 +1973,25 @@ However, many open-source tools and plugins can help manage these issues.
 
 **Clusters**: Contains the details of Kubernetes clusters, such as the API server endpoint and the cluster's Certificate Authority (CA).
 
-![8cc35641-dd1b-4145-bcc0-68d6c694308e.png|657.0023193359375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8cc35641-dd1b-4145-bcc0-68d6c694308e.png) [^99]
+![8cc35641-dd1b-4145-bcc0-68d6c694308e.png|657.0023193359375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8cc35641-dd1b-4145-bcc0-68d6c694308e.png) [^98]
 
 \
 
 **Users**: Stores credentials (tokens or certificates) for authenticating the clusters.
 
-![d749f5c7-3496-4279-9767-03ad3bed3ab0.png|657.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d749f5c7-3496-4279-9767-03ad3bed3ab0.png) [^100]
+![d749f5c7-3496-4279-9767-03ad3bed3ab0.png|657.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d749f5c7-3496-4279-9767-03ad3bed3ab0.png) [^99]
 
 \
 
 **Contexts**: Links a user to a specific cluster, helping you switch between environments.
 
-![aa60f378-b267-4a05-b9ca-c92c54500659.png|593.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/aa60f378-b267-4a05-b9ca-c92c54500659.png) [^101]
+![aa60f378-b267-4a05-b9ca-c92c54500659.png|593.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/aa60f378-b267-4a05-b9ca-c92c54500659.png) [^100]
 
 \
 
 **Current Context**: Specifies which user-cluster combination is currently active.
 
-![4ffecec7-29f9-47c2-8425-9b996b50754e.png|610](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4ffecec7-29f9-47c2-8425-9b996b50754e.png) [^102]
+![4ffecec7-29f9-47c2-8425-9b996b50754e.png|610](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4ffecec7-29f9-47c2-8425-9b996b50754e.png) [^101]
 
 \
 
@@ -1995,14 +2021,14 @@ kubectl config use-context techopsexamples-context
 
 | |
 |-|
-|[^103]<!-- {"cell":{"align":"left","color":"#2D2D2D","colwidth":952}} -->|
+|[^102]<!-- {"cell":{"align":"left","color":"#2D2D2D","colwidth":952}} -->|
 \
 
 **Add a new user:**
 
 | |
 |-|
-|[^104]<!-- {"cell":{"align":"left","color":"#2D2D2D","colwidth":1050}} -->|
+|[^103]<!-- {"cell":{"align":"left","color":"#2D2D2D","colwidth":1050}} -->|
 \
 
 **KubeConfig Bloat Problem**
@@ -2029,7 +2055,7 @@ It works on PowerShell (Windows/Linux/macOS) or as a krew plugin with Krew (Linu
 
 \
 
-![4465bf85-d86d-47c4-89e9-4c220fe07d12.png|767.0023193359375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4465bf85-d86d-47c4-89e9-4c220fe07d12.png) [^105]
+![4465bf85-d86d-47c4-89e9-4c220fe07d12.png|767.0023193359375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4465bf85-d86d-47c4-89e9-4c220fe07d12.png) [^104]
 
 ### **6Q. Hidden Risk of Relying on Labels in Kubernetes Security?**<!-- {"collapsed":true} -->
 
@@ -2045,7 +2071,7 @@ It works on PowerShell (Windows/Linux/macOS) or as a krew plugin with Krew (Linu
 
 Here’s an example (modified the identity) of what they had in place:
 
-![a80bea33-4fa2-411b-a3c9-4c4c61fe2c1f.png|597.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/a80bea33-4fa2-411b-a3c9-4c4c61fe2c1f.png) [^106]
+![a80bea33-4fa2-411b-a3c9-4c4c61fe2c1f.png|597.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/a80bea33-4fa2-411b-a3c9-4c4c61fe2c1f.png) [^105]
 
 \
 
@@ -2053,7 +2079,7 @@ Here’s an example (modified the identity) of what they had in place:
 |-|
 |The intention was clear: only pods with the `role: admin` label could access the `techops-examples-db` pod.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |On closer inspection, I noticed potential issues:<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^107]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^106]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 | |
 |-|
 |After discussing the concerns with the client, I asked if they were using Istio.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
@@ -2069,7 +2095,7 @@ We switched from pod labels to ServiceAccounts for more secure access control.
 
 **Here’s how the updated policy looks like:**
 
-![bc8bca7b-2e61-4ba7-879a-df006b0aa0ff.png|680](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/bc8bca7b-2e61-4ba7-879a-df006b0aa0ff.png) [^108]
+![bc8bca7b-2e61-4ba7-879a-df006b0aa0ff.png|680](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/bc8bca7b-2e61-4ba7-879a-df006b0aa0ff.png) [^107]
 
 Now, only pods associated with the admin-service-account could access the techops-examples-db.
 
@@ -2101,7 +2127,7 @@ If you're using Kubernetes and relying on labels for access control, consider al
 
 **When we run `kubectl delete pod` , the confirmation message pops up saying the pod is deleted(if all good)**
 
-![996a9a69-59ac-4dd9-a869-86b198f24f42.png|687.9744873046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/996a9a69-59ac-4dd9-a869-86b198f24f42.png) [^109]
+![996a9a69-59ac-4dd9-a869-86b198f24f42.png|687.9744873046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/996a9a69-59ac-4dd9-a869-86b198f24f42.png) [^108]
 
 \
 
@@ -2122,11 +2148,11 @@ If you're using Kubernetes and relying on labels for access control, consider al
 
 **Pod Deletion - Behind the Scenes:**
 
-![d0f91bfa-1d07-4af6-be87-6538f296dd74.png|793.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d0f91bfa-1d07-4af6-be87-6538f296dd74.png) [^110]
+![d0f91bfa-1d07-4af6-be87-6538f296dd74.png|793.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d0f91bfa-1d07-4af6-be87-6538f296dd74.png) [^109]
 
 \
 
-![7e8526ff-0d01-456e-ad03-45a1c97b50c2.png|800.9837646484375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/7e8526ff-0d01-456e-ad03-45a1c97b50c2.png) [^111]
+![7e8526ff-0d01-456e-ad03-45a1c97b50c2.png|800.9837646484375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/7e8526ff-0d01-456e-ad03-45a1c97b50c2.png) [^110]
 
 \
 
@@ -2138,7 +2164,7 @@ If you're using Kubernetes and relying on labels for access control, consider al
 
 Imagine you deploy an application, but after a few days, it starts throwing warnings like this:
 
-![55ae4769-73f7-466e-974b-ea79a7e789a4.png|692.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/55ae4769-73f7-466e-974b-ea79a7e789a4.png) [^112]
+![55ae4769-73f7-466e-974b-ea79a7e789a4.png|692.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/55ae4769-73f7-466e-974b-ea79a7e789a4.png) [^111]
 
 \
 
@@ -2199,7 +2225,7 @@ Ignoring Disk Pressure can lead to various issues:
 |**Move Logs and Data to Separate Disks:** If your node frequently generates large logs, consider mounting a separate disk for log storage to keep system space free.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
-![85687600-bf8f-4e8b-97b7-af2b88c48c58.png|756.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/85687600-bf8f-4e8b-97b7-af2b88c48c58.png) [^113]
+![85687600-bf8f-4e8b-97b7-af2b88c48c58.png|756.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/85687600-bf8f-4e8b-97b7-af2b88c48c58.png) [^112]
 
 \
 
@@ -2222,14 +2248,14 @@ Before looking into how they cut down Kubernetes costs, let’s understand the c
 | |
 |-|
 |[Karpenter](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7C8iJO1UfYC-2B0OWAY2fEIdj5qylzJOe-2F-2FaVpipl9dkioiD0qrSbnfor8VdD9r7-2FUh3Edk6RBpbEboM2gZnJr4GmsyWElt12abIzv6KZJI7nCLfiYG6k59SJdv29kpL8Nf0wLiPa1DAHfb54tJjasXacDQkSsfxYJeYR0JWFETmEwB5ZgexnbAz21m7YaRNYqhVgkmIAKdpSt4bSjH5Rj7Z-2BEThcwWThBya2lcdVUjS6c-2BXQ67_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BKoUdPlZ2JxZ6u1MiVTFmuDoGtV3Gj7jzuZ5guEW58BZ1Pv1vviQ8AUqUzonopjYe3qLvw9s9UwB82GusnE-2Fkh7chD85dkg2epvQYikRJGqzP-2BOu7-2BkrHZ9aSFlaRjkwVHwTZn59wqJnjiIvDaFQIO8gtNr0t0oOyQh5raOcyiXvqRE9ic0hRQHAjshX9aMRcZ8NvRXwu1sHvzcl-2Flr3w0oFutQk8Xo9FurgojgqICsEJL7I0Lz7SKf-2FCseuGhzXiM5o3kVbmM8XaPOxSOSXjUQc4lzGYHlLXDsL7kAVogw353ccX-2FvVpy1V6rtfke6FTRVXk13UQ5i09kEfs-2FnszW8JpKeL4RruL7qYHTxTHiDEUHksMOu6O5vsVd8LlOPrV) - a Kubernetes autoscaler that dynamically provisions and scales resources, optimizing EC2 usage with spot instances to reduce costs.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^114]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![9cceb4ca-d750-45f0-be0d-e24cc862f059.png|733.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9cceb4ca-d750-45f0-be0d-e24cc862f059.png) [^115]
+|[^113]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+![9cceb4ca-d750-45f0-be0d-e24cc862f059.png|733.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9cceb4ca-d750-45f0-be0d-e24cc862f059.png) [^114]
 
 | |
 |-|
 |[Kyverno](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7C5G-2BwwjHE7ohUGxrRvXOIM5VP2F1nuB1Ioe6nCiDKVTJcBmLGMN8jVNLMkpNTqi1-2BzZrx71RkucYSh4dFrPl0q6Yl6Lz9-2BVlIEQOR60I1Y7CGIUOUzcf8ZnHGr3pYdpch4nzJaGHHaPjcwFxzRH0Hj-2BAZj54YUZy-2BaDeiwyzkA2ZiMneyI7f1FlM4U7eKqLq-2F3LVmDn2yGTiPUxiwphglQr4RushszuMNwOiU59-2FhNMrCyPbMGNAMbo4AwH2-2FcPOXg-3D-3DqNlz_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BKoUdPlZ2JxZ6u1MiVTFmuDoGtV3Gj7jzuZ5guEW58BZ1Pv1vviQ8AUqUzonopjYe3qLvw9s9UwB82GusnE-2Fkh7chD85dkg2epvQYikRJGqzP-2BOu7-2BkrHZ9aSFlaRjkwVHwTZn59wqJnjiIvDaFQIO8gtNr0t0oOyQh5raOcyiXvqRE9ic0hRQHAjshX9aMRcZ8NvRXwu1sHvzcl-2Flr3w0oFutQk8Xo9FurgojgqICsHnHFkJ7B0fXKj6LPdQNspi7uZBkllapXH24kKqBalw1TvO62W-2FqgzZLXG8nUD1HZZs9x-2BPsbPQbiobBIR8LpG1V-2FJn6lDqLFRdbBSIZDPh-2Bx-2B09xZoMBqYKCbi3ifR69o2lJhXPszWD6nsrzBEFdjj) - a Kubernetes policy engine that automates and enforces resource configurations for compliance across clusters.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^116]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![a5d86b74-3509-4972-a6b7-6d603680c2c1.png|646.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/a5d86b74-3509-4972-a6b7-6d603680c2c1.png) [^117]
+|[^115]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+![a5d86b74-3509-4972-a6b7-6d603680c2c1.png|646.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/a5d86b74-3509-4972-a6b7-6d603680c2c1.png) [^116]
 
 \
 
@@ -2267,7 +2293,7 @@ Kyverno automatically generated VPAs for each new Deployment, StatefulSet, or Da
 
 To reduce compute hours, costs, and CO₂ footprint, they decreased app replicas during non-office hours using [kube-downscaler](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7C1xmoW8uVUdhQZDUHG95TrT5U-2FkT2lu61sccssPrakjv-2Ff6BvGiiUfxE16jtMjrTFDBdqfzGxwfLtDXh5rN2TgRq2gdGoEc9GZOUHk-2BAeiwoJSDnVKpJriXZLIX-2FEvmx3jgNdIXdw4qPPzt20Ma1r5O9Vmd-2F-2BJ1O9z5f8VMSZzKvtoSIQYsYcgZhpJvEB95sBdJp-2BPRqoyegp-2FBrtnRpBc9vWiQ0xGRhnzqvbkXRxkML9ohXhPNzWfTeNSJ-2BZlVOBIouCRXQqX0uwGz5P5D6r4Q-3DEBfk_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BKoUdPlZ2JxZ6u1MiVTFmuDoGtV3Gj7jzuZ5guEW58BZ1Pv1vviQ8AUqUzonopjYe3qLvw9s9UwB82GusnE-2Fkh7chD85dkg2epvQYikRJGqzP-2BOu7-2BkrHZ9aSFlaRjkwVHwTZn59wqJnjiIvDaFQIO8gtNr0t0oOyQh5raOcyiXvqRE9ic0hRQHAjshX9aMRcZ8NvRXwu1sHvzcl-2Flr3w0oFutQk8Xo9FurgojgqICsEuhH6BkcEFmP6j-2FWicFdCvPWl1tnMSEEKwqVVchFGocaMYWKkEd1YYSSzHxt-2B-2FKC8icz745JH9dyuJa6rP4DHBppvco8ZqObJQeDSzd0f5KviDAZht-2FgrtQTGPdG1gRhYw-2BxV6jRMtpGvwh1C2XouQ) to scale applications based on a set schedule using annotations, like:
 
-![6a243ea6-b0d2-42df-a7da-c724c3cb41ee.png|715.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/6a243ea6-b0d2-42df-a7da-c724c3cb41ee.png) [^118]
+![6a243ea6-b0d2-42df-a7da-c724c3cb41ee.png|715.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/6a243ea6-b0d2-42df-a7da-c724c3cb41ee.png) [^117]
 
 \
 
@@ -2293,7 +2319,7 @@ By default, apps scale to 1 replica, with options to set 0 replicas, adjust timi
 |-|
 |They found many half-empty nodes remained due to restrictive [Pod Disruption Budgets (PDBs)](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzoEMTHGsgc5RDOw3YicjdaJGgK4bYnY90M69FT-2FT1homPMxui65hIxS-2FKQJUO4rhggMsXq2ij298fst4CHArfG1vdKWv2Cv9qNPev1-2FDYcZeS7hYtccgc9qhEZv5PdsFPUJbXnYh4BelhkXdIQeEXGuy2K80-2B2cmqPav7ss1tYlQrTlVKKLGCVNLv6jWGDo0pZ8v9CuwipKWf-2BlAOdkaCTOGmW2syLCfMdBaSB9lpppx4tVPXc8467xTsMHKsvdFG6uaNe-2BTcBek0f0otA-2FfxLStqXKnfU1umUaHsDzXJRjoLW4W-2FzY94wjlzZDSE6CPw-3D-3DJ85G_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BKoUdPlZ2JxZ6u1MiVTFmuDoGtV3Gj7jzuZ5guEW58BZ1Pv1vviQ8AUqUzonopjYe3qLvw9s9UwB82GusnE-2Fkh7chD85dkg2epvQYikRJGqzP-2BOu7-2BkrHZ9aSFlaRjkwVHwTZn59wqJnjiIvDaFQIO8gtNr0t0oOyQh5raOcyiXvqRE9ic0hRQHAjshX9aMRcZ8NvRXwu1sHvzcl-2Flr3w0oFutQk8Xo9FurgojgqICsG04aMWQ-2FldnoXAv4rUFSkS9aQg7fUnBx85nRWi3gfVk3Ks86NoWp06n0R7sZGTR-2Bvd5SACj5M59bqqbNb6eImsO17QuFYHtZvET8VeC83vXNOYTom0ltlwVgNHDjczh9YpThzPWVwj7ozX-2BK4ehg-2Bl) preventing Karpenter from removing underutilized nodes.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |To solve this, they created a Kyverno policy to ensure:<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^119]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^118]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |A cleanup policy also runs twice daily to remove undetected problematic PDBs, though it’s advised not to run this during cluster upgrades.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |And they cut down Kubernetes costs by 50% in totality.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
@@ -2312,7 +2338,7 @@ By default, apps scale to 1 replica, with options to set 0 replicas, adjust timi
 
 It combines two key components:
 
-![5625a783-a105-4c37-b410-ace332a39d70.png|704.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5625a783-a105-4c37-b410-ace332a39d70.png) [^120]
+![5625a783-a105-4c37-b410-ace332a39d70.png|704.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5625a783-a105-4c37-b410-ace332a39d70.png) [^119]
 
 \
 
@@ -2321,7 +2347,7 @@ It combines two key components:
 |Let’s take a simple example Use Case: PostgreSQL Database Operator<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |Imagine setting up a highly available PostgreSQL database.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |With an Operator, you can automate scaling, backup, and failover with just a few configuration settings, without manually configuring these tasks every time.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![02b1a509-fd86-4b3a-9fcd-ee879a63886d.png|667.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/02b1a509-fd86-4b3a-9fcd-ee879a63886d.png) [^121]
+![02b1a509-fd86-4b3a-9fcd-ee879a63886d.png|667.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/02b1a509-fd86-4b3a-9fcd-ee879a63886d.png) [^120]
 
 \
 
@@ -2331,7 +2357,7 @@ Check out [OperatorHub](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt
 
 **What is a Helm Chart?**  A Helm chart is a package format that bundles Kubernetes resources to deploy applications in a repeatable manner.
 
-![78ae8926-9490-403c-890b-c1f2af280cf6.png|832.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/78ae8926-9490-403c-890b-c1f2af280cf6.png) [^122]
+![78ae8926-9490-403c-890b-c1f2af280cf6.png|832.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/78ae8926-9490-403c-890b-c1f2af280cf6.png) [^121]
 
 \
 
@@ -2341,7 +2367,7 @@ Check out [OperatorHub](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt
 
 **Example of a Chart Dependency:**
 
-![2e6ee87d-f432-4095-acee-a0be600ff2f6.png|666.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/2e6ee87d-f432-4095-acee-a0be600ff2f6.png) [^123]
+![2e6ee87d-f432-4095-acee-a0be600ff2f6.png|666.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/2e6ee87d-f432-4095-acee-a0be600ff2f6.png) [^122]
 
 **Helm Chart Workflow:**
 
@@ -2355,7 +2381,7 @@ Check out [OperatorHub](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt
 |-|
 |This structure makes Helm charts powerful and modular, promoting reusability and configurability for Kubernetes application management.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |Here are the key differences to be considered before picking the one to choose.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![dce0b784-c7a8-4a2c-919e-9ca87ed4f393.png|756.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dce0b784-c7a8-4a2c-919e-9ca87ed4f393.png) [^124]
+![dce0b784-c7a8-4a2c-919e-9ca87ed4f393.png|756.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dce0b784-c7a8-4a2c-919e-9ca87ed4f393.png) [^123]
 
 ### **11Q.** **Understanding Kubernetes Logs - A Comprehensive Guide?**<!-- {"collapsed":true} -->
 
@@ -2373,13 +2399,13 @@ They are especially valuable for troubleshooting issues and tracking cluster eve
 
 \
 
-![8ec01cd8-ab08-4881-82d3-e9c64ac6f837.png|815.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8ec01cd8-ab08-4881-82d3-e9c64ac6f837.png) [^125]
+![8ec01cd8-ab08-4881-82d3-e9c64ac6f837.png|815.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8ec01cd8-ab08-4881-82d3-e9c64ac6f837.png) [^124]
 
 \
 
 \
 
-![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/84fce0bf-255a-4675-bd21-6f83bb89dccf.png) [^126]
+![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/84fce0bf-255a-4675-bd21-6f83bb89dccf.png) [^125]
 
 \
 
@@ -2399,13 +2425,13 @@ Kubernetes natively doesn’t provide log storage, so cluster-level logging requ
 
 - Send logs directly from the application to a logging backend.
 
-![8ec67009-dc03-4a36-aa67-94bc208973cd.png|778.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8ec67009-dc03-4a36-aa67-94bc208973cd.png) [^127]
+![8ec67009-dc03-4a36-aa67-94bc208973cd.png|778.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8ec67009-dc03-4a36-aa67-94bc208973cd.png) [^126]
 
-![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e8658e0f-2e62-42be-943f-4f8067cc187b.png) [^128]
+![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e8658e0f-2e62-42be-943f-4f8067cc187b.png) [^127]
 
 \
 
-![777cefa1-704d-40bd-bfc0-f75d872eb1e8.png|817.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/777cefa1-704d-40bd-bfc0-f75d872eb1e8.png) [^129]
+![777cefa1-704d-40bd-bfc0-f75d872eb1e8.png|817.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/777cefa1-704d-40bd-bfc0-f75d872eb1e8.png) [^128]
 
 \
 
@@ -2421,7 +2447,7 @@ Here’s a structured path to guide you through the transition.
 
 \
 
-![b7863e05-32f5-44d7-b327-ce31bef0e986.png|759.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/b7863e05-32f5-44d7-b327-ce31bef0e986.png) [^130]
+![b7863e05-32f5-44d7-b327-ce31bef0e986.png|759.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/b7863e05-32f5-44d7-b327-ce31bef0e986.png) [^129]
 
 \
 
@@ -2447,19 +2473,19 @@ Here’s a structured path to guide you through the transition.
 
 - **Blue-Green Deployments**: Run two environments (Blue and Green) side-by-side, where Blue serves production traffic and Green deploys new updates. Once Green passes all tests, it starts serving traffic, reducing downtime and risk.
 
-![8e06b6f1-647d-48c5-a772-fb9f653ce2ab.png|624.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8e06b6f1-647d-48c5-a772-fb9f653ce2ab.png) [^131]
+![8e06b6f1-647d-48c5-a772-fb9f653ce2ab.png|624.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8e06b6f1-647d-48c5-a772-fb9f653ce2ab.png) [^130]
 
 \
 
 - **Canary Deployments**: Gradually roll out updates to a subset of users before full deployment. Kubernetes supports Canary with service mesh tools like [Istio](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7Cx-2BGz5yyFcqlBtRLQ47sHx3-2FgXUCZaWfGsSP-2FnmpoICdqb1Q4XNwnvFxRidtHVR1rtw4rYIr0rXOsCd9j0rUKhiSVwwp3iQ-2Fv-2BzjQZrLMoOYbQX-2FZXPMUP1kf2K190h1rJwyjoEKW5a9fC1Z-2FUxDDHlE1Bd4SuqiYwRWup-2FxdPb0SMnIWH6MnHtR-2BMtvSPuNh3jXtqHFkmfTXIAmYzSGrY1IkfjBLQxwo0G0-2FgjncRQxrAC7k7ZCnmLwHbk-2BCuftoA-3D-3DkMTc_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BOsujFk-2F3l1aD8jNLLIMDu-2BinvkKr6G74EftfVwENY-2F0fJ2lk9gUnsHIJbwS-2Fy8AMrm9qvSDj8pYwInufpdckvli9XbdO6Z4dM1LwtWJGVerhBlf6JCFOFBhJnp15E6co87Ykd6n4G1TpmpnH8k3q61MpJYWx81HRiNLnQEheQL2aoOFKqzzOm8dxGrHdIT48FQkIgci3-2FQTuoE4mQ8Syzo4VmYIh6-2BBOh8GAG1o9rxNma8-2BKF9nBPtH3NBLK1Wq-2BDrxjsLVWntvLdsrl2Jt3qwzYiHnbh3dyUmeBoqKz3sbrKHxt0y8Kh7OZk8r5bAT-2FILABmMlwISh9JbDShNefe87o2gUEelzGDzDZnl9pOsfWFKz8n9QS4UR1h5oz88Xn) or by configuring traffic splitting, allowing rapid rollback if issues arise.
 
-![cc86cf89-b556-4e63-b5df-f12380575321.png|585.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/cc86cf89-b556-4e63-b5df-f12380575321.png) [^132]
+![cc86cf89-b556-4e63-b5df-f12380575321.png|585.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/cc86cf89-b556-4e63-b5df-f12380575321.png) [^131]
 
 \
 
 - **Rolling Updates**: Kubernetes’ native [Rolling Update](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzoEMTHGsgc5RDOw3YicjdbhUeKwCnmS-2FQ5xebZXfpsmmqIQuJfQjZBxNjfc9RMsSjQohbayhuTDK9QqBcXebAalkdFdgGoTQJoslAP8zuw-2Boa63xaiNmj16weAD0a9JRNDc3NR0N5hTNPG0H4u7pHJb9fUydhjaNoOfpUfKOnpr-2F6TrJdM6VQ2j6hvjb-2B4grrGpKKDtOOnSMlFuz-2FpBSw6Zgu1wZWLCSAVTOtjWvRZKxMrYtelBGd6Arb8VPx08yfP-2FtjI-2FLHjDMsHe70k30b-2FnOUfEBrZP2F3ZSc-2B4n-2BwQqUg-2F2K2U6lQ7QheDySOOwA-3D-3DrP3L_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BOsujFk-2F3l1aD8jNLLIMDu-2BinvkKr6G74EftfVwENY-2F0fJ2lk9gUnsHIJbwS-2Fy8AMrm9qvSDj8pYwInufpdckvli9XbdO6Z4dM1LwtWJGVerhBlf6JCFOFBhJnp15E6co87Ykd6n4G1TpmpnH8k3q61MpJYWx81HRiNLnQEheQL2aoOFKqzzOm8dxGrHdIT48FQkIgci3-2FQTuoE4mQ8Syzo4VmYIh6-2BBOh8GAG1o9rxPT4jOO4rGAmJU482hcq-2BKU0fdUGjfCm950cP-2BF2z1qKYIqhHaf5k2eRLwsX3I1CYqw-2FPOQ3EudBhPrXgjH2-2Bm4h59FTte-2BJcAFM7oFXhzp-2FEqIFCQ8OoHOoJq0lON8YTLI0LB4s2FJH2Ej0ZYq5n1Z) feature deploys new versions incrementally, maintaining availability. It’s ideal for low-impact changes and provides in-built rollback options.
 
-![6680f0dd-2bf4-41d5-b0f4-e384890a68e4.png|633.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/6680f0dd-2bf4-41d5-b0f4-e384890a68e4.png) [^133]
+![6680f0dd-2bf4-41d5-b0f4-e384890a68e4.png|633.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/6680f0dd-2bf4-41d5-b0f4-e384890a68e4.png) [^132]
 
 \
 
@@ -2475,7 +2501,7 @@ Here’s a structured path to guide you through the transition.
 
 | |
 |-|
-|[^134]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^133]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |Kubernetes CI/CD may seem complex at first, but mastering these practices will give your team the edge in managing cloud-native applications.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
@@ -2505,7 +2531,7 @@ Here’s a structured path to guide you through the transition.
 |-|
 |While `pod.yaml` is typically custom-created for applications, these files are often versioned in repositories alongside Helm charts or GitOps workflows.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |Let’s start with **the basic structure of a** `pod.yaml` and break down its key elements.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8f827836-8607-4ea6-bb6c-138ba646d08f.png) [^135]
+![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8f827836-8607-4ea6-bb6c-138ba646d08f.png) [^134]
 
 \
 
@@ -2543,7 +2569,7 @@ Here’s a structured path to guide you through the transition.
 
 - **Readiness Probe:** Ensures the container is ready to accept traffic (e.g., `/ready` endpoint).
 
-![fdc0432a-d5f0-4902-b788-7f97a0a7e279.png|644.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/fdc0432a-d5f0-4902-b788-7f97a0a7e279.png) [^136]
+![fdc0432a-d5f0-4902-b788-7f97a0a7e279.png|644.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/fdc0432a-d5f0-4902-b788-7f97a0a7e279.png) [^135]
 
 \
 
@@ -2558,7 +2584,7 @@ Here’s a structured path to guide you through the transition.
 
 **Affinity -** Node and pod affinity control **where your pods are scheduled**, improving resource utilization and workload performance.
 
-![2bc1b87e-67b4-49b3-848f-d6150eec758c.png|647.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/2bc1b87e-67b4-49b3-848f-d6150eec758c.png) [^137]
+![2bc1b87e-67b4-49b3-848f-d6150eec758c.png|647.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/2bc1b87e-67b4-49b3-848f-d6150eec758c.png) [^136]
 
 \
 
@@ -2571,14 +2597,14 @@ Here’s a structured path to guide you through the transition.
 | |
 |-|
 |One cannot take away these debates from a DevOps and Cloud engineer's lives:<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^138]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^137]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 As a matter of context, let’s pick “microservices” for today.
 
 | |
 |-|
 |If I have to explain the difference in one line:<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^139]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![c2527f90-2676-403f-a09b-1bc351bbc260.png|601.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/c2527f90-2676-403f-a09b-1bc351bbc260.png) [^140]
+|[^138]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+![c2527f90-2676-403f-a09b-1bc351bbc260.png|601.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/c2527f90-2676-403f-a09b-1bc351bbc260.png) [^139]
 
 \
 
@@ -2588,17 +2614,17 @@ Microservices can revolutionize how you build and scale systems - but only when 
 
 \
 
-![d248e193-2e38-42e9-aa64-59d7db8f5a0c.png|737.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d248e193-2e38-42e9-aa64-59d7db8f5a0c.png) [^141]
+![d248e193-2e38-42e9-aa64-59d7db8f5a0c.png|737.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d248e193-2e38-42e9-aa64-59d7db8f5a0c.png) [^140]
 
 \
 
 | |
 |-|
 |There are two ways to fix the sprawl:<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^142]<!-- {"cell":{"align":"left","color":"#2A2A2A"}} -->|
-|[^143]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^144]<!-- {"cell":{"align":"left","color":"#2A2A2A"}} -->|
-|[^145]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^141]<!-- {"cell":{"align":"left","color":"#2A2A2A"}} -->|
+|[^142]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^143]<!-- {"cell":{"align":"left","color":"#2A2A2A"}} -->|
+|[^144]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
 ### **15Q. Kubernetes Upgrades - How Not to Mess Up?**<!-- {"collapsed":true} -->
@@ -2612,7 +2638,7 @@ You may have heard about the Reddit Kubernetes upgrade horror story, [a 314 minu
 |Whether you're running a startup's first cluster or managing production at scale, no one is immune to upgrade challenges.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |Kubernetes releases move fast, and the N-2 support policy means staying on top of upgrades is critical.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |Minor version timelines can quickly leave your cluster unsupported if upgrades are delayed.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![1318e5e8-dd88-43c6-b8b2-a7bd3f17676b.png|600.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/1318e5e8-dd88-43c6-b8b2-a7bd3f17676b.png) [^146]
+![1318e5e8-dd88-43c6-b8b2-a7bd3f17676b.png|600.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/1318e5e8-dd88-43c6-b8b2-a7bd3f17676b.png) [^145]
 
 \
 
@@ -2620,7 +2646,7 @@ Kubernetes upgrade documentation provides details about the technical steps for 
 
 \
 
-![bcdc790e-82ba-4a76-9aea-314e24c96b6f.png|675.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/bcdc790e-82ba-4a76-9aea-314e24c96b6f.png) [^147]
+![bcdc790e-82ba-4a76-9aea-314e24c96b6f.png|675.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/bcdc790e-82ba-4a76-9aea-314e24c96b6f.png) [^146]
 
 \
 
@@ -2683,7 +2709,7 @@ Kubernetes upgrade documentation provides details about the technical steps for 
 |We all know Karpenter is a great Kubernetes cluster autoscaler, designed to help dynamically manage workloads by provisioning nodes tailored to your requirements<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
-![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/cbd9e8b6-3b4c-48ef-a87d-034504fc4165.png) [^148]
+![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/cbd9e8b6-3b4c-48ef-a87d-034504fc4165.png) [^147]
 
 \
 
@@ -2716,9 +2742,9 @@ Automatically detects unhealthy nodes and repairs or replaces them without manua
 
 \
 
-![d09bac4a-35ae-4390-a62b-8d9ef93a9d1f.png|647.0023193359375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d09bac4a-35ae-4390-a62b-8d9ef93a9d1f.png) [^149]
+![d09bac4a-35ae-4390-a62b-8d9ef93a9d1f.png|647.0023193359375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d09bac4a-35ae-4390-a62b-8d9ef93a9d1f.png) [^148]
 
-![4ba4fc00-5b1f-4eb3-b1e4-c8ce32d4f1b6.png|682.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4ba4fc00-5b1f-4eb3-b1e4-c8ce32d4f1b6.png) [^150]
+![4ba4fc00-5b1f-4eb3-b1e4-c8ce32d4f1b6.png|682.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4ba4fc00-5b1f-4eb3-b1e4-c8ce32d4f1b6.png) [^149]
 
 \
 
@@ -2736,7 +2762,7 @@ Automatically detects unhealthy nodes and repairs or replaces them without manua
 
 \
 
-![3d063d90-8306-428d-83f6-6d6cd628a51e.png|629.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/3d063d90-8306-428d-83f6-6d6cd628a51e.png) [^151]
+![3d063d90-8306-428d-83f6-6d6cd628a51e.png|629.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/3d063d90-8306-428d-83f6-6d6cd628a51e.png) [^150]
 
 \
 
@@ -2755,7 +2781,7 @@ In the basket of Kubernetes service configurations, you should know:
 |**External Traffic Policy:** Controls whether client IP is kept when traffic reaches your service.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |**Session Affinity:** Keeps a client connected to the same pod each time.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |And you can lower the latency with these settings.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-![59ea504f-6604-4ddb-94a9-abbea758885a.png|628.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/59ea504f-6604-4ddb-94a9-abbea758885a.png) [^152]
+![59ea504f-6604-4ddb-94a9-abbea758885a.png|628.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/59ea504f-6604-4ddb-94a9-abbea758885a.png) [^151]
 
 \
 
@@ -2784,10 +2810,10 @@ By configuring **sessionAffinity as ClientIP**, all requests from the same clien
 
 | |
 |-|
-|[^153]<!-- {"cell":{"align":"left","color":"#2A2A2A"}} -->|
+|[^152]<!-- {"cell":{"align":"left","color":"#2A2A2A"}} -->|
 |![72.png\|40](https://fonts.gstatic.com/s/e/notoemoji/15.1/1f4cc/72.png) When cluster wide load balancing across all nodes is more important than latency.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |![72.png\|40](https://fonts.gstatic.com/s/e/notoemoji/15.1/1f4cc/72.png) When the pods for your service are sparsely distributed across a subset of nodes, causing uneven load.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^154]<!-- {"cell":{"align":"left","color":"#2A2A2A"}} -->|
+|[^153]<!-- {"cell":{"align":"left","color":"#2A2A2A"}} -->|
 |![72.png\|40](https://fonts.gstatic.com/s/e/notoemoji/15.1/1f4cc/72.png) When you’re running stateless applications that don’t depend on session persistence.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |![72.png\|40](https://fonts.gstatic.com/s/e/notoemoji/15.1/1f4cc/72.png) When a small number of clients generate a high volume of traffic, risking overloading a single pod.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |![72.png\|40](https://fonts.gstatic.com/s/e/notoemoji/15.1/1f4cc/72.png) When your application relies on dynamic scaling, as session affinity can complicate traffic distribution.<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
@@ -2803,7 +2829,7 @@ While configuring externalTrafficPolicy: Local and sessionAffinity: ClientIP imp
 
 **1. Node Placement Matters**
 
-![21d37805-c5cf-428e-89b8-5c1e7ab01825.png|625.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/21d37805-c5cf-428e-89b8-5c1e7ab01825.png) [^155]
+![21d37805-c5cf-428e-89b8-5c1e7ab01825.png|625.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/21d37805-c5cf-428e-89b8-5c1e7ab01825.png) [^154]
 
 This setup ensures pods are spread across nodes, especially useful in high traffic applications like content delivery systems, where traffic must be evenly distributed to reduce load imbalances.
 
@@ -2813,7 +2839,7 @@ This setup ensures pods are spread across nodes, especially useful in high traff
 
 Prevent resource contention by setting resource requests and limits in your deployment.
 
-![4224bd40-5c70-41ca-90f2-6e68b797c32c.png|643.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4224bd40-5c70-41ca-90f2-6e68b797c32c.png) [^156]
+![4224bd40-5c70-41ca-90f2-6e68b797c32c.png|643.9930419921875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4224bd40-5c70-41ca-90f2-6e68b797c32c.png) [^155]
 
 This is particularly valuable for applications like payment gateways, where individual user sessions may generate significant resource load.
 
@@ -2823,7 +2849,7 @@ This is particularly valuable for applications like payment gateways, where indi
 
 \
 
-![95d1c1d6-92ad-4a4d-b3ff-1f0c1f2f280b.png|665.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/95d1c1d6-92ad-4a4d-b3ff-1f0c1f2f280b.png) [^157]
+![95d1c1d6-92ad-4a4d-b3ff-1f0c1f2f280b.png|665.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/95d1c1d6-92ad-4a4d-b3ff-1f0c1f2f280b.png) [^156]
 
 \
 
@@ -2839,7 +2865,7 @@ The attempt here is to know the options and understand the implications, but not
 
 Imagine your CI/CD pipeline is compromised.
 
-![f5cd8e06-03de-4658-8f49-2c187b265afa.png|609.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/f5cd8e06-03de-4658-8f49-2c187b265afa.png) [^158]
+![f5cd8e06-03de-4658-8f49-2c187b265afa.png|609.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/f5cd8e06-03de-4658-8f49-2c187b265afa.png) [^157]
 
 \
 
@@ -2853,7 +2879,7 @@ But when you read about incidents like the [Codecov breach that exposed secrets 
 
 Every engineer using CI/CD, regardless of their role, should read through and understand the [OWASP’s TOP 10 CI/CD Security Risks report](https://link.mail.beehiiv.com/ls/click?upn=u001.I5O8xwjn2EsC38CD0Ry7Ltx66i7FM50IZpQDlkiEibde527WXtWn-2BswkQ9FkMIpZzJhIJzrbA-2Bxfhw3wOmRKCdvHSmPPe8P9k3WXj6MeG8X6RnAJOTd7MC29SI6Fj1IDwOlbqQaCz2Tuyn3Ci-2FTd70QEG8-2B-2FXgr7cHGGqAPK83tbhNp8od2UIIyR2XwEynSSvpdPaDq9DRvM0u28C3Rj52dLJrNje0YUBzS2hCQQdR4KJEXSISNWTU7w95BfZnZAk97bttUbCGVI6UYP-2BQn3GLDBCQksFIUT7uv-2BhnAQG4lYzVlAkbUYp0wWNQdTdNPUGbmHslGq8VL6-2BHRS-2BoV-2BuWSGWLBpwv32s79vwIhuZJpI0OctflD8xxMKB7UYPO-2BjiOUt_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BLsuK6uKRxcZUpXDm1yN7dvicMXETCzmY-2F5EiUq7a5sWBm-2FZ66pBSQIfLKfz4yArF40-2BZSkiLdfRvXKybNwgqt7b024N6GhmrlaHDAjvHSJqngHv092V3WkBGbJo-2FJ0s-2FdlwQlir6hW7oEy1fZalmYUFT2n8J3lyTcUfGFn1hipVjcIa3gQiZChnaOBmE9mzxvVDJQA-2BcPoNv7LwZsvk45vYJ3RGsBgRF99g5jAS6rDWAh6AMu5oKLQ-2BirlaTINo-2FecUbH1k3c4DN1zJfF-2F9d64jcu6HAad0i0jH-2BOeOH17blZm-2FfQubflq7EPCzNnPaSW-2FclkPfLkrErAh6zEt-2B3b2Eus7paePkhb6FzSnAAx6MWniwbQbc0a-2F562JC7j-2BDL0yKiqUopzOIhvwPIijn0l-2B58WiXWcGWtXcgSVgaqlOWFzgzAMZjewnPvqj28AmFXkKLTeP027hzFOCy0AifhxTp3YK8rdDgGQqc0DGI4L5dF90a73SdCNibovn-2BHbjpI) - this knowledge can solidify your SecOps expertise.
 
-![8d89a8ea-8799-4c58-8a15-afe5d09fa320.png|685.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8d89a8ea-8799-4c58-8a15-afe5d09fa320.png) [^159]
+![8d89a8ea-8799-4c58-8a15-afe5d09fa320.png|685.995361328125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/8d89a8ea-8799-4c58-8a15-afe5d09fa320.png) [^158]
 
 \
 
@@ -2879,7 +2905,7 @@ Every engineer using CI/CD, regardless of their role, should read through and un
 
 **5. Give Least Privilege Access -** Only grant access to users and roles that need it. The less exposure, the safer your secrets.
 
-![152d3d46-480d-4eac-8562-53a6ca92f7e2.png|615](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/152d3d46-480d-4eac-8562-53a6ca92f7e2.png) [^160]
+![152d3d46-480d-4eac-8562-53a6ca92f7e2.png|615](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/152d3d46-480d-4eac-8562-53a6ca92f7e2.png) [^159]
 
 \
 
@@ -2888,7 +2914,7 @@ Every engineer using CI/CD, regardless of their role, should read through and un
 | |
 |-|
 |Some popular tools include:<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^161]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^160]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
 Personally, I’d go with HashiCorp Vault because:
@@ -2901,7 +2927,7 @@ Personally, I’d go with HashiCorp Vault because:
 
 - It comes with cool extras like secret leasing and audit logs.
 
-![e205198a-c274-44a2-b61e-5fc12904c7c7.png|761.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e205198a-c274-44a2-b61e-5fc12904c7c7.png) [^162]
+![e205198a-c274-44a2-b61e-5fc12904c7c7.png|761.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e205198a-c274-44a2-b61e-5fc12904c7c7.png) [^161]
 
 \
 
@@ -2935,7 +2961,7 @@ In line with the DRY principle, here’s a directory structure you can adopt to 
 
 \
 
-![fc6f78eb-9f09-49a7-a022-317cf6493243.png|765](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/fc6f78eb-9f09-49a7-a022-317cf6493243.png) [^163]
+![fc6f78eb-9f09-49a7-a022-317cf6493243.png|765](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/fc6f78eb-9f09-49a7-a022-317cf6493243.png) [^162]
 
 \
 
@@ -3018,7 +3044,7 @@ kubectl describe deployment <techops-app> -n <namespace>
 
 Our Pod is running along, doing its job, and then suddenly - it stops. No graceful shutdown, no clear reason. It’s frustrating.
 
-![91080ce3-a65b-4751-ac5b-989dfa0d2b60.png|682.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/91080ce3-a65b-4751-ac5b-989dfa0d2b60.png) [^164]
+![91080ce3-a65b-4751-ac5b-989dfa0d2b60.png|682.986083984375](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/91080ce3-a65b-4751-ac5b-989dfa0d2b60.png) [^163]
 
 \
 
@@ -3123,7 +3149,7 @@ OfCourse, this could have been completely avoided.
 
 \
 
-![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/72ebad4c-aa8c-4aef-a80f-f9c3e9acdf06.png) [^165]
+![](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/72ebad4c-aa8c-4aef-a80f-f9c3e9acdf06.png) [^164]
 
 \
 
@@ -3218,7 +3244,7 @@ Try to design your kubernetes app to run **stateless** for better isolation, sca
 
 - Do not interfere with the Pod's lifecycle.
 
-![efbba94f-ae85-4501-8f61-81f8b516f2c5.png|710](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/efbba94f-ae85-4501-8f61-81f8b516f2c5.png) [^166]
+![efbba94f-ae85-4501-8f61-81f8b516f2c5.png|710](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/efbba94f-ae85-4501-8f61-81f8b516f2c5.png) [^165]
 
 But it also raises questions about their suitability in production environments.
 
@@ -3264,7 +3290,7 @@ Here - The Risks and Caveats of Using Ephemeral Containers
 
 **Hands-On Guide to Ephemeral Containers:**
 
-![d49a97fc-bf97-4b16-b826-1e1883d82b35.png|564.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d49a97fc-bf97-4b16-b826-1e1883d82b35.png) [^167]
+![d49a97fc-bf97-4b16-b826-1e1883d82b35.png|564.9884033203125](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d49a97fc-bf97-4b16-b826-1e1883d82b35.png) [^166]
 
 \
 
@@ -3276,7 +3302,7 @@ Refer to this guide, [debugging with an Ephemeral Debug Container](https://link.
 
 ### **23Q.** **Kubernetes Autoscaling - HPA vs VPA vs KEDA?**<!-- {"collapsed":true} -->
 
-![f4da599c-c8ad-43c0-924d-77de5dc736d7.png|906.0879516601562](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/f4da599c-c8ad-43c0-924d-77de5dc736d7.png) [^168]
+![f4da599c-c8ad-43c0-924d-77de5dc736d7.png|906.0879516601562](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/f4da599c-c8ad-43c0-924d-77de5dc736d7.png) [^167]
 
 \
 
@@ -3313,10 +3339,10 @@ Refer to this guide, [debugging with an Ephemeral Debug Container](https://link.
 | |
 |-|
 |For many workloads, a **hybrid approach** works best:<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^169]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^168]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 ### **24Q.** **Optimizing Kubernetes Costs with Pod Disruption Budgets?**<!-- {"collapsed":true} -->
 
-![84cbeb83-b2fb-44c6-8bdb-0d2f2aa22955.png|841.0994873046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/84cbeb83-b2fb-44c6-8bdb-0d2f2aa22955.png) [^170]
+![84cbeb83-b2fb-44c6-8bdb-0d2f2aa22955.png|841.0994873046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/84cbeb83-b2fb-44c6-8bdb-0d2f2aa22955.png) [^169]
 
 \
 
@@ -3396,7 +3422,7 @@ kubectl drain <node-name> --ignore-daemonsets --delete-emptydir-data
 
 ### **25Q.** **Kubernetes Deployment Strategies?**<!-- {"collapsed":true} -->
 
-![11d4c853-3727-47c2-995d-e9e3b38b9d10.png|777.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/11d4c853-3727-47c2-995d-e9e3b38b9d10.png) [^171]
+![11d4c853-3727-47c2-995d-e9e3b38b9d10.png|777.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/11d4c853-3727-47c2-995d-e9e3b38b9d10.png) [^170]
 
 \
 
@@ -3456,7 +3482,7 @@ Also, keep in mind that strategies not implemented correctly bleed money and req
 
 ### **26Q.** **Kubernetes POD Troubleshooting Tactics?**<!-- {"collapsed":true} -->
 
-![d84d44ba-aedc-42c1-a4dc-b6be9066c84c.png|802.0949096679688](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d84d44ba-aedc-42c1-a4dc-b6be9066c84c.png) [^172]
+![d84d44ba-aedc-42c1-a4dc-b6be9066c84c.png|802.0949096679688](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d84d44ba-aedc-42c1-a4dc-b6be9066c84c.png) [^171]
 
 \
 
@@ -3570,9 +3596,9 @@ If your pod can’t communicate with another service, test connectivity.
 
 | |
 |-|
+|[^172]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |[^173]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 |[^174]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
-|[^175]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 \
 
 **10. Inspect Resource Usage**
@@ -3599,7 +3625,7 @@ Kubernetes Pods are the fundamental building blocks of containerized application
 
 Here I’ve broken down the structure of a pod.yaml for a simplified understanding.
 
-![5d0774a7-fa56-4384-9df7-003a2873a697.png|796.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5d0774a7-fa56-4384-9df7-003a2873a697.png) [^176]
+![5d0774a7-fa56-4384-9df7-003a2873a697.png|796.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5d0774a7-fa56-4384-9df7-003a2873a697.png) [^175]
 
 \
 
@@ -3706,7 +3732,7 @@ Mastering it means less debugging, fewer outages, and smoother deployments.
 
 \
 
-![0c594f54-bcab-4f5c-80b6-81ea7b8e454b.png|756.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/0c594f54-bcab-4f5c-80b6-81ea7b8e454b.png) [^177]
+![0c594f54-bcab-4f5c-80b6-81ea7b8e454b.png|756.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/0c594f54-bcab-4f5c-80b6-81ea7b8e454b.png) [^176]
 
 # <mark style="background-color:#F8914D;">**Docker**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
@@ -3796,9 +3822,9 @@ In summary, Docker packages your application into containers that can run consis
 
 **Docker Architecture:**
 
-![ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg|649](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg) [^178]
+![ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg|649](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ebd1905b-1ed5-41df-8080-97dafa09b97d.jpg) [^177]
 
-![f0df8362-a561-4f7f-b23a-1ef74337cb30.png|937](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/f0df8362-a561-4f7f-b23a-1ef74337cb30.png) [^179]
+![f0df8362-a561-4f7f-b23a-1ef74337cb30.png|937](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/f0df8362-a561-4f7f-b23a-1ef74337cb30.png) [^178]
 
 \
 
@@ -3978,7 +4004,7 @@ A **Dockerfile** is a text file that contains a series of instructions to build 
 
 - **`WORKDIR`**: Sets the working directory for any `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, and `ADD` instructions that follow (e.g., `WORKDIR /app`).
 
-![c2450288-cd5c-4578-b50e-f88311cdc101.png|548](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/c2450288-cd5c-4578-b50e-f88311cdc101.png) [^180]
+![c2450288-cd5c-4578-b50e-f88311cdc101.png|548](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/c2450288-cd5c-4578-b50e-f88311cdc101.png) [^179]
 
 \
 
@@ -4056,7 +4082,7 @@ systemctl commands will not work in containers
 
 Ex:
 
-![55d24192-8c42-46ab-8482-7ef33191568d.png|459](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/55d24192-8c42-46ab-8482-7ef33191568d.png) [^181]
+![55d24192-8c42-46ab-8482-7ef33191568d.png|459](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/55d24192-8c42-46ab-8482-7ef33191568d.png) [^180]
 
 \
 
@@ -4102,7 +4128,7 @@ Ex:
 
 - **Default Arguments**: When `ENTRYPOINT` is defined, `CMD` is often used to provide default arguments to the `ENTRYPOINT` command.
 
-![9d618288-e8f1-4aea-966b-5b5ddd178b7f.png|817](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9d618288-e8f1-4aea-966b-5b5ddd178b7f.png) [^182]
+![9d618288-e8f1-4aea-966b-5b5ddd178b7f.png|817](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9d618288-e8f1-4aea-966b-5b5ddd178b7f.png) [^181]
 
 \
 
@@ -4130,7 +4156,7 @@ The `ENV` instruction in a Dockerfile is used to set environment variables insid
 
 \
 
-![ec0a5176-60e3-47e5-8268-e54e70a110bd.png|740](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ec0a5176-60e3-47e5-8268-e54e70a110bd.png) [^183]
+![ec0a5176-60e3-47e5-8268-e54e70a110bd.png|740](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/ec0a5176-60e3-47e5-8268-e54e70a110bd.png) [^182]
 
 \
 
@@ -4140,11 +4166,11 @@ The `ENV` instruction in a Dockerfile is used to set environment variables insid
 
 The `ARG` instruction in a Dockerfile defines a build-time variable that users can pass to the Docker build process to customize the image creation. Unlike environment variables set with `ENV`, `ARG` variables are not persisted in the final image, meaning they are only available during the image build process.
 
-![5785c489-6979-4915-aa3d-6f86755636df.png|501](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5785c489-6979-4915-aa3d-6f86755636df.png) [^184]
+![5785c489-6979-4915-aa3d-6f86755636df.png|501](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/5785c489-6979-4915-aa3d-6f86755636df.png) [^183]
 
 \
 
-![1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png|1058.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png) [^185]
+![1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png|1058.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/1e612a2c-e321-45bf-9e1b-9a3cdbb2232a.png) [^184]
 
 **Key Points**
 
@@ -4208,7 +4234,7 @@ The `WORKDIR` instruction in a Dockerfile sets the working directory for any sub
 
 - **Inheritance**: Once set, the `WORKDIR` applies to all subsequent instructions in the Dockerfile unless it's changed again with another `WORKDIR` instruction.
 
-![e42233b1-5bf4-419b-b6bb-6c003346a390.png|867](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e42233b1-5bf4-419b-b6bb-6c003346a390.png) [^186]
+![e42233b1-5bf4-419b-b6bb-6c003346a390.png|867](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e42233b1-5bf4-419b-b6bb-6c003346a390.png) [^185]
 
 In this example:
 
@@ -4226,7 +4252,7 @@ In this example:
 
 You can use multiple `WORKDIR` instructions in a Dockerfile to change the working directory at different stages.
 
-![e3fbe365-916f-434b-9716-aa02a444aab2.png|914](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e3fbe365-916f-434b-9716-aa02a444aab2.png) [^187]
+![e3fbe365-916f-434b-9716-aa02a444aab2.png|914](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/e3fbe365-916f-434b-9716-aa02a444aab2.png) [^186]
 
 \
 
@@ -4254,27 +4280,27 @@ The `ONBUILD` instruction in a Dockerfile is used to specify a command that will
 
 - **Child Image**: When a child image is built from the parent image, any `ONBUILD` instructions specified in the parent image are executed during the build process of the child image.
 
-![4cf8595d-8026-460d-b31d-5a74ccd15dce.png|659](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4cf8595d-8026-460d-b31d-5a74ccd15dce.png) [^188]
+![4cf8595d-8026-460d-b31d-5a74ccd15dce.png|659](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4cf8595d-8026-460d-b31d-5a74ccd15dce.png) [^187]
 
 \
 
-![148c59f4-b295-4462-8351-72a017d88e36.png|721](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/148c59f4-b295-4462-8351-72a017d88e36.png) [^189]
+![148c59f4-b295-4462-8351-72a017d88e36.png|721](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/148c59f4-b295-4462-8351-72a017d88e36.png) [^188]
 
 \
 
 **Parent image creation**
 
-![d8ff6b60-1a8a-4437-9a96-d9da70737a08.png|905.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d8ff6b60-1a8a-4437-9a96-d9da70737a08.png) [^190]
+![d8ff6b60-1a8a-4437-9a96-d9da70737a08.png|905.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/d8ff6b60-1a8a-4437-9a96-d9da70737a08.png) [^189]
 
 \
 
 **Child image creation (uses parent image)**
 
-![dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png|924.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png) [^191]
+![dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png|924.6666870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dc473c62-9c60-4b8d-a003-c7d1c0a381f6.png) [^190]
 
 \
 
-![89ce30a6-6752-423e-aa95-571c7953700e.png|1024.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/89ce30a6-6752-423e-aa95-571c7953700e.png) [^192]
+![89ce30a6-6752-423e-aa95-571c7953700e.png|1024.666748046875](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/89ce30a6-6752-423e-aa95-571c7953700e.png) [^191]
 
 ### **30Q. What is Docker Networking?**<!-- {"collapsed":true} -->
 
@@ -4338,14 +4364,14 @@ docker compose up -d
 docker compose down
 ```
 
-![9439ccf9-04f0-42eb-9904-1e069f89aa22.png|817.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9439ccf9-04f0-42eb-9904-1e069f89aa22.png) [^193]
+![9439ccf9-04f0-42eb-9904-1e069f89aa22.png|817.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/9439ccf9-04f0-42eb-9904-1e069f89aa22.png) [^192]
 
 \
 
 | |
 |-|
 |**Key Features:**<!-- {"cell":{"align":"left","color":"#2A2A2A"}} -->|
-|[^194]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
+|[^193]<!-- {"cell":{"align":"left","color":"#2D2D2D"}} -->|
 ### **32Q. Docker best practices?**<!-- {"collapsed":true} -->
 
 1\. use official images
@@ -4366,9 +4392,9 @@ It mainly used in java application, For usually java applications we will get th
 
 \
 
-![887e52ec-a93f-4954-9922-7166a678fc53.png|768](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/887e52ec-a93f-4954-9922-7166a678fc53.png) [^195]
+![887e52ec-a93f-4954-9922-7166a678fc53.png|768](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/887e52ec-a93f-4954-9922-7166a678fc53.png) [^194]
 
-![6d3c3f51-7c71-4e4d-b455-1cf214832864.png|740](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/6d3c3f51-7c71-4e4d-b455-1cf214832864.png) [^196]
+![6d3c3f51-7c71-4e4d-b455-1cf214832864.png|740](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/6d3c3f51-7c71-4e4d-b455-1cf214832864.png) [^195]
 
 ### **34Q. Docker Volumes?**<!-- {"collapsed":true} -->
 
@@ -4408,7 +4434,7 @@ How Layers Work
 
     1. Each subsequent command in the `Dockerfile` (like `RUN apt-get update`, `COPY . /app`, or `ENV VAR=value`) creates a new layer.
 
-    1. ![11370cc3-a33f-46d5-8d26-820bad5c5736.png|810.9954223632812](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/11370cc3-a33f-46d5-8d26-820bad5c5736.png) [^197]
+    1. ![11370cc3-a33f-46d5-8d26-820bad5c5736.png|810.9954223632812](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/11370cc3-a33f-46d5-8d26-820bad5c5736.png) [^196]
 
     1. These layers stack on top of each other, forming the final image.
 
@@ -4430,13 +4456,13 @@ Multiple images can share layers. For example, if two images use the same base i
 
 - **Storage Savings**: Since layers are shared across images, storage is used more efficiently.
 
-![004e11a5-a365-4fae-aa33-5831c74207f4.png|891.9907836914062](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/004e11a5-a365-4fae-aa33-5831c74207f4.png) [^198]
+![004e11a5-a365-4fae-aa33-5831c74207f4.png|891.9907836914062](https://images.amplenote.com/e8fba9fc-39b8-11ef-8998-6ef34fa959ce/004e11a5-a365-4fae-aa33-5831c74207f4.png) [^197]
 
 \
 
 ### **36Q. Docker disadvantages?**<!-- {"collapsed":true} -->
 
-![272239aa-6f8b-49d3-af12-5a28650234a8.png|995](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/272239aa-6f8b-49d3-af12-5a28650234a8.png) [^199]
+![272239aa-6f8b-49d3-af12-5a28650234a8.png|995](https://images.amplenote.com/3bc33404-3aa7-11ef-8e08-6ef34fa959ce/272239aa-6f8b-49d3-af12-5a28650234a8.png) [^198]
 
 
 ---
@@ -4457,7 +4483,7 @@ It helps you:
 
 It's a tool that keeps your code organized and helps you manage changes efficiently.
 
-![003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg|526.9791870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg) [^200]
+![003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg|526.9791870117188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/003d69a0-f8c0-4480-aba5-a5b6249d0714.jpg) [^199]
 
 \
 
@@ -4533,7 +4559,7 @@ It's a tool that keeps your code organized and helps you manage changes efficien
 
 **Answer:** To merge a branch into your current branch, you use the command `git merge branch_name`. This will integrate the changes from `branch_name` into your current branch.
 
-![230c4b3b-730f-4e9c-8c80-b2fd7508322c.png|345.9953918457031](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/230c4b3b-730f-4e9c-8c80-b2fd7508322c.png) [^201]
+![230c4b3b-730f-4e9c-8c80-b2fd7508322c.png|345.9953918457031](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/230c4b3b-730f-4e9c-8c80-b2fd7508322c.png) [^200]
 
 \
 
@@ -4541,7 +4567,7 @@ It's a tool that keeps your code organized and helps you manage changes efficien
 
 **Answer:**   Merge preservers history, rebase Restructure history.   when in doubt just merge, Never use rebase on public branches.
 
-![7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg|483.9930725097656](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg) [^202]
+![7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg|483.9930725097656](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/7d1a98b2-c7f3-4d01-aed3-847eedf56113.jpg) [^201]
 
 \
 
@@ -4607,7 +4633,7 @@ A **fast-forward merge** in Git is like moving a bookmark forward in a book.
 
 In short, a fast-forward merge is a way of integrating changes that keeps the history simple and straightforward, without adding extra commits.
 
-![18602b10-a3f0-4b23-8959-6fda153ed2fe.png|339.9884338378906](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/18602b10-a3f0-4b23-8959-6fda153ed2fe.png) [^203]
+![18602b10-a3f0-4b23-8959-6fda153ed2fe.png|339.9884338378906](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/18602b10-a3f0-4b23-8959-6fda153ed2fe.png) [^202]
 
 \
 
@@ -4619,7 +4645,7 @@ In short, a fast-forward merge is a way of integrating changes that keeps the hi
 
 \
 
-![3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg|752.9977416992188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg) [^204]
+![3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg|752.9977416992188](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/3f6023a2-9f9e-4a40-81bf-64f4c060dc6d.jpg) [^203]
 
 ### **15Q. Explain the difference between `git pull` and `git fetch`.**
 
@@ -4890,7 +4916,7 @@ Avoid manual modifications of the state file.
 
 Example:
 
-![4e26c5e4-57da-4ba3-9b17-af04970e258f.png|762.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4e26c5e4-57da-4ba3-9b17-af04970e258f.png) [^205]
+![4e26c5e4-57da-4ba3-9b17-af04970e258f.png|762.9976806640625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/4e26c5e4-57da-4ba3-9b17-af04970e258f.png) [^204]
 
 \
 
@@ -6050,7 +6076,7 @@ Build triggers in Jenkins are mechanisms that automatically start a job or pipel
 
 - Yes, you can define conditional logic in the `Jenkinsfile` to run different stages or steps depending on the branch name. For example:
 
-![dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png|687](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png) [^206]
+![dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png|687](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/dfd3192f-0960-4088-84d7-02b9f3cb9bd4.png) [^205]
 
 \
 
@@ -7179,59 +7205,45 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     OC
     Wikitechy
 
-[^60]: yaml
-    Copy code
-    apiVersion: v1
-    kind: Service
-    metadata :
-    name: my-service
-    spec :
-    selector:
-    app : my - app
-    ports :
-    - protocol: TCP
-    port: 80
-    targetPort : 8080
+[^60]: Incoming request
+    {+ Ingress
+    Cluster
+    Service
+    Service
+    Pod
+    Pod
+    Pod
 
-[^61]: yaml
-    Copy code
+[^61]: Yaml
+    O Copy
     apiVersion: networking . k8s . io/v1
     kind: Ingress
     metadata :
-    name: my- ingress
-    annotations :
-    nginx . ingress . kubernetes . io/rewrite-target: /
+    name: example-ingress
     spec :
     rules :
-    - host: "my-app . example. com"
+    host: yourdomain . com
     http:
     paths :
-    - path: /
+    - path: /app
     pathType: Prefix
     backend :
     service :
-    name: my-service
+    name : web-app-service
     port :
     number : 80
+    path: /api
+    pathType: Prefix
+    backend :
+    service :
+    name: api-service
+    port:
+    number : 80
 
-[^62]: Ingress Controller
-    - - -
-    - -------
-    - - - ---
-    EKS - Paas
-    roboshop, amazon, flipkart
-    ALB is preferred
-    context path
-    I
-    app-dev . daws76s. online/catalogue --> go to catalogue target group
-    host path
-    catalogue . app-dev . daws76s . online --> go to catalouge target group
-    user . app-dev . daws76s . online --> go to catalouge target group
-
-[^63]: ingress
+[^62]: ingress
     appl . daws76s . online --> Ingress Controller --> ingress --> appl service --> appl pod
 
-[^64]: 3 nodes --> 1.27
+[^63]: 3 nodes --> 1.27
     upgrade master node --> you can't deploy new applications. but existing applications will
     run. we will announce downtime.
     we will create another node group --> 1.29 --> green
@@ -7239,7 +7251,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     tainted. then pods will automatically come up into new nodes.. .
     we will old node group. ..
 
-[^65]: yaml
+[^64]: yaml
     Copy code
     apiVersion: v1
     kind: Pod
@@ -7252,7 +7264,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     value: "value"
     effect: "NoSchedule"
 
-[^66]: yaml
+[^65]: yaml
     Copy code
     tolerations :
     - key: "gpu"
@@ -7260,7 +7272,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     value: "true"
     effect: "NoSchedule"
 
-[^67]: yaml
+[^66]: yaml
     Copy code
     apiVersion: v1
     kind: Pod
@@ -7280,7 +7292,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     - name : my-container
     image: nginx
 
-[^68]: yaml
+[^67]: yaml
     Copy code
     apiVersion: v1
     kind: Pod
@@ -7301,7 +7313,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     - name: my-container
     image: nginx
 
-[^69]: yami
+[^68]: yami
     Copy code
     apiVersion: v1
     kind: Pod
@@ -7324,7 +7336,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     This ensures that no two pods with the label app=my-app will be scheduled on the same node. You
     can also use zone or region for spreading across larger topological areas.
 
-[^70]: NAME
+[^69]: NAME
     READY
     STATUS
     RESTARTS
@@ -7334,7 +7346,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     CreateContainerError
     5m
 
-[^71]: Kubernetes Container Creation Error
+[^70]: Kubernetes Container Creation Error
     Client
     Kubernetes
     Container
@@ -7352,7 +7364,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     API
     Runtime
 
-[^72]: Cause
+[^71]: Cause
     Description
     Incorrect Image
     The image specified in the Pod manifest
@@ -7369,7 +7381,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     An issue with the container runtime
     (e.g., Docker, containerd) on the node.
 
-[^73]: Containers :
+[^72]: Containers :
     techops -examples :
     Container ID:
     Image :
@@ -7394,7 +7406,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     data-pvc
     Optional: false
 
-[^74]: LAST SEEN
+[^73]: LAST SEEN
     TYPE
     REASON
     OBJECT
@@ -7405,27 +7417,27 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     pod/techops -examples
     Failed to create container: CreateContainerError
 
-[^75]: containers :
+[^74]: containers :
     - name: techops-examples
     image: nginx : 1. 21.3
     command: \["/bin/bash", "-c"
     "echo Application is up" \]
 
-[^76]: resources :
+[^75]: resources :
     requests :
     memory : "2Gi"
     cpu: "1000m"
 
-[^77]: volumes :
+[^76]: volumes :
     - name: data-volume
     persistentVolumeClaim :
     claimName: data-pvc
 
-[^78]: $ kubectl get pods
+[^77]: $ kubectl get pods
     NAME READY STATUS RESTARTS AGE
     techops-app 0/1 RunContainerError 0 6m 12s
 
-[^79]: 
+[^78]: 
     - Missing or incorrect volume mounts (e.g., ConfigMap or Secret).
 
     - Attempting to write to a read-only volume.
@@ -7434,7 +7446,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
 
     - Permissions or security context issues.
 
-[^80]: $ kubectl describe pod techops-app
+[^79]: $ kubectl describe pod techops-app
     Events:
     Type Reason Age From Message
     Normal Scheduled 6m default-scheduler Successfully assigned default/techops-app to node-1
@@ -7445,30 +7457,30 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     caused "exec: \\"/app/start.sh\\": permission denied"
     Warning BackOff 5m (x3 over 6m) kubelet Back-off restarting failed container
 
-[^81]: $ kubectl logs techops-app -c techops-container
+[^80]: $ kubectl logs techops-app -c techops-container
     /bin/sh: 1: /app/start.sh: Permission denied
 
-[^82]: $ kubectl get configmap techops-config
+[^81]: $ kubectl get configmap techops-config
     Error from server (NotFound): configmaps "techops-config" not found
     $ kubectl get secret techops-secret
     Error from server (NotFound): secrets "techops-secret" not found
 
-[^83]: containers:
+[^82]: containers:
     - name: techops-container
     image: techops-image:v1.2.3
     command: \["/app/start.sh"\]
     args: \["--env", "production", "--debug", "false"\]
 
-[^84]: securityContext:
+[^83]: securityContext:
     runAsUser: 1000
     runAsGroup: 3000
 
-[^85]: kubectl exec -it techops-app -- Is -\| /app/start.sh
+[^84]: kubectl exec -it techops-app -- Is -\| /app/start.sh
     -rwxr-xr-- 1 appuser appgroup 4096 Nov 5 07:00 /app/start.sh
     In crux, proper file permissions, valid volume mounts, accurate command paths,
     and appropriate user contexts help to prevent RunContainerError.
 
-[^86]: Pod level
+[^85]: Pod level
     Container level
     Pod + Container
     pod.yaml
@@ -7517,7 +7529,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     inherited by all containers
     applied individual containers container level overrides pod
 
-[^87]: 
+[^86]: 
     - **runAsNonRoot & runAsUser:** Ensure containers don't run as root, enforcing a non-privileged user setup.
 
     - **allowPrivilegeEscalation:** Prevent containers from gaining additional privileges.
@@ -7526,7 +7538,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
 
     - **seccomp:** Limits system calls, offering another layer of security by using profiles like `RuntimeDefault` or custom ones.
 
-[^88]: apiVersion: v1
+[^87]: apiVersion: v1
     kind: Pod
     metadata:
     name: techops-examples-pod
@@ -7545,7 +7557,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     - name: log-container
     image: fluentd:latest
 
-[^89]: apiVersion: v1
+[^88]: apiVersion: v1
     kind: Pod
     metadata:
     name: techops-examples-pod
@@ -7571,7 +7583,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     type: Localhost
     localhostProfile: "custom-seccomp-profile.json"
 
-[^90]: apiVersion: v1
+[^89]: apiVersion: v1
     kind: Pod
     metadata:
     name: techops-examples-pod
@@ -7592,7 +7604,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     allowPrivilegeEscalation: false
     readOnlyRootFilesystem: true
 
-[^91]: Setting
+[^90]: Setting
     Defaults to
     Security best practice
     runAsNonRoot
@@ -7609,7 +7621,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     RuntimeDefault or
     Localhost
 
-[^92]: Star History
+[^91]: Star History
     aquasecurity/kube-bench
     stern/stern
     6.OK
@@ -7629,26 +7641,26 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Date
     star-history.com
 
-[^93]: 
+[^92]: 
     - YAML-based test configuration allows easy updates as specs evolve.
 
     - kube-bench auto-selects tests for the node's Kubernetes version.
 
-[^94]: 
+[^93]: 
     - Filters pods with regex or <resource>/<name>, no exact pod IDs needed.
 
     - Tails all pod containers by default, but you can limit with the container flag.
 
     - Auto-removes deleted pods, adds new ones as created.
 
-[^95]: 
+[^94]: 
     - Evaluates resource definitions like Deployments, Services, and Ingresses for misconfigs.
 
     - Supports CRD validation, checks labels, resource limits, and other key configs.
 
     - Provides a score based on best practices and highlights issues.
 
-[^96]: 
+[^95]: 
     - Identify risky Pods\\Containers
 
     - Identify risky Roles\\ClusterRoles
@@ -7661,50 +7673,50 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
 
     - CVE scan
 
-[^97]: 
+[^96]: 
     - Shows who can access Kubernetes resources and their actions.
 
     - Audits RBAC permissions for users, groups, and service accounts in a clear matrix view.
 
     - Supports CI/CD integration for continuous RBAC audits.
 
-[^98]: 
+[^97]: 
     - Old clusters, users, and contexts staying in the config even after cluster deletion.
 
     - Manual cleanups becoming tedious and error-prone.
 
     - Slow and confusing environment switching due to too much clutter.
 
-[^99]: clusters:
+[^98]: clusters:
     - name: techopsexamples-cluster
     cluster:
     server: https://k8s.techopsexamples.com
     certificate-authority-data: Cluster CA
 
-[^100]: users:
+[^99]: users:
     - name: techopsexamples-user
     user:
     token: abc123tokenxyz
 
-[^101]: contexts:
+[^100]: contexts:
     - name: techopsexamples-context
     context:
     cluster: techopsexamples-cluster
     user: techopsexamples-user
 
-[^102]: current-context: techopsexamples-context
+[^101]: current-context: techopsexamples-context
 
-[^103]: 
+[^102]: 
     ```
     kubectl config set-cluster techopsexamples-cluster --server=https://techopsexamples.cluster.com 
     ```
 
-[^104]: 
+[^103]: 
     ```
     kubectl config set-credentials techopsexamples-user --token=abc123tokenxyz
     ```
 
-[^105]: Sample cleanup summary:
+[^104]: Sample cleanup summary:
     UBETIO
     Starting KubeTidy cleanup. ..
     Backup created at C: \\Users\\rhooper\\. kube\\config. bak_20240925_165258
@@ -7718,7 +7730,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Clusters Kept:
     28
 
-[^106]: apiVersion: networking.k8s.io/v1
+[^105]: apiVersion: networking.k8s.io/v1
     kind: NetworkPolicy
     metadata:
     name: access-control-database
@@ -7734,12 +7746,12 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     matchLabels:
     role: admin
 
-[^107]: 
+[^106]: 
     - **Labels Could Be Modified**: Developers could label any pod as  `role: admin` at runtime, granting it database access.
 
     - **Namespace Confusion**: Policies often overlooked namespaces, allowing a `role: admin` pod in the dev environment to mistakenly access production services.
 
-[^108]: apiVersion: security.istio.io/v1
+[^107]: apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
     name: access-control-istio
@@ -7749,10 +7761,10 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     - source:
     principals: \["cluster.local/ns/techops/saladmin-service-account"\]
 
-[^109]: $ kubectl delete pod techops-pod
+[^108]: $ kubectl delete pod techops-pod
     pod "techops-pod" deleted
 
-[^110]: Kube-Proxy
+[^109]: Kube-Proxy
     Iptables
     Endpoint
     Controller
@@ -7782,7 +7794,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     POD UP
     POD DOWN
 
-[^111]: 1. kubectl delete pod: Triggers the API Server to update ETCD with
+[^110]: 1. kubectl delete pod: Triggers the API Server to update ETCD with
     deletionTimestamp and deletionGracePeriodSeconds, marking the pod
     as Terminating.
     2. API Server - Kubelet: Notifies the Kubelet of the pod's termination.
@@ -7806,10 +7818,10 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     . SIGQUIT: Quit signal
     . SIGSTOP: Stop the process (cannot be caught or ignored)
 
-[^112]: Warning NodePressure \[timestamp\] kubelet Node \[node-name \]
+[^111]: Warning NodePressure \[timestamp\] kubelet Node \[node-name \]
     status is now: NodeHasDiskPressure
 
-[^113]: Implement Resource Quotas and Limits:
+[^112]: Implement Resource Quotas and Limits:
     apiVersion: v1
     kind: ResourceQuota
     metadata :
@@ -7819,14 +7831,14 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     hard :
     requests . storage: 10Gi
 
-[^114]: 
+[^113]: 
     - Provisions compute based on real-time pod needs
 
     - Launches only necessary instance types, consolidates workloads
 
     - Removes underutilized nodes, swaps expensive instances
 
-[^115]: Pending pods
+[^114]: Pending pods
     Existing capacity
     Optimized capacity
     LLLLL
@@ -7841,14 +7853,14 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     K
     Ref: Karpenter Architecture
 
-[^116]: 
+[^115]: 
     - Enforces policies via validating and mutating requests
 
     - Targets resources by type, name, labels
 
     - Provides Policy Reports for compliance insights
 
-[^117]: API
+[^116]: API
     HTTP
     Authn /
     Mutating
@@ -7888,11 +7900,11 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     PolicyExceptions
     Ref: Kyverno architecture
 
-[^118]: annotations :
+[^117]: annotations :
     downscaler/downtime-replicas: "1"
     downscaler/uptime: Mon-Fri 08:00-19:00 Europe/Berlin
 
-[^119]: 
+[^118]: 
     - `minAvailable` is below 100%.
 
     - `maxUnavailable` is above 0%.
@@ -7901,7 +7913,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
 
     - HPAs have `minReplicas` above 1.
 
-[^120]: . Controller: A controller continuously monitors the state of resources and
+[^119]: . Controller: A controller continuously monitors the state of resources and
     ensures the actual state matches the desired configuration. When something
     changes or fails, the controller works to bring things back into alignment.
     Control Loop
@@ -7927,7 +7939,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Kubernetes
     API
 
-[^121]: apiVersion: postgresql.dev/v1
+[^120]: apiVersion: postgresql.dev/v1
     kind: PostgresCluster
     metadata:
     name: techops-database
@@ -7939,7 +7951,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     storage:
     size: 100Gi
 
-[^122]: Downloads
+[^121]: Downloads
     Creates
     Uploads
     Chart
@@ -7985,12 +7997,12 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Instructions displayed after chart
     installation
 
-[^123]: dependencies:
+[^122]: dependencies:
     - name: redis
     version: "14.8.12"
     repository: "https://charts.bitnami.com/bitnami"
 
-[^124]: Feature
+[^123]: Feature
     Kubernetes Operator
     Helm Chart
     Purpose
@@ -8029,7 +8041,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     management
     applications
 
-[^125]: /var/log/
+[^124]: /var/log/
     containers/
     Logs directory for each container in pods
     <pod-name>_<namespace>_<container-name><container-id> . log
@@ -8064,7 +8076,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     error . log
     Error logs for the controller manager
 
-[^126]: etcd/
+[^125]: etcd/
     etcd . log
     Main etcd log
     snapshot . log
@@ -8098,7 +8110,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     error . log
     Node-level error logs, if separated
 
-[^127]: 1. Node logging Agent
+[^126]: 1. Node logging Agent
     app-pod
     Logging
     app-container
@@ -8120,7 +8132,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Containers log to stout and stderr in varied formats, which the node-level agent
     gathers for aggregation.
 
-[^128]: 2. Streaming Sidecar Container
+[^127]: 2. Streaming Sidecar Container
     app-pod
     app-container
     Logging
@@ -8145,7 +8157,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Since kubelet manages stdout and stderr, you can easily access logs using tools
     like kubectl logs.
 
-[^129]: 3. Sidecar Container With a Logging Agent
+[^128]: 3. Sidecar Container With a Logging Agent
     app-pod
     Pod
     app-container
@@ -8165,7 +8177,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     outside the scope of Kubernetes, though it can be an option for specific cases, like
     when an application requires direct integration with an external logging service.
 
-[^130]: Conventional Pipeline
+[^129]: Conventional Pipeline
     Kubernetes Pipeline
     code Commit
     Code Commit
@@ -8215,28 +8227,28 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Cluster
     Monitor & Maintain
 
-[^131]: 100%
+[^130]: 100%
     V1
     LB
     V2
 
-[^132]: 25%
+[^131]: 25%
     V1
     75%
     LB
 
-[^133]: V1
+[^132]: V1
     LB
     V2
 
-[^134]: 
+[^133]: 
     - Organize your Kubernetes namespaces based on team functions or project requirements.
 
     - Implement [container scanning](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7C6CV7bIeUUDlZGwHPz2MV4dJIEMmgeVe3vbXPtxx-2FYk0J0S1REDlPTu4hNtWn42SC4aOFP22k8uP-2B0nBYJ0z988-2BfyHIDuDHkmULVceV9XAcQypTRk-2FXhlt4UVruRyPWoxmQmkavBv90RsQ4jAEjUTSXDxeDSfnpkn2LTrjdJXmvBboKAZ0-2BHqZRZVwWRHFeNP-2F3IJoDVpJTHC-2FADyzRcuFTKDeMTZ1CJRE7FsXxxaRYFCTcmrt5JUD-2BAN8zFlgB6q2aXtLXEUS7IivjncEwkc504Bi-2FrzEfCo7LgcV2iRp8rXxr_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BOsujFk-2F3l1aD8jNLLIMDu-2BinvkKr6G74EftfVwENY-2F0fJ2lk9gUnsHIJbwS-2Fy8AMrm9qvSDj8pYwInufpdckvli9XbdO6Z4dM1LwtWJGVerhBlf6JCFOFBhJnp15E6co87Ykd6n4G1TpmpnH8k3q61MpJYWx81HRiNLnQEheQL2aoOFKqzzOm8dxGrHdIT48FQkIgci3-2FQTuoE4mQ8Syzo4VmYIh6-2BBOh8GAG1o9rxMmx0IR1IqE0VVMXFJ5VGz2nI460971NCUB0Sy-2Fu7sOTOni6SH1ptUFdZ7KwTiaJMvPAat7FomGajpm8x8MHYwh2hWIRd9zDIovutwAzjSZWow-2FZJObhZCxNv3l5qlF2WnlrhFfX6IMpt3x1WuK8uub), secure your container registry, and regularly review access controls for Kubernetes resources.
 
     - Integrate [caching mechanisms](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7C2dJ19d5fuEZK-2FSWdOqhfpCvMCq1ougs9pd7yOXstT7DoTJX5lHtkQlvLtUVujp9sOCyk8-2FZ8e-2B54tkHxNkfimBBis98PxD4MG7Bvlt-2BKzXgaSRIeig1olmc-2BgJQjXkBn7Us6HYTAQEAtckwotqbc2Jtv2WJU2ShOGGX16woKh2J3-2FbB5IpudhvIT12vUAaEoFYqYliNyCNp2A0qZ3oAzxQ3ML1LUFjUvauTEOiYt9yB8T3gvpB7HWWfF1HZXUsBeA-3D-3D3dzi_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2BOsujFk-2F3l1aD8jNLLIMDu-2BinvkKr6G74EftfVwENY-2F0fJ2lk9gUnsHIJbwS-2Fy8AMrm9qvSDj8pYwInufpdckvli9XbdO6Z4dM1LwtWJGVerhBlf6JCFOFBhJnp15E6co87Ykd6n4G1TpmpnH8k3q61MpJYWx81HRiNLnQEheQL2aoOFKqzzOm8dxGrHdIT48FQkIgci3-2FQTuoE4mQ8Syzo4VmYIh6-2BBOh8GAG1o9rxNamBpnaoq6Nw8Kq9QC30namaywBr0IRYuJ-2FVHudXEI4LdTHVKLKHR8-2BeZ4vCgcZlunzeipU3kI4ryfhxo-2BDgn2HTtvpAPX-2FOi7nQYevr3mbJs-2FPPLno9KSMOICWcvVLD4-2F2Tu4EPeYsbBKemDi-2FC-2Bq) to avoid redundant builds, optimize image layers, and use lightweight base images to speed up deployments.
 
-[^135]: apiVersion: v1
+[^134]: apiVersion: v1
     kind: Pod
     Resource type (Pod in this case)
     metadata:
@@ -8313,7 +8325,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     command: \["sh", "-c", "echo Init; sleep 5"\]
     > Setup commands
 
-[^136]: livenessProbe :
+[^135]: livenessProbe :
     Checks if the container is still running
     httpGet:
     path: /healthz
@@ -8339,7 +8351,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     > Interval between checks
     pod. yaml probes section sample
 
-[^137]: spec :
+[^136]: spec :
     affinity :
     nodeAffinity :
     Rules to control node selection
@@ -8373,19 +8385,19 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Same node
     pod. yaml affinity section sample
 
-[^138]: 
+[^137]: 
     - Monolithic vs Microservices
 
     - Serverless vs Self-Managed Virtual Instances
 
     - Kubernetes vs Do we really need Kubernetes?
 
-[^139]: 
+[^138]: 
     - **Monolithic architecture** is a single, tightly integrated application where all components function as one unit.
 
     - **Microservices architecture** is a design where the application is split into independent services communicating via APIs.
 
-[^140]: Monolith
+[^139]: Monolith
     Micro Services
     Front End
     - - - ---
@@ -8395,7 +8407,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     O
     Storage ----.
 
-[^141]: Misaligned complexity can create a real problem, not the architecture itself.
+[^140]: Misaligned complexity can create a real problem, not the architecture itself.
     Imagine a spectrum.
     On the far left, your system has a manageable number of services:
     On the far right, the system has fragmented into too many services:
@@ -8416,27 +8428,27 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     It's the result of too many services, fragmented ownership, and poor boundaries.
     Unless you bring this under control, microservices will become a liability.
 
-[^142]: 
+[^141]: 
     ### **1. Streamline and consolidate services**
 
-[^143]: 
+[^142]: 
     - Merge services with overlapping functionalities
 
     - Reduce the granularity of services where it’s unnecessary
 
     - Centralize non-critical shared services
 
-[^144]: 
+[^143]: 
     ### **2. Improve operational management**
 
-[^145]: 
+[^144]: 
     - Introduce robust service discovery and dependency mapping tools
 
     - Enforce architectural boundaries and team ownership
 
     - Use automation for scaling, monitoring, and troubleshooting
 
-[^146]: 1.31.x
+[^145]: 1.31.x
     1.31.
     1.30 x
     1.30.x
@@ -8483,7 +8495,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     202
     Kubernetes Versions Support Timeline
 
-[^147]: Kubernetes Cluster Upgrade
+[^146]: Kubernetes Cluster Upgrade
     Cheat Sheet
     www.techopsexamples.com
     SCOPE THE UPGRADE
@@ -8545,7 +8557,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     VERIFY UPGRADED VERSION C Pick up next
     kubectl get nodes
 
-[^148]: Cost Distribution Over Black Friday (Using Karpenter)
+[^147]: Cost Distribution Over Black Friday (Using Karpenter)
     Instance Types
     1400
     Savings Plans
@@ -8572,7 +8584,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Hour 12
     Time Intervals
 
-[^149]: 1. Enable Feature Gates
+[^148]: 1. Enable Feature Gates
     Helm Chart Configuration to update and deploy:
     settings:
     featureGates:
@@ -8580,7 +8592,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Drift: true
     NodeRepair: true
 
-[^150]: 2. Configure Provisioner
+[^149]: 2. Configure Provisioner
     apiVersion: karpenter.sh/v1alpha5
     kind: Provisioner
     metadata:
@@ -8596,7 +8608,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     consolidation:
     enabled: true
 
-[^151]: 3. Monitoring and Observability
+[^150]: 3. Monitoring and Observability
     SpotToSpotConsolidation Logs:
     {"level": "info", "msg": "Migrating workload from spot node
     techops1 to more stable node techops2"}
@@ -8612,7 +8624,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     . Lean, healthy infrastructure
     . Zero downtime throughout the event
 
-[^152]: Before
+[^151]: Before
     After
     (Higher Latency)
     (Lower Latency)
@@ -8642,13 +8654,13 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     techopsexamples.com
     sessionAffinity: ClientIP
 
-[^153]: 
+[^152]: 
     ### **externalTrafficPolicy: Local**
 
-[^154]: 
+[^153]: 
     ### **sessionAffinity: ClientIP**
 
-[^155]: affinity:
+[^154]: affinity:
     podAntiAffinity:
     requiredDuring SchedulingIgnoredDuring Execution:
     - labelSelector:
@@ -8656,7 +8668,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     app: frontend
     topologyKey: kubernetes.io/hostname
 
-[^156]: resources:
+[^155]: resources:
     requests:
     cpu: "500m"
     memory: "256Mi"
@@ -8664,7 +8676,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     cpu: "1 "
     memory: "512Mi"
 
-[^157]: Sample Network Policy to Allow Traffic from Specific IPs:
+[^156]: Sample Network Policy to Allow Traffic from Specific IPs:
     ingress:
     - from:
     - ipBlock:
@@ -8673,14 +8685,14 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     - protocol: TCP
     port: 80
 
-[^158]: What do you want the attacker to see?
+[^157]: What do you want the attacker to see?
     echo $TECHOPS_API KEY
     \* \* \* \* \* \* \*\*
     OR
     echo $TECHOPS_API KEY
     lousy_apikey_get_in
 
-[^159]: Top 10
+[^158]: Top 10
     CICD-SEC-1 Insufficient Flow Control Mechanisms
     CI/CD
     CICD-SEC-2 Inadequate Identity and Access Management
@@ -8699,7 +8711,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     A point worth noting here, Secrets/Credentials handling cuts through other major
     risks.
 
-[^160]: Why the
+[^159]: Why the
     PRINCIPLE of
     POLP
     LEAST PRIVILEGE
@@ -8720,7 +8732,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     guard
     against HUMAN ERROR
 
-[^161]: 
+[^160]: 
     1. AWS Secrets Manager
 
     1. HashiCorp Vault
@@ -8731,7 +8743,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
 
     1. Docker Secrets
 
-[^162]: CI/CD
+[^161]: CI/CD
     Transit
     Azure
     Microsoft
@@ -8770,7 +8782,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     8
     Authentication
 
-[^163]: k8s-project/
+[^162]: k8s-project/
     base/
     Common / shared Kubernetes manifests
     deployment . yaml
@@ -8818,7 +8830,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     prod-values . yaml
     Production specific configurations
 
-[^164]: Kubernetes POD Lifecycle - Behind the Scenes
+[^163]: Kubernetes POD Lifecycle - Behind the Scenes
     Pod accepted by the
     Pod is scheduled to a
     All Containers
@@ -8850,7 +8862,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Unknown
     Unsuccessfully
 
-[^165]: Top 10 Must-Know Design Patterns for Kubernetes Beginners
+[^164]: Top 10 Must-Know Design Patterns for Kubernetes Beginners
     Foundational
     Structural
     Behavioural
@@ -8870,7 +8882,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Service Discovery
     Credit: Redhat
 
-[^166]: Normal Containers
+[^165]: Normal Containers
     Ephemeral Containers
     Start Agent
     Start Agent
@@ -8887,7 +8899,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     container (risk of side effects)
     (isolated from app container)
 
-[^167]: Launch an Ephemeral Container
+[^166]: Launch an Ephemeral Container
     kubectl debug <pod-name> -c debug-container --image=busybox --
     target=<main-container>
     # Inspect Logs in the Ephemeral Container:
@@ -8895,7 +8907,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     # Run Commands in the Ephemeral Container:
     kubectl exec -it <pod-name> -c debug-container - - sh
 
-[^168]: Kubernetes HPA vs VPA vs KEDA
+[^167]: Kubernetes HPA vs VPA vs KEDA
     techopsexamples . com
     VPA
     Event Sources
@@ -8971,14 +8983,14 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Pod N
     cpu: "500m"
 
-[^169]: 
+[^168]: 
     1. **HPA + VPA**: Use HPA to scale pods based on CPU/memory usage while VPA adjusts pod resource requests for efficient utilization.
 
     1. **HPA + KEDA**: Use HPA for resource-based scaling and KEDA for event-driven scaling.
 
     1. **HPA + VPA + KEDA**: Combine all three for workloads that are both resource-intensive and event-driven, ensuring cost efficiency and performance.
 
-[^170]: What You Assume
+[^169]: What You Assume
     Where you
     End up
     Right
@@ -8986,7 +8998,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     techopsexamples . com
     . . .... .. . .
 
-[^171]: KUBERNETES DEPLOYMENT STRATEGIES
+[^170]: KUBERNETES DEPLOYMENT STRATEGIES
     Recreate
     Rolling Update
     Discard
@@ -9025,7 +9037,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Downtime: Not Applicable
     V2
 
-[^172]: KUBERNETES POD TROUBLESHOOTING TACTICS
+[^171]: KUBERNETES POD TROUBLESHOOTING TACTICS
     techopsexamples . com
     Verify Pod
     Check logs
@@ -9050,22 +9062,22 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Resource Usage
     HOW OFTEN I DO IT
 
-[^173]: 
+[^172]: 
     ```
     kubectl exec -it <pod_name> -- sh
     ```
 
-[^174]: 
+[^173]: 
     ```
     ping <target_host>
     ```
 
-[^175]: 
+[^174]: 
     ```
     curl <target_url>
     ```
 
-[^176]: KUBERNETES pod.yaml STRUCTURE BREAKDOWN
+[^175]: KUBERNETES pod.yaml STRUCTURE BREAKDOWN
     TECHOPSEXAMPLES.COM
     apiVersion: v1
     kind: Pod
@@ -9143,7 +9155,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     command: \["sh", "-c", "echo Init; sleep 5"\]
     -> Setup commands
 
-[^177]: KUBERNETES COMMON ERRORS
+[^176]: KUBERNETES COMMON ERRORS
     SIMPLIFIED EXPLANATION
     techopsexamples.com
     1. CRASHLOOPBACKOFF
@@ -9166,7 +9178,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Pods are terminated to free resources
     when the node runs out of memory.
 
-[^178]: Docker Images and Layers
+[^177]: Docker Images and Layers
     How the "IMAGE"
     Image
     -- appears.. when viewing
@@ -9223,7 +9235,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Dockerfile
     this
 
-[^179]: docker architecture
+[^178]: docker architecture
     docker run nginx
     1. docker shell/ docker command send a request to docker deamon
     2. docker engine receives the request
@@ -9232,7 +9244,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     5. if not available, it will pul from docker central hub, keep it in local.
     6. create container and response to client
 
-[^180]: Example of a Simple Dockerfile:
+[^179]: Example of a Simple Dockerfile:
     dockerfile
     Copy code
     # Use an official Node.js runtime as a parent image
@@ -9245,7 +9257,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     RUN npm install
     # Make port 3000 available to the
 
-[^181]: dockerfiles > CMD >
+[^180]: dockerfiles > CMD >
     Dockerfile
     1
     FROM almalinux : 8
@@ -9255,7 +9267,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     CMD
     \["nginx", "-g", "daemon off;"\]
 
-[^182]: Example
+[^181]: Example
     Dockerfile
     Copy code
     FROM ubuntu : 20 . 04
@@ -9266,7 +9278,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     You can override the \* CMD part by passing arguments to \* docker run, like docker run my-
     image Goodbye!' , which will execute \* echo Goodbye!" .
 
-[^183]: Example
+[^182]: Example
     Dockerfile
     Copy code
     FROM ubuntu : 20. 04
@@ -9282,7 +9294,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     The \*WORKDIR command uses the \* APP_HOME variable to set the working directory to
     /usr/src/app .
 
-[^184]: FROM almalinux : 8
+[^183]: FROM almalinux : 8
     2
     ARG username
     3
@@ -9292,7 +9304,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     5
     CMD \["sleep", "100"\]
 
-[^185]: docker build -t arg: v1 --build-arg username=satya
+[^184]: docker build -t arg: v1 --build-arg username=satya
     34 . 229. 144.33 \| 172. 31.22.2 \| t2.micro \| https: / /github. com/daws-76s/dockerfiles . git
     \[ centos@ip-172-31-22-2 \~/dockerfiles/ARG \]$ docker build -t arg:v1 --build-arg username=sivakumar
     \[+\] Building 0.1s (5/5) FINISHED
@@ -9320,7 +9332,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     0.
     Os
 
-[^186]: Syntax
+[^185]: Syntax
     Dockerfile
     Copy code
     WORKDIR /path/to/directory
@@ -9334,7 +9346,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     RUN make /usr/src/app
     CMD \[" . /app"\]
 
-[^187]: Dockerfile
+[^186]: Dockerfile
     Copy code
     WORKDIR /usr/src/app
     COPY
@@ -9345,7 +9357,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     "WORKDIR" changes the context to \* /usr/src/app/config" for the subsequent \* copy and RUN
     commands.
 
-[^188]: V
+[^187]: V
     REPOS
     dockerfiles > onbulid > <dockerfile > ..
     > Ansible
@@ -9375,7 +9387,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     > test
     dockerfile
 
-[^189]: REPOS
+[^188]: REPOS
     dockerfiles > onbulid > test > < dockerfile > ...
     > Ansible
     - 1
@@ -9397,15 +9409,15 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     dockerfile
     <> index.html
 
-[^190]: 3. 90. 236.230 \| 172. 31 . 44.186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
+[^189]: 3. 90. 236.230 \| 172. 31 . 44.186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
     \[ centosdip-172-31-44-186 \~/dockerfiles/onbulid \]$ docker build -t on:v1 .
     \[+\] Building 0.2s (8/8) FINISHED
 
-[^191]: 3. 90. 236.230 \| 172. 31. 44.186 \| t2.micro \| https: //github.com/chilops/dockerfiles.git
+[^190]: 3. 90. 236.230 \| 172. 31. 44.186 \| t2.micro \| https: //github.com/chilops/dockerfiles.git
     \[ centosdip-172-31-44-186 \~/dockerfiles/onbulid/test \]$ docker build -t on-test:v1
     \[+\] Building 0.2s (7/7) FINISHED
 
-[^192]: 3. 90. 236.230 \| 172. 31 . 44. 186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
+[^191]: 3. 90. 236.230 \| 172. 31 . 44. 186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
     centosdip-172-31-44-186 \~/dockerfiles/onbulid/test_\]$ docker run -d -p 8083:80 on-test:v1
     13232fb1 7da02cae8e6cdb27ccba2e276d1462bc140275ae3af448f7ff641943
     3. 90. 236.230 \| 172. 31. 44.186 \| t2.micro \| https: //github. com/chilops/dockerfiles.git
@@ -9442,7 +9454,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     0. 0. 0. 0:8083->80/tcp, : : :8083->80/tcp
     adoring_noether
 
-[^193]: . Dockerfile: Used to create and build Docker images.
+[^192]: . Dockerfile: Used to create and build Docker images.
     . Docker Compose: Used to run Docker containers as part of a multi-
     container setup or with specific runtime configs.
     Dockerfile
@@ -9466,7 +9478,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Docker Image
     Docker Container
 
-[^194]: 
+[^193]: 
     - **Orchestration:** Manages container communication, data sharing, and networking.
 
     - **Multi-Container Support:** Simplifies managing multiple services.
@@ -9479,14 +9491,14 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
 
     - **Volume Management:** Manages shared or persistent data.
 
-[^195]: Source code --> compile --> byte code (jar) --> run byte code
+[^194]: Source code --> compile --> byte code (jar) --> run byte code
     JDK --> Java development kit
     JRE --> Java runtime environment
     JDK > JRE and JRE is subset of JDK
     JDK memory > JRE memory
     I
 
-[^196]: REPOS
+[^195]: REPOS
     roboshop-docker > shipping > Dockerfile > FROM
     #
     > learn-jenkins
@@ -9550,7 +9562,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     rohnchon-infra-dow
     24
 
-[^197]: For example:
+[^196]: For example:
     Dockerfile
     Copy code
     FROM ubuntu : 20.04
@@ -9561,7 +9573,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     COPY . /app
     # Another new layer
 
-[^198]: 1. base image
+[^197]: 1. base image
     creates container out of first instruction, intermediate container
     2. runs second instruction in the container, creates image out of this
     3. creates container out of 2 instructions.
@@ -9574,7 +9586,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     creates container-3 out of this image-2
     RUNS
 
-[^199]: 1. we have a docker host where all containers are running
+[^198]: 1. we have a docker host where all containers are running
     what if docker host crash? we lose all containers
     even we use docker volumes, data is still in the host, so we lost data as well
     2. what if traffic increases/decreases? are our containers scalable
@@ -9584,7 +9596,7 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     6. what if we have multiple hosts running with containers
     I
 
-[^200]: Git Workflow
+[^199]: Git Workflow
     DEEP
     LEARNING
     NERDS
@@ -9605,11 +9617,11 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     git checkout
     git pull
 
-[^201]: Typical Merge
+[^200]: Typical Merge
     Before Merge
     After Merge
 
-[^202]: Git Merge & Rebase
+[^201]: Git Merge & Rebase
     @logicmojo
     GIT
     main
@@ -9641,11 +9653,11 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     git rebase
     G
 
-[^203]: Fast Forward Merge
+[^202]: Fast Forward Merge
     Before Merge
     After Merge
 
-[^204]: 243
+[^203]: 243
     CO
     change
     Code Base
@@ -9662,12 +9674,12 @@ You can migrate jobs by copying job configurations, plugins, and necessary files
     Branch-
     -Merge
 
-[^205]: hcl
+[^204]: hcl
     Copy code
     variable "instance_type" {
     default = "t2.micro"
 
-[^206]: groovy
+[^205]: groovy
     Copy code
     pipeline {
     agent any
