@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 7757
+version: 7823
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -113,7 +113,7 @@ The primary reason I'm exploring new opportunities is for salary growth. Over th
 
 # 
 
-# <mark style="background-color:#F8914D;">**Kubernetes**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#F8914D;">**Kubernetes**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ![88d372c0-b6a9-4552-b6c6-3fb5bb051292.png|667](https://images.amplenote.com/602cceb4-48a2-11ef-bf57-26e37c279344/88d372c0-b6a9-4552-b6c6-3fb5bb051292.png) [^1]
 
@@ -3733,6 +3733,133 @@ Mastering it means less debugging, fewer outages, and smoother deployments.
 \
 
 ![0c594f54-bcab-4f5c-80b6-81ea7b8e454b.png|756.99072265625](https://images.amplenote.com/0729dc16-5479-11ef-a2e2-0663d8339c46/0c594f54-bcab-4f5c-80b6-81ea7b8e454b.png) [^176]
+
+
+---
+
+### **29Q. Understanding Kubernetes etcd Locks?**
+
+Ever had a cluster where everything suddenly felt sluggish?
+
+\
+
+Deployments hang, API calls timeout, and you’re left staring at a screen wondering if someone secretly unplugged your control plane?
+
+\
+
+More often than not, the culprit is etcd, and more specifically, how Kubernetes interacts with it.
+
+\
+
+We all know [etcd](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzyhdsX8J13JBCFfY6ai45T0kEsIcyXTaf48aoGPByjyurAmK-2BuEO6bgRF7JVXXqOMf5zKa7sLUJea1I-2Brt-2BzNnhpykhVpY4ykcZvtQy7LPCfslSfS6iq2OSbd9m4-2B8PqSC5wqfKhdDPPXx7MvfD9K5F5t09W-2BQ7nzFoVYejiTkjvwBmKqj6F6l6ANpClEv1u38TBbE2GDj-2FzYroOFRIgguaDm2L6WYmpzd6EOmUyeCnSAGK_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B3zF895KVSqOzTn4PsahIY2xLLJp-2BAYS6U6FGRoS4qm8U3zaRobRDh2bjnJoE-2FgoOPltB8jgSE6Sd27n6A1VZWFLH-2BohhM-2BGzZmjm-2FljDCiUlAar83rtDIAd2xyGdeJC8X2haxCevfQhWq7Mqk4ftz83-2FS7ytUQ1ALZZ2ZfUDUsdk2iFX5OAZYVlWDThrg9d62LsmyMvKa7GYvUT6fNMpCMSLORMszXcoN43pKVgPbraLXHe1UMxdxFmGgEXrxsx8aE2rWIjsIfI16JwdQn-2FyHV1Xgn32YkcCtEVeFi4NLDmV70M-2BNHJV8LDBXIXDxwsX6j63yqc1-2BYkarETEEx7gnGIKJhWEPaw3JIAhf6SJ8CqUYAu-2FarlyYlhlyP38xOrS) is the brain of Kubernetes. It stores all the cluster state - nodes, pods, configs, secrets, and everything in between.
+
+\
+
+When you **kubectl apply** something, Kubernetes **updates etcd**.
+
+The API server constantly reads and writes to etcd, making it the most critical component of your cluster.
+
+\
+
+If etcd slows down or goes down, your cluster feels it immediately.
+
+\
+
+Requests pile up, API operations fail, and even a simple pod reschedule can take forever. That’s where locking comes into play.
+
+\
+
+Let’s talk about etcd locks - a tool that can prevent disasters but, if misused, can also cause bottlenecks.
+
+\
+
+**Why Use etcd Locking?**
+
+Imagine two processes (let’s say two controllers) trying to update the same resource in etcd at the same time.
+
+\
+
+Race conditions can lead to **inconsistent state** - one process overwrites another’s update, leaving your cluster in a weird half applied state.
+
+\
+
+**Locking prevents this.** It ensures only **one** process at a time gets to modify a key, avoiding conflicts and data corruption.
+
+\
+
+**How to Use etcd Locking**
+
+etcd provides a lease based locking mechanism.
+
+\
+
+Here’s how it works:
+
+1. Create a lease: Attach a TTL (time-to-live) to it.
+
+1. Acquire a lock using the lease: This ensures only one holder at a time.
+
+1. Operate on etcd keys safely.
+
+1. Release the lock when done.
+
+Example using etcdctl:
+
+```
+# Step 1: Create a lease with 10 second TTL
+lease_id=$(etcdctl lease grant 10 | awk '{print $2}')
+
+# Step 2: Acquire a lock using that lease
+etcdctl lock --lease=$lease_id my-lock-key
+
+# Step 3: Perform operations safely
+etcdctl put my-key "some-data"
+
+#Step 4: Release the lock (automatically expires if not renewed)
+etcdctl lease revoke $lease_id
+```
+
+\
+
+In a Kubernetes controller, you’d use a similar approach programmatically via the [etcd client library](https://link.mail.beehiiv.com/ls/click?upn=u001.I5dhDmlt7nI3cxy6sds7CzbFPvG-2FoyHn3V-2FSAC4Jdh-2FqM0xww9K-2BaJP3e3cF7wOXO5I7RqKFlppaXmERaCXLJ7oZQHeGOm9obSv7fXMA37OqbeRe6hHB83fL6SxEh1rmGTDooSEzqZegxM9-2FDompdMFiBiUmQAN6sqHcnYTlKZ5yyer3YPE0GkY8qs3IKc2fIof4hcMZtT-2Bloak9Sn5Irab6bLerycLkm5mTrWe-2B00g2OvwI8Yepjh5S9u9Icfwh2P6BQbzaYG98lYkUFLsrBQ-3D-3Dqrvr_uS-2B26HIC5mmoe0MDqj4KlfrFog-2BNlFrKN68fhMFAYxMr4nPJinUD-2Bn8evikohMn-2B3zF895KVSqOzTn4PsahIY2xLLJp-2BAYS6U6FGRoS4qm8U3zaRobRDh2bjnJoE-2FgoOPltB8jgSE6Sd27n6A1VZWFLH-2BohhM-2BGzZmjm-2FljDCiUlAar83rtDIAd2xyGdeJC8X2haxCevfQhWq7Mqk4ftz83-2FS7ytUQ1ALZZ2ZfUDUsdk2iFX5OAZYVlWDThrg9d62LsmyMvKa7GYvUT6fNMpCMSLORMszXcoN43pKVgPbraXTaettDAGZSjdXYGetCR1E8t83E1y4UNj7ieVktrHPlFwzgJOgNlSIq0UY8Mb4VhcGVmx3wHTpx5eNc5yXM-2Bi1UxquUnJZHU9hUNEXyPsLhmBNUnchlr7Anesba-2FUmopC0SxXkfitnB6XUmW4xBVO).
+
+\
+
+**When & Where to Use etcd Locking**
+
+**Use it when:** 
+
+- You have multiple controllers competing for the same resource.
+
+- You need leader election in a custom operator.
+
+- You want to **ensure atomic updates** in etcd.
+
+- You’re writing data intensive workloads (e.g., storing pod metrics, events, etc.).
+
+\
+
+**Avoid it when:**
+
+- You’re doing read heavy operations (locks add latency).
+
+- The process holding the lock may fail often (leases expire, causing unintended behavior).
+
+- You can achieve the same outcome with Kubernetes **leases** (e.g., leader election in controllers).
+
+\
+
+**The Caution Zone**
+
+If multiple processes compete for a lock, delays stack up fast.
+
+- If a process holding a lock crashes, the lease eventually expires. But if it restarts and reclaims it too soon, you might end up with a split brain scenario.
+
+- A misconfigured TTL or failure to release locks can stall the system.
+
+- etcd is **not a high throughput database**. Overuse of locks can lead to slowdowns in cluster operations.
+
+\
 
 # <mark style="background-color:#F8914D;">**Docker**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
