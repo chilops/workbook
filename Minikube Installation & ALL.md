@@ -1,7 +1,7 @@
 ﻿---
 title: Minikube Installation & ALL
 uuid: 1a951a6e-feff-11ef-b328-05c51be8b43a
-version: 3388
+version: 3409
 created: '2025-03-12T10:31:48+05:30'
 ---
 
@@ -787,7 +787,7 @@ kubectl delete rs nginx-replicaset      ---> To delete replicaset pods
 
 \
 
-### **NGINX webapp to outside world**<!-- {"collapsed":true} -->
+### **NGINX webapp to outside world**
 
 To get public IP
 
@@ -838,7 +838,7 @@ spec:
     targetPort: 80  # Nginx container port
 ```
 
-\
+or
 
 ```
 apiVersion: apps/v1
@@ -876,7 +876,7 @@ spec:
     port: 80  # External port
     targetPort: 80  # Nginx container port
   externalIPs:
-   - 138.197.226.199
+   - 138.197.226.199     #this IP needs to be changed once with reserev IP from DigitalOcean
 ```
 
 \
@@ -952,10 +952,10 @@ minikube service nginx-service --url
 
 http://192.168.49.2:32042
 
-```
-curl http://192.168.49.2:32042
+```c
+curl http://192.168.49.2:32042                   --> local IP which we got from above command
 or
-curl http://159.223.131.186:80
+curl http://159.223.131.186:80                   --> cluster IP
 ```
 
 Welcome to fresco nginx pod
