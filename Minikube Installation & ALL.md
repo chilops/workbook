@@ -1,7 +1,7 @@
 ﻿---
 title: Minikube Installation & ALL
 uuid: 1a951a6e-feff-11ef-b328-05c51be8b43a
-version: 3409
+version: 3826
 created: '2025-03-12T10:31:48+05:30'
 ---
 
@@ -433,7 +433,8 @@ kubectl drain <node-to-drain> --ignore-daemonsets
 3\. Upgrade kubeadm
 
 ```plain
-sudo apt-get updatesudo apt-get install -y --allow-change-held-packages kubeadm=1.21.1-00
+sudo apt-get update 
+sudo apt-get install -y --allow-change-held-packages kubeadm=1.21.1-00
 ```
 
 \
@@ -465,7 +466,8 @@ sudo kubeadm upgrade apply v1.21.1
 7\. Upgrade kubelet and kubectl packages
 
 ```plain
-sudo apt-get updatesudo apt-get install -y --allow-change-held-packages kubelet=1.21.1-00 kubectl=1.21.1-00
+sudo apt-get updates 
+sudo apt-get install -y --allow-change-held-packages kubelet=1.21.1-00 kubectl=1.21.1-00
 ```
 
 \
@@ -473,7 +475,8 @@ sudo apt-get updatesudo apt-get install -y --allow-change-held-packages kubelet=
 8\. Restart the kubelet:
 
 ```plain
-sudo systemctl daemon-reloadsudo systemctl restart kubelet
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
 ```
 
 \
@@ -511,7 +514,8 @@ kubectl drain <node-to-drain> --ignore-daemonsets --force
 2\. Upgrade kubeadm
 
 ```plain
-sudo apt-get updatesudo apt-get install -y --allow-change-held-packages kubeadm=1.21.1-00
+sudo apt-get update
+sudo apt-get install -y --allow-change-held-packages kubeadm=1.21.1-00
 ```
 
 \
@@ -534,7 +538,8 @@ sudo kubeadm upgrade node
 5\. Upgrade kubelet and kubectl packages
 
 ```plain
-sudo apt-get updatesudo apt-get install -y --allow-change-held-packages kubelet=1.21.1-00 kubectl=1.21.1-00
+sudo apt-get update
+sudo apt-get install -y --allow-change-held-packages kubelet=1.21.1-00 kubectl=1.21.1-00
 ```
 
 \
@@ -542,7 +547,8 @@ sudo apt-get updatesudo apt-get install -y --allow-change-held-packages kubelet=
 6\. Restart the kubelet:
 
 ```plain
-sudo systemctl daemon-reloadsudo systemctl restart kubelet
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
 ```
 
 \
@@ -560,32 +566,6 @@ kubectl get nodes
 ```
 kubectl uncordon <node-to-uncordon>
 ```
-
-\
-
-\
-
-\
-
-\
-
-\
-
-\
-
-\
-
-\
-
-\
-
-\
-
-\
-
-\
-
-\
 
 \
 
@@ -787,7 +767,7 @@ kubectl delete rs nginx-replicaset      ---> To delete replicaset pods
 
 \
 
-### **NGINX webapp to outside world**
+### **NGINX webapp to outside world**<!-- {"collapsed":true} -->
 
 To get public IP
 
@@ -924,8 +904,8 @@ kubectl exec <nginx-pod-name> -- sh -c 'echo "Welcome to fresco nginx pod" > /us
 
 or
 
-```
-kubectl exec -it nginx-pod-name -- /bin/sh -c "echo 'Welcome to fresco nginx pod' > /usr/share/nginx/html/index.html"
+```c
+kubectl exec -it <nginx pod name> -- /bin/sh -c "echo 'Welcome to fresco nginx pod' > /usr/share/nginx/html/index.html"
 ```
 
 This command gives output as below
@@ -971,13 +951,13 @@ vi secret.yaml
 
 ```
 apiVersion: v1
- kind: Secret
- metadata:
- name: mysecret-manifest
- type: Opaque
- data:
- username: YW5zaHVsY2hhdWhhbg==
- password: VGVzdGt1VybmV0ZXMxMjM0NQ==
+kind: Secret
+metadata:
+  name: mysecret-manifest
+type: Opaque
+data:
+  username: YW5zaHVsY2hhdWhhbg==
+  password: VGVzdGt1Ym5ldGVzMTIzNDU=
 ```
 
 ```
@@ -1230,7 +1210,7 @@ kubectl describe secrets example-secret
 
 \
 
-Volume mount file
+Volume mount POD file
 
 ```
 vi configmap-vol-demo.yaml
@@ -1499,7 +1479,7 @@ vi nginx-pod.yaml
 ```
 
 ```
-apiVersion: v2
+apiVersion: v1
 kind: Pod
 metadata:
   name: nginx-pod
@@ -1521,7 +1501,7 @@ spec:
     - name: htpasswd-volume
       secret:
         secretName: nginx-htpasswd
-
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -1855,7 +1835,7 @@ Users can execute two types of Liveness probes - RUN Command in Container, Perio
 
 ![7744cec5-3791-45a4-a7ae-13cea6a85d8b.png|811.9907836914062](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/7744cec5-3791-45a4-a7ae-13cea6a85d8b.png) [^7]
 
-![38d65a93-c712-4525-bd79-2fb1825b4887.png|841.1111450195312](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/38d65a93-c712-4525-bd79-2fb1825b4887.png) [^8]
+![95d75f9e-dd5d-48d6-adbe-0ec765622107.png|811.1111450195312](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/95d75f9e-dd5d-48d6-adbe-0ec765622107.png) [^8]
 
 \
 
@@ -1932,7 +1912,7 @@ spec:
         - name: shared-data
           mountPath: /pod-data
       command: ["/bin/sh"]
-      args: ["-c", "echo Hello from the Secondary container > /pod-data/index.html"]
+      args: ["-c", "echo Hello from the Secondary container > /pod-data/index.html && sleep infinity"]
   volumes:
     - name: shared-data
       emptyDir: {}
@@ -1947,7 +1927,7 @@ kubectl apply -f multi-container.yaml
 ```
 kubectl get pods -o wide
 kubectl get pods
-kubectl dsecribe pod two-containers
+kubectl describe pod two-containers
 curl 10.244.0.31     --> this in not working due to network policies in digital ocean
 ```
 
@@ -1955,6 +1935,8 @@ curl 10.244.0.31     --> this in not working due to network policies in digital 
 ---
 
 ### **POD scheduling**<!-- {"collapsed":true} -->
+
+We choose on which node the POD should run.
 
 ```
 apiVersion: v1
@@ -2352,7 +2334,7 @@ kubectl describe pods chef-server-f47c64b98-2w2fl
 **Now to roll back the app changes we have done till now.**
 
 ```
-kubectl rollout undo deployment.apps/chef-server
+kubectl rollout undo deployment.apps/chef-server 
 ```
 
 ```
@@ -2858,9 +2840,9 @@ curl 192.168.49.2 -H 'Host: nginx-official.example.com'            -- this is no
 
 ---
 
-### **hostpath volumes &** <!-- {"collapsed":true} -->
+### **hostpath volumes & PV**<!-- {"collapsed":true} -->
 
-host path
+**host path**
 
 ```
 vi hostpath.yaml
@@ -2873,16 +2855,17 @@ metadata:
   name: hostpath-pod
 spec:
   volumes:
-  - name: hostpath-vol
-    hostPath:
-      path: /var/tmp
-  containers:
-  - name: hostpath-pod
-    image: 'k8s.gcr.io/busybox'
-    command: ["/bin/sh", "-c", "echo Hello Team, This is Sample File for HostVolume - $(date) >> /output/output.txt"]
-    volumeMounts:
     - name: hostpath-vol
-      mountPath: /output
+      hostPath:
+        path: /data
+  containers:
+    - name: hostpath-pod
+      image: busybox:1.35.0
+      command: ["/bin/sh", "-c", "echo Hello Team, This is Sample File for HostVolume - $(date) >> /output/output.txt && sleep 3600"]
+      volumeMounts:
+        - name: hostpath-vol
+          mountPath: /output
+
 ```
 
 ```
@@ -2893,15 +2876,18 @@ kubectl apply -f hostpath.yaml
 kubectl get pods
 ```
 
-```
-cd /var/tmp/
-```
+Inside POD output will come
 
 ```
-cat /var/tmp/output.txt
+kubectl exec -it hostpath-pod -- cat /output/output.txt
 ```
 
-\
+outside pod
+
+```
+minikube ssh
+cat /data/output.txt
+```
 
 ```
 kubectl delete hostpath-pod
@@ -2910,12 +2896,13 @@ kubectl delete hostpath-pod
 now data present will exist
 
 ```
-cat /var/tmp/output.txt
+minikube ssh
+cat /data/output.txt
 ```
 
 \
 
-emptydir
+**emptydir**
 
 ```
 vi empty.yaml
@@ -3097,6 +3084,378 @@ kubectl get pv -o wide
 
 ---
 
+### **Nginx Stateful set Application**<!-- {"collapsed":true} -->
+
+```
+vi nginx-stateful.yaml
+```
+
+\
+
+```
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nginx-pv-0
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /mnt/data/nginx-0
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nginx-pv-1
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /mnt/data/nginx-1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-headless
+spec:
+  clusterIP: None
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx
+spec:
+  serviceName: "nginx-headless"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable
+          ports:
+            - containerPort: 80
+              name: http
+          volumeMounts:
+            - name: www
+              mountPath: /usr/share/nginx/html
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+  volumeClaimTemplates:
+    - metadata:
+        name: www
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: local-storage
+        resources:
+          requests:
+            storage: 1Gi
+```
+
+\
+
+```
+Kubectl apply -f nginx-stateful.yaml
+```
+
+```
+kubectl get all
+```
+
+```
+kubectl get pods
+kubectl get pods -o wide
+kubectl get svc
+minikube service <svc name> --url
+curl http://192.168.49.2:32047   ---This is local IP received from above output
+curl http://10.99.102.131:80     ---This is loadbalancer IP
+kubectl get statefulset
+kubectl describe statefulset <stateful set name>
+kubectl get sc                  ---To get storageclass details
+kubectl get pv
+kubectl get pvc
+```
+
+```c
+kubectl exec -it <pod name> -- /bin/sh -c "echo 'Welcome to fresco nginx pod' > /usr/share/nginx/html/index.html"
+
+kubectl exec -it <pod name> -- cat /usr/share/nginx/html/index.html
+```
+
+```
+kubectl exec -it nginx-0 -- curl http://localhost:80
+```
+
+\
+
+To check where PV are mounted in Local VM
+
+```
+minikube ssh
+sudo ls /mnt/data/nginx-0
+sudo ls /mnt/data/nginx-1
+cat /mnt/data/nginx-0/index.html
+```
+
+\
+
+Even if you delete pods and recreate new pods data will be present as below.
+
+```
+kubectl delete statefulset.apps/nginx
+kubectl apply -f nginx-stateful.yaml
+kubectl get all
+kubectl exec -it nginx-0 -- curl http://localhost:80
+```
+
+\
+
+Like deployments we can do rolling update on stateful sets
+
+```
+kubectl rollout status statefulsets/nginx
+```
+
+
+---
+
+### **MySQL StatefulSet Application**<!-- {"collapsed":true} -->
+
+```
+vi mysql-stateful.yaml
+```
+
+```
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-0
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /mnt/data/mysql-0
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-1
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /mnt/data/mysql-1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-headless
+spec:
+  clusterIP: None
+  selector:
+    app: mysql
+  ports:
+    - port: 3306
+      targetPort: 3306
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  serviceName: "mysql-headless"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: Root@123  # Change this in production!
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-persistent-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: local-storage
+        resources:
+          requests:
+            storage: 1Gi
+```
+
+\
+
+```
+Kubectl get all
+kubectl get pv
+kubectl get pvc
+kubectl get sc
+```
+
+To login to mysql POD
+
+```
+kubectl exec -it mysql-0 -- bash
+```
+
+Now inside POD login into mysql DB
+
+```
+mysql -u root -p
+enter the password which is given in yaml code
+```
+
+\-- 1. Create a database
+
+```
+CREATE DATABASE testdb;
+```
+
+\
+
+\-- 2. Use the new database
+
+```
+USE testdb;
+```
+
+\-- 3. Create a simple table (e.g., users)
+
+```
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100)
+);
+```
+
+\-- 4. (Optional) Insert some test data
+
+```
+INSERT INTO users (name, email) VALUES ('satya', 'satya@example.com'), ('chill', 'chill@example.com');
+```
+
+\
+
+\-- 5. Check the data
+
+```
+SELECT * FROM users;
+```
+
+output
+
+![984489b0-1e19-47dd-8785-a81f12bfa9d7.png|418](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/984489b0-1e19-47dd-8785-a81f12bfa9d7.png) [^16]
+
+\
+
+Now we will check if data present even after deletion of pods and recreate.
+
+```
+kubectl delete statefulset.apps/mysql
+kubectl delete service/mysql-headless
+```
+
+\
+
+```
+kubectl apply -f mysql-stateful.yaml
+```
+
+```
+kubectl get all
+```
+
+```
+kubectl exec -it mysql-1 -sh
+```
+
+```
+mysql -u root -p
+enter the password which is given in yaml code
+```
+
+now we can see data will be present
+
+```
+USE testdb;
+SELECT * FROM users;
+```
+
 ### **HELM Installation**<!-- {"collapsed":true} -->
 
 official site - [Helm](https://helm.sh/) 
@@ -3111,13 +3470,13 @@ There are two ways to install HELM
 
 Get the binary link
 
-![451cbf5a-4234-4579-a9f0-958dc2f40eba.png|746.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/451cbf5a-4234-4579-a9f0-958dc2f40eba.png) [^16]
+![451cbf5a-4234-4579-a9f0-958dc2f40eba.png|746.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/451cbf5a-4234-4579-a9f0-958dc2f40eba.png) [^17]
 
 \
 
 Copy the link
 
-![3ddaef1e-6bd2-4570-9902-d338cdb9e7d6.png|799.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/3ddaef1e-6bd2-4570-9902-d338cdb9e7d6.png) [^17]
+![3ddaef1e-6bd2-4570-9902-d338cdb9e7d6.png|799.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/3ddaef1e-6bd2-4570-9902-d338cdb9e7d6.png) [^18]
 
 \
 
@@ -3154,7 +3513,7 @@ helm version
 
 **2nd Way:**
 
-![c0acd251-215b-4d51-98c2-c5ea0684fb0d.png|859.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/c0acd251-215b-4d51-98c2-c5ea0684fb0d.png) [^18]
+![c0acd251-215b-4d51-98c2-c5ea0684fb0d.png|859.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/c0acd251-215b-4d51-98c2-c5ea0684fb0d.png) [^19]
 
 
 ---
@@ -3294,7 +3653,7 @@ kubectl get all
 
 Using above copied content and checking if its working or not.
 
-![1a23e454-044b-4514-8cd2-2ba9df7a38c4.png|985.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/1a23e454-044b-4514-8cd2-2ba9df7a38c4.png) [^19]
+![1a23e454-044b-4514-8cd2-2ba9df7a38c4.png|985.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/1a23e454-044b-4514-8cd2-2ba9df7a38c4.png) [^20]
 
 \
 
@@ -3392,7 +3751,7 @@ now checking for MariaDB repo in helm repo
 
 \
 
-![09420129-f189-4c9c-9c42-222d26c4c0ff.png|911.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/09420129-f189-4c9c-9c42-222d26c4c0ff.png) [^20]
+![09420129-f189-4c9c-9c42-222d26c4c0ff.png|911.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/09420129-f189-4c9c-9c42-222d26c4c0ff.png) [^21]
 
 ```
 helm install my-mariadb bitnami/mariadb --version 20.4.1
@@ -3412,6 +3771,8 @@ to get the password
 ```
 kubectl get secret --namespace default my-mariadb -o jsonpath="{.data.mariadb-root-password}" | base64 -d
 ```
+
+Creating MariaDB client POD and entering into it
 
 ```
 kubectl run my-mariadb-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mariadb:11.4.5-debian-12-r9 --namespace default --command -- bash
@@ -3601,7 +3962,7 @@ helm install -n database --values custom-values.yaml my-mariadb bitnami/mariadb 
 
 It shows pending Install
 
-![d9194497-5bd7-4be8-b05a-2a84e7b81b8d.png|585](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/d9194497-5bd7-4be8-b05a-2a84e7b81b8d.png) [^21]
+![d9194497-5bd7-4be8-b05a-2a84e7b81b8d.png|585](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/d9194497-5bd7-4be8-b05a-2a84e7b81b8d.png) [^22]
 
 \
 
@@ -3623,7 +3984,7 @@ helm install -n database --values custom-values.yaml my-mariadb bitnami/mariadb 
 
 \
 
-### **Generate K8s deployable YAML using HELM**<!-- {"collapsed":true} -->
+### **Generate K8s deployable YAML templates using HELM**<!-- {"collapsed":true} -->
 
 If we want to generate Kubernetes deployable YAML’s using HELM, is it possible or not… YES, we can...
 
@@ -3856,7 +4217,7 @@ There are two ways.
 
 created git HELM
 
-![961f6a2f-9c16-427d-800f-06ae9669f11b.png|836.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/961f6a2f-9c16-427d-800f-06ae9669f11b.png) [^22]
+![961f6a2f-9c16-427d-800f-06ae9669f11b.png|836.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/961f6a2f-9c16-427d-800f-06ae9669f11b.png) [^23]
 
 \
 
@@ -3868,7 +4229,7 @@ cloning on k8s server
 git clone https://github.com/chilops/HELM.git
 ```
 
-![5cd7319d-1f81-42a7-843d-3f588a57254d.png|788.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/5cd7319d-1f81-42a7-843d-3f588a57254d.png) [^23]
+![5cd7319d-1f81-42a7-843d-3f588a57254d.png|788.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/5cd7319d-1f81-42a7-843d-3f588a57254d.png) [^24]
 
 \
 
@@ -3882,7 +4243,7 @@ mkdir create_charts
 cd create_charts                         --- Under charts we can create our custom templates
 ```
 
-![e1a858eb-32a1-4496-9d5d-3bdd54d7c812.png|753](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/e1a858eb-32a1-4496-9d5d-3bdd54d7c812.png) [^24]
+![e1a858eb-32a1-4496-9d5d-3bdd54d7c812.png|753](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/e1a858eb-32a1-4496-9d5d-3bdd54d7c812.png) [^25]
 
 \
 
@@ -3902,7 +4263,7 @@ cd my-first-chart/
 ls
 ```
 
-![69ec7bd3-e67d-4d8a-b942-59d5757ddfbe.png|772.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/69ec7bd3-e67d-4d8a-b942-59d5757ddfbe.png) [^25]
+![69ec7bd3-e67d-4d8a-b942-59d5757ddfbe.png|772.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/69ec7bd3-e67d-4d8a-b942-59d5757ddfbe.png) [^26]
 
 \
 
@@ -3913,7 +4274,7 @@ cd ../templates/
 ls
 ```
 
-![52ff58a0-60d5-448f-9eae-8447b5f650e9.png|867.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/52ff58a0-60d5-448f-9eae-8447b5f650e9.png) [^26]
+![52ff58a0-60d5-448f-9eae-8447b5f650e9.png|867.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/52ff58a0-60d5-448f-9eae-8447b5f650e9.png) [^27]
 
 \
 
@@ -3924,7 +4285,7 @@ or
 ll
 ```
 
-![0fb3cb99-d026-4020-a1cc-24a825b0dbe7.png|925.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/0fb3cb99-d026-4020-a1cc-24a825b0dbe7.png) [^27]
+![0fb3cb99-d026-4020-a1cc-24a825b0dbe7.png|925.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/0fb3cb99-d026-4020-a1cc-24a825b0dbe7.png) [^28]
 
 \
 
@@ -3947,7 +4308,7 @@ ll
 pwd
 ```
 
-![400e5744-76cd-42ba-8bfd-d4f5d3cd0af2.png|669](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/400e5744-76cd-42ba-8bfd-d4f5d3cd0af2.png) [^28]
+![400e5744-76cd-42ba-8bfd-d4f5d3cd0af2.png|669](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/400e5744-76cd-42ba-8bfd-d4f5d3cd0af2.png) [^29]
 
 \
 
@@ -3965,7 +4326,7 @@ To deploy my new chart
 helm install my-deployment my-first-chart/
 ```
 
-![c4418cd8-7f68-4c0b-8242-eac5b0694344.png|907.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/c4418cd8-7f68-4c0b-8242-eac5b0694344.png) [^29]
+![c4418cd8-7f68-4c0b-8242-eac5b0694344.png|907.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/c4418cd8-7f68-4c0b-8242-eac5b0694344.png) [^30]
 
 \
 
@@ -3991,7 +4352,7 @@ chart.yaml contains metadata of your helm charts, where we will mention the appl
 
 I made changes in values.yaml file as replicas count as 3 and updated chart.yaml app version as 1.1.0
 
-![](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/55567819-a8d0-4d10-8db3-8540b11f522f.png) [^30]
+![](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/55567819-a8d0-4d10-8db3-8540b11f522f.png) [^31]
 
 \
 
@@ -4005,7 +4366,7 @@ helm package my-first-chart/ -d /root/     ---To save in root location
 ls
 ```
 
-![](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/f9810e3e-b5b3-428f-94e7-b5b8b191164b.png) [^31]
+![](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/f9810e3e-b5b3-428f-94e7-b5b8b191164b.png) [^32]
 
 \
 
@@ -4015,11 +4376,165 @@ Validating the HELM charts (for errors, information, warnings)
 helm lint my-first-chart
 ```
 
-![51887b08-a685-42c7-a87c-d7634696976a.png|780.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/51887b08-a685-42c7-a87c-d7634696976a.png) [^32]
+![51887b08-a685-42c7-a87c-d7634696976a.png|780.6666870117188](https://images.amplenote.com/1a951a6e-feff-11ef-b328-05c51be8b43a/51887b08-a685-42c7-a87c-d7634696976a.png) [^33]
 
 \
 
 \
+
+\
+
+
+---
+
+### **Troubleshooting commands**<!-- {"collapsed":true} -->
+
+\
+
+To describe POD, configmap, secrets etc
+
+```
+kubectl get pods <pod name>
+kubectl get pods <pod name> -o wide    ---> To get complete information of POD
+kubectl get pods <pod name> -o json    ---> same info as above for program language usage
+kubectl get pods <pod name> -o yaml    ---> To get in yaml format
+kubectl get po -n kube-system
+kubectl api-resources
+kubectl get pods -o wide
+kubectl get pods <pod name> -o wide
+```
+
+```c
+kubectl describe <pod> <POD, Configmap, secrets, etc>
+kubectl describe secrets <secret name>
+```
+
+```
+kubectl create deployment hello-pod1 --image=k8s.gcr.io/echoserver:1.10
+```
+
+```
+kubectl expose deployment hello-pod1 --type=LoadBalancer --port=8080
+```
+
+\
+
+Port forward
+
+```
+kubectl port-forward <pod name> 8080:80  
+```
+
+\
+
+To enter into POD
+
+```
+kubectl exec <POD Name> -it -- sh
+```
+
+```c
+
+
+kubectl exec <pod name> -- sh -c 'echo "Welcome to fresco nginx pod" > /usr/share/nginx/html/index.html'
+
+And
+
+kubectl exec -it <pod name> -- /bin/sh -c "echo 'Welcome to fresco nginx pod' > /usr/share/nginx/html/index.html"
+
+And
+
+kubectl exec -it <pod name> -- /bin/sh -c "echo 'Welcome to fresco nginx pod' > /usr/share/nginx/html/index.html"
+
+```
+
+```html
+kubectl exec -it <pod name> -- cat /usr/share/nginx/html/index.html
+  or
+kubectl exec <pod name> -c nginx -- cat /etc/nginx/nginx.conf
+    ---> it executes inside pod and get info, in this case nginx.conf file data will show.
+  or
+kubectl exec -it <pod-name> -- curl http://localhost:80
+```
+
+```
+kubectl exec pod-svc-test -- wget -qO- nginx-service:8080    ---Output tells it allows only within the k8s cluster
+```
+
+```
+ minikube service <service name> --url
+or
+ minikube service <POD name> --url     --- not working
+```
+
+```
+curl http://192.168.49.2:32042                   --> local IP which we got from above command
+or
+curl http://159.223.131.186:80                   --> cluster IP
+```
+
+```
+kubectl version --client
+```
+
+```
+kubectl config view
+```
+
+```
+kubectl cluster-info
+```
+
+```
+kubectl get nodes
+```
+
+```
+minikube version
+```
+
+\
+
+Logs
+
+```
+kubectl logs <pod name>                         --->To check the container logs for errors.
+kubectl logs <pod name> -c <container Name>     --->To check the POD logs for errors.
+```
+
+```
+kubectl get events --field-selector involvedObject.name=<POD Name>
+```
+
+```
+kubectl top nodes
+```
+
+If there is a problem with the container runtime, review the kubelet logs on the node where the Pod is scheduled. Run the following command on the node:
+
+```
+sudo journalctl -u kubelet
+```
+
+\
+
+To get public IP on that node
+
+```
+curl -s https://ipinfo.io/ip
+```
+
+\
+
+Docker
+
+```
+docker --version
+```
+
+```
+sudo docker run hello-world
+```
 
 \
 
@@ -4160,20 +4675,23 @@ helm lint my-first-chart
     NO Traffic will be sent to a pod until container pass the
     Readiness Probe.
 
-[^8]: Readiness Probe
-    Readiness Probe manifest.
-    readinessProbe:
-    exec:
-    Configuration for HTTP readiness
-    command:
-    probes also remains identical to liveness
-    - cat
-    - /tmp/healthy
-    probes.
-    initialDelaySeconds: 5
-    periodSeconds: 5
-    Readiness and liveness probes can be
-    used in parallel for the same container.
+[^8]: StartUp Probe
+    . -
+    - -
+    StartUp via HTTP Request manifest.
+    1 startupProbe:
+    httpGet:
+    failure Threshold: When a probe fails,
+    path: /health.html
+    Kubernetes will try failure Threshold
+    port: 8080
+    failureThreshold: 30
+    times before giving up.
+    periodSeconds: 10
+    L
+    Application will have a maximum of 5
+    minutes (30 \* 10 = 300s) to finish its
+    startup.
 
 [^9]: root@Minikube: \~# kubectl rollout history deployment .apps/chef-server
     deployment . apps/chef-server
@@ -4362,7 +4880,17 @@ helm lint my-first-chart
 [^15]: root@Minikube : \~# curl nginx-service : 8080
     curl: (6) Could not resolve host: nginx-service
 
-[^16]: C
+[^16]: mysql> SELECT
+    \* FROM users;
+    \| id \| name
+    I email
+    +
+    1 \| satya \| satya@example. com
+    2 \| chill \| chill@example. com
+    +
+    2 rows in set (0.00 sec)
+
+[^17]: C
     B https://helm.sh/docs/intro/install/
     Update
     No
@@ -4393,7 +4921,7 @@ helm lint my-first-chart
     /usr/local/bin/helm )
     Best Practices
 
-[^17]: & https://github.com/helm/helm/releases
+[^18]: & https://github.com/helm/helm/releases
     2 weeks ago
     Helm v3.17.2
     Latest
@@ -4417,7 +4945,7 @@ helm lint my-first-chart
     Linux arm (checksum / 0b 13ec8580dd549865a2d7cb34146e098049f59500a266db 1bb98f59649eb90a)
     Linux arm64 (checksum / d78d76ec7625a94991887ac049d93f44bd70e48762006945f813c9e 1ed1df7c)
 
-[^18]: C
+[^19]: C
     https://helm.sh/docs/intro/install/
     Update
     HELM Docs
@@ -4449,7 +4977,7 @@ helm lint my-first-chart
     Best Practices
     Chart Template Guide
 
-[^19]: root@Minikube-helm: \~# export REDIS_PASSWORD=$ (kubectl get secret --namespace default my-redis -o jsonpath=" { . data. redis-pas
+[^20]: root@Minikube-helm: \~# export REDIS_PASSWORD=$ (kubectl get secret --namespace default my-redis -o jsonpath=" { . data. redis-pas
     sword}" \| base64 -d)
     root@Minikube-helm: \~# kubectl run --namespace default redis-client --restart='Never'
     --env REDIS PASSWORD=$REDIS PASSWORD
@@ -4508,7 +5036,7 @@ helm lint my-first-chart
     exit
     root @Minikube-helm: \~ #
 
-[^20]: F
+[^21]: F
     C
     https://artifacthub.io/packages/helm/bitnami/mariadb?modal=install
     O Artifact HUB
@@ -4550,7 +5078,7 @@ helm lint my-first-chart
     ity, and collaboration with leading tech
     CHANGELOG
 
-[^21]: NAME : my-mariadb
+[^22]: NAME : my-mariadb
     LAST DEPLOYED: Wed Mar 26 04:30:06 2025
     NAMESPACE: database
     STATUS: pending-install
@@ -4559,7 +5087,7 @@ helm lint my-first-chart
     HOOKS :
     MANIFEST :
 
-[^22]: C
+[^23]: C
     & https://github.com/chilops/HELM/tree/main
     =
     chilops / HELM
@@ -4586,7 +5114,7 @@ helm lint my-first-chart
     DO README
     Hello Git
 
-[^23]: root@Minikube-helm: \~# git clone https: //github. com/chilops/HELM. git
+[^24]: root@Minikube-helm: \~# git clone https: //github. com/chilops/HELM. git
     Cloning into 'HELM'
     remote: Enumeratiog objects: 3, done.
     remote: Counting objects: 100% (3/3), done.
@@ -4594,7 +5122,7 @@ helm lint my-first-chart
     Receiving objects: 100% (3/3), done.
     root@Minikube-helm: \~ #
 
-[^24]: root@Minikube-helm: \~/HELM# 1s
+[^25]: root@Minikube-helm: \~/HELM# 1s
     README. md StartWithHELM
     root@Minikube-helm: \~/HELM#
     root@Minikube-helm: \~/HELM#
@@ -4602,12 +5130,12 @@ helm lint my-first-chart
     root@Minikube-helm: \~/HELM# cd create_charts/
     root@Minikube-helm: \~/HELM/create charts#
 
-[^25]: root@Minikube-helm: \~/HELM/create_charts/my_first_chart# 1s
+[^26]: root@Minikube-helm: \~/HELM/create_charts/my_first_chart# 1s
     Chart . yaml charts
     templates values. yaml
     root@Minikube-helm: \~/HELM/create charts/my first chart#
 
-[^26]: root@Minikube-helm: \~/HELM/create_charts/my_first_chart# cd charts
+[^27]: root@Minikube-helm: \~/HELM/create_charts/my_first_chart# cd charts
     root@Minikube-helm: \~/HELM/create_charts/my_first_chart/charts#
     root@Minikube-helm: \~/HELM/create_charts/my_first_chart/charts# 1s
     root@Minikube-helm: \~/HELM/create_charts/my_first_chart/charts#
@@ -4619,15 +5147,15 @@ helm lint my-first-chart
     serviceaccount . yam\] tests
     root@Minikube-helm: \~/HELM/create charts/my first chart/templates# \|\]
 
-[^27]: root@Minikube-helm: \~/HELM/create charts/my first_chart/ templates# cd tests
+[^28]: root@Minikube-helm: \~/HELM/create charts/my first_chart/ templates# cd tests
     root@Minikube-helm: \~/HELM/create_charts/my_first_chart/templates/tests# 1s
     test-connection . yaml
 
-[^28]: root@Minikube-helm: \~/HELM/create_charts# pwd
+[^29]: root@Minikube-helm: \~/HELM/create_charts# pwd
     / root/HELM/create charts
     root@Minikube-helm: \~/HELM/create charts#
 
-[^29]: root@Minikube-helm: \~/HELM/create_charts# 1s
+[^30]: root@Minikube-helm: \~/HELM/create_charts# 1s
     my-first-chart
     root @Minikube-helm: \~/HELM/create_charts#
     root @Minikube-helm: \~/HELM/create_charts#
@@ -4647,16 +5175,16 @@ helm lint my-first-chart
     kubectl
     --namespace default port-forward $POD NAME 8080: $CONTAINER PORT
 
-[^30]: root@Minikube-helm: \~/HELM/create_charts/my-first-chart# vi Chart . yaml
+[^31]: root@Minikube-helm: \~/HELM/create_charts/my-first-chart# vi Chart . yaml
     root@Minikube-helm: \~/HELM/create_charts/my-first-chart# vi values. yaml
 
-[^31]: root @Minikube-helm: \~/HELM/create_charts# helm package my-first-chart/
+[^32]: root @Minikube-helm: \~/HELM/create_charts# helm package my-first-chart/
     Successfully packaged chart and saved it to: /root/HELM/create_charts/my-first-chart-1.1.0.tgz
     root@Minikube-helm: \~/HELM/create_charts# 1s
     my-first-chart my-first-chart-1. 1.0. tgz
     root @Minikube-helm: \~/HELM/create charts#
 
-[^32]: root@Minikube-helm: \~/HELM/create_charts# helm lint my-first-chart
+[^33]: root@Minikube-helm: \~/HELM/create_charts# helm lint my-first-chart
     => Linting my-first-chart
     \[INFO\] Chart . yaml: icon is recommended
     1 chart (s) linted, 0 chart (s) failed
