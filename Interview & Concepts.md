@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 8950
+version: 9083
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -11,23 +11,25 @@ tags:
 
 \
 
-# <mark style="background-color:#F3DE6C;">**Tell Me about yourself**<!-- {"backgroundCycleColor":"14"} --></mark><!-- {"collapsed":true} -->
+# <mark style="background-color:#F3DE6C;">**Tell Me about yourself**<!-- {"backgroundCycleColor":"14"} --></mark>
 
 1\*\*\*
 
 My name is Satya Chilukuri, 
 
-I'm originally from Andhra Pradesh and have been living in Bangalore for the past five years. 
+\
+
+I am working as associate consultant in TCS from 2019, I have 9+ years for experience in IT field. 
 
 \
 
-I completed my MCA at Andhra University and have more than 9 years of experience in IT, working in different roles and technologies. 
+I completed my post-graduation - MCA in 2014 from JNTU Kakinada University and my origin is from Andhra Pradesh and been living in Bangalore for the past five years.
 
 \
 
 2\*\*\*
 
-I joined TCS in 2019, I work at TCS as a AWS solution architect and Kubernetes administrator, I manage several projects independently, which includes one internal and two for external clients (e-commerce). 
+I am working in TCS as AWS solution architect and Kubernetes administrator, I manage multiple projects independently, which includes one internal and one external client (e-commerce). 
 
 \
 
@@ -35,13 +37,13 @@ I’ve spent the last five years exploring various technologies and working with
 
 \
 
-TCS allowed me to work with cloud and DevOps tools like AWS, Kubernetes, and Terraform. 
+TCS gave me opportunity to explore and work with cloud and DevOps tools like AWS, Kubernetes, and Terraform. 
 
 \
 
 3\*\*\*
 
-And I also work with the Center of Excellence team (CoE), engaging with different clients to understand their on-premises infra and running POCs based on their requirements.
+And also, I work with the Center of Excellence team (CoE), we coordinate with different clients to understand their on-premises infra and running POCs based on their workloads and requirements.
 
 I helped to set up AWS cloud infrastructure using Infrastructure as Code tools like Terraform, and we maintain custom Terraform modules. 
 
@@ -87,7 +89,7 @@ As a key member of the COE team, I help in bringing projects to TCS. We focus on
 
 Although I initially wanted to start my career as a Linux administrator, but I began as a storage administrator.
 
-For the first five years, I managed SAN storage arrays like EMC, Hitachi, PURE, and NetApp, along with backup tools such as NetBackup, Clumio, and TSM. 
+For the first 4 years, I managed SAN storage arrays like EMC, Hitachi, PURE, and NetApp, along with backup tools such as NetBackup, Clumio, and TSM. 
 
 \
 
@@ -117,7 +119,7 @@ The primary reason I'm exploring new opportunities is for salary growth. Over th
 
 ![88d372c0-b6a9-4552-b6c6-3fb5bb051292.png|667](https://images.amplenote.com/602cceb4-48a2-11ef-bf57-26e37c279344/88d372c0-b6a9-4552-b6c6-3fb5bb051292.png) [^1]
 
-### **1Q. What is Kubernetes and Architecture?**<!-- {"collapsed":true} -->
+### **1Q. What is Kubernetes and Architecture?**
 
 **Good site for Kubernetes architecture** --> [Kubernetes - Architecture - GeeksforGeeks][^2] 
 
@@ -502,7 +504,7 @@ kubectl get service
 
 \
 
-### **11Q. What is ClusterIP service in Kubernetes?**
+### **11Q. What is ClusterIP service in Kubernetes?**<!-- {"collapsed":true} -->
 
 A **ClusterIP** service in Kubernetes is the default type of service that provides internal access to your application within the Kubernetes cluster. It exposes the service on a stable internal IP address, which can only be accessed from within the cluster.
 
@@ -518,7 +520,7 @@ ClusterIP services are essential for managing internal traffic within your Kuber
 
 \
 
-### **12Q. What is NodePort service in Kubernetes?**
+### **12Q. What is NodePort service in Kubernetes?**<!-- {"collapsed":true} -->
 
 A **NodePort** service in Kubernetes exposes your service on each Node's IP address at a static port. This allows external access to your service from outside the Kubernetes cluster, making it possible to communicate with the service directly through the node's IP and the specified port.
 
@@ -540,7 +542,7 @@ NodePort services are useful when you need to expose a service to external users
 
 \
 
-### **13Q. What is Load Balancer service in Kubernetes?**
+### **13Q. What is Load Balancer service in Kubernetes?**<!-- {"collapsed":true} -->
 
 A **LoadBalancer** service in Kubernetes automatically provisions an external load balancer to expose your service to the internet or an external network. This service type is primarily used in cloud environments where the cloud provider can allocate a load balancer to route traffic to the Kubernetes service.
 
@@ -566,7 +568,7 @@ LoadBalancer services are ideal for applications that need to be exposed to the 
 
 \
 
-### **14Q. Explain ReplicaSet in Kubernetes? & ReplicaSet Vs Replication Controllers?**
+### **14Q. Explain ReplicaSet in Kubernetes? & ReplicaSet Vs Replication Controllers?**<!-- {"collapsed":true} -->
 
 In Kubernetes, a ReplicaSet ensures that a specified number of identical copies (replicas) of a pod are running at any given time. Imagine you have an important application, and you want to make sure that there are always exactly three instances of it running. A ReplicaSet will keep an eye on these instances and make sure there are always three. If one of them fails or gets deleted, the ReplicaSet will automatically create a new one to replace it.
 
@@ -600,7 +602,7 @@ So, in short, a ReplicaSet is an improved version of a Replication Controller wi
 
 \
 
-### **15Q. Explain Deployment in Kubernetes?**
+### **15Q. Explain Deployment in Kubernetes?**<!-- {"collapsed":true} -->
 
 A **Deployment** in Kubernetes is a higher-level idea that manages a group of Pods and their ReplicaSets. It provides a declarative way to manage application updates, scaling, and rollbacks, making it easier to maintain the desired state of an application.
 
@@ -5244,7 +5246,7 @@ You can manage multiple environments using workspaces or variable files (`\*.tfv
 
 ---
 
-# <mark style="background-color:#F8914D;">**Scenario based questions**<!-- {"backgroundCycleColor":"24"} --></mark> 
+# <mark style="background-color:#F8914D;">**Scenario based questions**<!-- {"backgroundCycleColor":"24"} --></mark> <!-- {"collapsed":true} -->
 
 ### 1. What is DevOps?
 
