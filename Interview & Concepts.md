@@ -1,7 +1,7 @@
 ﻿---
 title: Interview & Concepts
 uuid: 0729dc16-5479-11ef-a2e2-0663d8339c46
-version: 9083
+version: 9203
 created: '2024-08-07T10:23:45+05:30'
 tags:
   - interview
@@ -49,6 +49,10 @@ I helped to set up AWS cloud infrastructure using Infrastructure as Code tools l
 
 \
 
+Also, as a key member of the COE team, I help in bringing projects to TCS. We focus on finding ways to migrate monolithic applications to microservices and aim to lower project costs by automating the infrastructure as much as we can by using tools like Ansible and shell scripts after the applications go live.
+
+\
+
 4\*\*\*
 
 For the past two years, I’ve been working as a Kubernetes administrator, using AWS EKS for deployments. 
@@ -59,33 +63,29 @@ We manage legacy applications (apps) on VMs and also, we have autoscaling in pla
 
 5\*\*\*
 
-Our tech stack consists of:
+My regular tasks will be like setting up EKS clusters manually or using terraform i.e. based on client requirements.
 
-- **Docker:** We use it to create and manage container images, and deploy them with Amazon ECS and EKS for scalable container management within AWS.
+I also work on...
 
-- **GitHub/Bitbucket:** These are our version control tools, with GitHub Enterprise integrated into our own infrastructure.
+1. EKS upgrades
 
-- **SonarQube:** We use it for code scanning. Though AWS CodeGuru can be a partial alternative, SonarQube is still used for its broader language support and can be set up on AWS using EC2 or a pre-configured instance.
+1. Bringing clusters down for patching activities<!-- {"offset":1} -->
 
-- **Nexus and AWS CodeArtifact:** These tools are used for uploading and managing artifacts.
+1. Creating deployments for stateless apps, stateful sets, Deamon sets etc.
 
-- **Jenkins:** Our CI/CD tool for automating builds, testing, and deployment. AWS alternatives include CodePipeline for automating the CI/CD process and CodeBuild for building and testing code.
+1. Creating namespaces for diff env
 
-- **Terraform -- Infra as a code.**
+1. Creating replicas for different workloads and traffic.
 
-- **Ansible playbooks for Infra.**
+1. Working on configmaps & secrets
 
-- **Shell scripts** - automate repetitive tasks, such as file management, backups, and system monitoring.
+1. Setting up clusterIP's, NodePort, LoadBalancer
 
-\
-
-8\*\*\*
-
-As a key member of the COE team, I help in bringing projects to TCS. We focus on finding ways to migrate monolithic applications to microservices and aim to lower project costs by automating the infrastructure as much as we can by using tools like Ansible and shell scripts after the applications go live.
+1. Using Helm charts
 
 \
 
-9\*\*\*
+6\*\*\*
 
 Although I initially wanted to start my career as a Linux administrator, but I began as a storage administrator.
 
@@ -93,11 +93,11 @@ For the first 4 years, I managed SAN storage arrays like EMC, Hitachi, PURE, and
 
 \
 
-I gained valuable infrastructure knowledge during my one-year experience working in a **datacenter**, where I learned a lot and developed essential skills.
+I gained valuable infrastructure knowledge during my one-year tenure, working in a **datacenter**, where I learned a lot and developed essential skills.
 
 \
 
-10\*\*\*
+7\*\*\*
 
 I have done **3 certifications.** 
 
@@ -107,7 +107,7 @@ I have done **3 certifications.**
 
 \
 
-11\*\*\*
+8\*\*\*
 
 The primary reason I'm exploring new opportunities is for salary growth. Over the past 5 years at TCS, I've gained valuable experience and learned a lot, but my only regret is that my salary hasn't kept pace with industry standards. As for my career growth, I'm very happy with the diverse skills I've developed and excited to continue learning new things in the future.
 
@@ -115,11 +115,11 @@ The primary reason I'm exploring new opportunities is for salary growth. Over th
 
 # 
 
-# <mark style="background-color:#F8914D;">**Kubernetes**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#F8914D;">**Kubernetes**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ![88d372c0-b6a9-4552-b6c6-3fb5bb051292.png|667](https://images.amplenote.com/602cceb4-48a2-11ef-bf57-26e37c279344/88d372c0-b6a9-4552-b6c6-3fb5bb051292.png) [^1]
 
-### **1Q. What is Kubernetes and Architecture?**
+### **1Q. What is Kubernetes and Architecture?**<!-- {"collapsed":true} -->
 
 **Good site for Kubernetes architecture** --> [Kubernetes - Architecture - GeeksforGeeks][^2] 
 
@@ -1827,7 +1827,7 @@ kubectl uncordon <node-to-uncordon>
 
 \
 
-# <mark style="background-color:#F8914D;">**Kubernetes scenario-based questions**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#F8914D;">**Kubernetes scenario-based questions**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ### **1Q. Understanding Kubernetes CreateContainerError?**<!-- {"collapsed":true} -->
 
@@ -3916,7 +3916,7 @@ Next time you encounter an OOMKilled or ImagePullBackOff error, you'll know exac
 
 \
 
-# <mark style="background-color:#F8914D;">**Docker**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#F8914D;">**Docker**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ### **1Q. What is docker containerization?**<!-- {"collapsed":true} -->
 
@@ -4649,7 +4649,7 @@ Multiple images can share layers. For example, if two images use the same base i
 
 ---
 
-# <mark style="background-color:#F8914D;">**GIT**<!-- {"backgroundCycleColor":"24"} --></mark>
+# <mark style="background-color:#F8914D;">**GIT**<!-- {"backgroundCycleColor":"24"} --></mark><!-- {"collapsed":true} -->
 
 ### **1Q. Explain GIT in simple words?**<!-- {"collapsed":true} -->
 
